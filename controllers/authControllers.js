@@ -92,32 +92,32 @@ const getLogin = async (req, res) => {
 
             // //SMS SENDING TO USER
             
-            // const api_key = 'C200185063f13146cddc14.43129910';
-            // const senderid = '8809601004771';
-            // const type = 'text';
-            // const scheduledDateTime = ''; // Leave empty for immediate sending
-            // const msg = 'Your OTP code from ISSB: goodLuck';
-            // // const contacts = phoneNumber;
+            const api_key = 'C200185063f13146cddc14.43129910';
+             const senderid = '8809601004771';
+             const type = 'text';
+             const scheduledDateTime = ''; // Leave empty for immediate sending
+             const msg = 'Your OTP code from ISSB: goodLuck';
+             const contacts = phoneNumber;
             
-            // const url = 'https://isms.mimsms.com/smsapi';
+            const url = 'https://isms.mimsms.com/smsapi';
             
-            // const data = {
-            //   api_key,
-            //   senderid,
-            //   type,
-            //   scheduledDateTime,
-            //   msg,
-            //   contacts
-            // };
+            const data = {
+               api_key,
+               senderid,
+              type,
+               scheduledDateTime,
+               msg,
+               contacts
+             };
             
-            // axios.post(url, data)
-            //   .then(response => {
-            //     console.log('SMS sent successfully:', response.data);
+             axios.post(url, data)
+              .then(response => {
+                console.log('SMS sent successfully:', response.data);
                 
-            //   })
-            //   .catch(error => {
-            //     console.error('Error sending SMS:', error);
-            //   });
+               })
+              .catch(error => {
+                 console.error('Error sending SMS:', error);
+              });
             
           
         
