@@ -4,17 +4,15 @@ const app = express();
 require('dotenv').config();
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
-const PORT = process.env.PORT;
 app.set("view engine","ejs");
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const db = require('./config/db');   //this is for db connecting not need here just to see in console
-const port = process.env.PORT || 3000;
+
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport")
-
 
 
 
@@ -95,6 +93,6 @@ app.use('/issb', homeListRoute);
 
 
 
-app.listen(PORT, () => {
-  console.log(`App is running on ${PORT}`);
+app.listen(process.env.PORT || 8080, () => {
+  console.log(`App is running on`);
 });
