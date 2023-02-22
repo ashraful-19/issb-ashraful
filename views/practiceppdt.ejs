@@ -1,0 +1,138 @@
+<%- include('partials/header.ejs') %>
+
+	<section class="top-nav">
+		<div><h4>PRACTICE PPDT</h4></div>
+	 
+	 <img src="https://th.bing.com/th/id/R.23ca2f3fbf7e19a1e85cd9d556d5ffaf?rik=uoFjTlg8g%2bIkqw&pid=ImgRaw&r=0" id="top-nav-icon-issb">
+	</section>
+
+
+
+<br><br><br>
+	<section class="ppdt">
+		
+	<div class="ppdt_items">
+		<div class="ppdt_practice">
+			<img id="blur" style="filter: blur(8px); transition: 0.2s;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS83k7l5KBaaT1i6WDJ4zeqmOG483iXLOSDOA&usqp=CAU" alt="" class="ppdtimg">
+		</div>
+		<div class="ppdtcontrols">
+			<div id="onClick" class="start"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start</div>
+			<div  class="start"><i class="fa-solid fa-stopwatch"></i>&nbsp;&nbsp; <span id="time"> 30 sec</span></div>
+			<div onclick='slideToggle("first")' class="start"><i class="fa-regular fa-lightbulb"></i>&nbsp;&nbsp;Idea</div>
+		</div>
+		<div  class="ppdtIdea first">
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit eius, voluptatum nemo quas laborum, consequatur laboriosam et corporis error sint architecto nam! Repellat iure perspiciatis perferendis consectetur optio vero blanditiis adipisci dolorem, laborum distinctio saepe nostrum quisquam commodi impedit ad a odit aperiam autem maiores vitae sequi cupiditate eius molestias.</p>
+		</div>
+	</div>
+	<div class="ppdt_items">
+		<div class="ppdt_practice">
+			<img id="blur" style="filter: blur(8px); transition: 0.2s;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS83k7l5KBaaT1i6WDJ4zeqmOG483iXLOSDOA&usqp=CAU" alt="" class="ppdtimg">
+		</div>
+		<div class="ppdtcontrols">
+			<div id="onClick" class="start"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start</div>
+			<div  class="start"><i class="fa-solid fa-stopwatch"></i>&nbsp;&nbsp; <span id="time"> 30 sec</span></div>
+			<div onclick='slideToggle("first")' class="start"><i class="fa-regular fa-lightbulb"></i>&nbsp;&nbsp;Idea</div>
+		</div>
+		<div  class="ppdtIdea first">
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit eius, voluptatum nemo quas laborum, consequatur laboriosam et corporis error sint architecto nam! Repellat iure perspiciatis perferendis consectetur optio vero blanditiis adipisci dolorem, laborum distinctio saepe nostrum quisquam commodi impedit ad a odit aperiam autem maiores vitae sequi cupiditate eius molestias.</p>
+		</div>
+	</div>
+	<div class="ppdt_items">
+		<div class="ppdt_practice">
+			<img id="blur" style="filter: blur(8px); transition: 0.2s;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS83k7l5KBaaT1i6WDJ4zeqmOG483iXLOSDOA&usqp=CAU" alt="" class="ppdtimg">
+		</div>
+		<div class="ppdtcontrols">
+			<div id="onClick" class="start"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start</div>
+			<div  class="start"><i class="fa-solid fa-stopwatch"></i>&nbsp;&nbsp; <span id="time"> 30 sec</span></div>
+			<div onclick='slideToggle("first")' class="start"><i class="fa-regular fa-lightbulb"></i>&nbsp;&nbsp;Idea</div>
+		</div>
+		<div  class="ppdtIdea first">
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit eius, voluptatum nemo quas laborum, consequatur laboriosam et corporis error sint architecto nam! Repellat iure perspiciatis perferendis consectetur optio vero blanditiis adipisci dolorem, laborum distinctio saepe nostrum quisquam commodi impedit ad a odit aperiam autem maiores vitae sequi cupiditate eius molestias.</p>
+		</div>
+	</div>
+
+
+	  </section>
+	  
+	  
+	  <script>
+		const box = document.getElementById("blur");
+		const click = document.getElementById("onClick");
+		// const progress = document.getElementById("progress");
+		click.addEventListener("click",start_ppdt,false); 
+		
+		function start_ppdt(event) {
+			console.log(event);
+		  let startingTime = 0.1;
+		  let time = startingTime * 60; //minutes * 60 seconds
+		  let refreshIntervalId = setInterval(updateCountdown, 1000); //update every 1 second
+	  
+		  
+		box.style.removeProperty("filter");
+	  
+		  function updateCountdown() {
+			const minutes = Math.floor(time / 60); // rounds a number DOWN to the nearest integer
+			let seconds = time % 60;
+	  
+			seconds = seconds < 10 ? "0" + seconds : seconds;
+			const contdownEl = document.getElementById("time");
+			contdownEl.innerHTML = `${seconds} sec`;
+			time--;
+			let percent = 100 - (seconds / (startingTime * 60)) * 100;
+	  
+			// progress.style.setProperty("width", percent + "%");
+	  
+			if (time < 0) {
+			  //stop the setInterval whe time = 0 for avoid negative time
+			  clearInterval(refreshIntervalId);
+			  box.style.setProperty("filter", "blur(8px)");
+	  
+			//   progress.style.removeProperty("width");
+			}
+		  }
+		}
+	  </script>
+	  <!-- explanation er jnno toggle jquery -->
+	  <script>
+		
+	function slideToggle(value) {
+    console.log(value);
+
+    $("." + value).slideToggle(100);
+  }
+
+
+
+	</script>
+	  </script>
+
+
+<br><br><br>
+
+
+
+
+
+
+<div id="floatingMenu">
+	<ul><li><a href=""><i class="fa-regular fa-circle-play"></i>First Option jodi</a></li><li><a href=""><i class="fa-regular fa-circle-play"></i>Second Option</a></li>
+	<li><a href=""><i class="fa-regular fa-circle-play"></i>Third Option</a></li></ul>
+</div>
+
+    <div id="menuicon">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+
+	
+
+<%- include('partials/bottom-nav.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script>
+	$(document).ready(function(){
+	  $("#menuicon").click(function(){
+		$("#floatingMenu").fadeToggle(100);
+		
+	  });
+	 
+	});</script>
+  <script src="./script.js"></script>
