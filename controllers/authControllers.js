@@ -96,7 +96,7 @@ const getLogin = async (req, res) => {
              const senderid = '8809601004771';
              const type = 'text';
              const scheduledDateTime = ''; // Leave empty for immediate sending
-             const msg = 'Your OTP code from ISSB: goodLuck';
+             const msg = `Your OTP code from Ashraful's new APP: ${otpCode} `;
              const contacts = phoneNumber;
             
             const url = 'https://isms.mimsms.com/smsapi';
