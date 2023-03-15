@@ -1,0 +1,243 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+<section class="rightside">
+   <div class="right-question-section">
+   <h1>Add Video Content</h1>
+   <form action="/admin/videocontent" method="post">
+      <div class="addquestion">
+         <div class="ques-exp">
+            <select name="type" >
+              <option value="iq">Iq Test</option>
+              <option value="ppdt">PPDT</option>
+              <option value="essay_writing">Essay Writing</option>
+              <option value="incompleting_story">Incompleting Story</option>
+              <option value="story_from_picture">Story from picture</option>
+              <option value="incompleting_sentences">Incompleting Sentences</option>
+              <option value="wat">WAT</option>
+              <option value="memorable">Memorable Experience</option>
+              <option value="bitter">Bitter Experience</option>
+              <option value="self_criticism">Self Criticism</option>
+              <option value="self_assessment">Self Assessment</option>
+              <option value="group_discussion">Group Discussion</option>
+              <option value="pgt">PGT</option>
+              <option value="hgt">HGT</option>
+              <option value="extemphore">Extemphore</option>
+              <option value="pat">PAT</option>
+              <option value="dp_viva">DP</option>
+              <option value="planning_exercise">Planning Exercise</option>
+              <option value="gto_viva">GTO Viva</option>
+              <option value="command_task">Command Task</option>
+              <option value="mutual_assessment">Mutual Assessment</option>
+              <option value="medical">Medical</option>
+              <option value="psychometrics">Psychometrics</option>
+            </select>
+         </div>
+         <div class="ques-exp">
+            <input type="text" name="title" placeholder="Video Title...">
+         </div>
+         <div class="ques-exp">
+            <input type="text" name="video_link" placeholder="Video Link...">
+         </div>
+         <div class="buttons">
+            <input type="submit" value="Save" class="button"> 
+         </div>
+      </div>
+   </form>
+   <h1>Select Type & Edit</h1>
+   <select name="typeforajax" >
+    <option value="">All</option>
+      <option value="iq">Iq Test</option>
+      <option value="ppdt">PPDT</option>
+      <option value="essay_writing">Essay Writing</option>
+      <option value="incompleting_story">Incompleting Story</option>
+      <option value="story_from_picture">Story from picture</option>
+      <option value="incompleting_sentences">Incompleting Sentences</option>
+      <option value="wat">WAT</option>
+      <option value="memorable">Memorable Experience</option>
+      <option value="bitter">Bitter Experience</option>
+      <option value="self_criticism">Self Criticism</option>
+      <option value="self_assessment">Self Assessment</option>
+      <option value="group_discussion">Group Discussion</option>
+      <option value="pgt">PGT</option>
+      <option value="hgt">HGT</option>
+      <option value="extemphore">Extemphore</option>
+      <option value="pat">PAT</option>
+      <option value="dp_viva">DP</option>
+      <option value="planning_exercise">Planning Exercise</option>
+      <option value="gto_viva">GTO Viva</option>
+      <option value="command_task">Command Task</option>
+      <option value="mutual_assessment">Mutual Assessment</option>
+      <option value="medical">Medical</option>
+      <option value="psychometrics">Psychometrics</option>
+   </select>
+   <h1>Edit Video content</h1>
+   <div id="updateddata">
+   <% if (data && data.length) { %>
+   <% data.forEach(function(content) { %>
+   <form action="/admin/updatevideovontent" method="post" class="ajaxFrom" id="id_<%= content._id %>">
+      <div class="addquestion">
+        <input type="text" name="id" value="<%= content._id %>" hidden> 
+         <div class="ques-exp">
+            <select name="type">
+               <option value="iq_nonverbal" <%= content.type === "iq" ? "selected" : "" %>>Iq</option>
+               <option value="ppdt" <%= content.type === "ppdt" ? "selected" : "" %>>PPDT</option>
+               <option value="essay_writing" <%= content.type === "essay_writing" ? "selected" : "" %>>Essay Writing</option>
+               <option value="incompleting_story" <%= content.type === "incompleting_story" ? "selected" : "" %>>Incompleting Story</option>
+               <option value="story_from_picture" <%= content.type === "story_from_picture" ? "selected" : "" %>>Story from picture</option>
+               <option value="incompleting_sentences" <%= content.type === "incompleting_sentences" ? "selected" : "" %>>Incompleting Sentences</option>
+               <option value="wat" <%= content.type === "wat" ? "selected" : "" %>>WAT</option>
+               <option value="memorable_and_bitter" <%= content.type === "memorable_and_bitter" ? "selected" : "" %>>Memorable and Bitter</option>
+               <option value="self_criticism" <%= content.type === "self_criticism" ? "selected" : "" %>>Self Criticism</option>
+               <option value="self_assessment" <%= content.type === "self_assessment" ? "selected" : "" %>>Self Assessment</option>
+               <option value="group_discussion" <%= content.type === "group_discussion" ? "selected" : "" %>>Group Discussion</option>
+               <option value="pgt" <%= content.type === "pgt" ? "selected" : "" %>>PGT</option>
+               <option value="hgt" <%= content.type === "hgt" ? "selected" : "" %>>HGT</option>
+               <option value="extemphore" <%= content.type === "extemphore" ? "selected" : "" %>>Extemphore</option>
+               <option value="pat" <%= content.type === "pat" ? "selected" : "" %>>PAT</option>
+               <option value="dp" <%= content.type === "dp" ? "selected" : "" %>>DP</option>
+               <option value="planning_exercise" <%= content.type === "planning_exercise" ? "selected" : "" %>>Planning Exercise</option>
+               <option value="gto_viva" <%= content.type === "gto_viva" ? "selected" : "" %>>GTO Viva</option>
+               <option value="command_task" <%= content.type === "command_task" ? "selected" : "" %>>Command Task</option>
+               <option value="psychometrics" <%= content.type === "psychometrics" ? "selected" : "" %>>Psychometrics</option>
+            </select>
+         </div>
+         <div class="ques-exp">
+            <input type="text" name="title" placeholder="Video Title..." value="<%= content.title %>">
+         </div>
+         <div class="ques-exp">
+            <input type="text" name="video_link" placeholder="Video Link..." value="<%= content.video_link %>">
+         </div>
+         <div class="buttons">
+            <input type="submit" value="Update" class="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="button"><a href="/admin/videocontent/<%= content._id %>">Delete</a></button>
+         </div>
+         <div class="message"></div>
+      </div>   
+   </form>
+   <% }) %>           
+   <% } else { %>
+   <p>No video content found.</p>
+   <% } %>
+   </div>
+</section>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- https://www.youtube.com/watch?v=egPiNXf4B3s this is the referencing video  -->
+
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<!-- Jquery Cnd minified -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script>
+   $("#updateddata").sortable({
+   update: function () { 
+   const ids = $(updateddata).sortable('serialize'); 
+   console.log(ids);
+   $.post('/admin/videocontent/order',ids,function(res){
+     console.log(res);
+   })
+   }
+   });
+   
+   
+   
+
+   
+   $(document).ready(function() {
+   $(document).mousedown(function(event) {
+     // Check if the target of the click event is not the navigation element itself
+     if (!$(event.target).closest(".modal").length) {
+       $(".modal").fadeOut(100);
+     }
+   });
+   });
+   
+   
+   
+   function showMessage(form, message) {
+   // Update message div with new message
+   form.find('.message').text(message);
+   
+   // Show message div
+   form.find('.message').show();
+   
+   // Hide message div after 10 seconds
+   setTimeout(function() {
+     form.find('.message').hide();
+   }, 10000);
+   }
+   
+   
+   $(document).on('change', '.ajaxFrom', function() {
+   var form = $(this);
+   var url = form.attr("action");
+   var formData = form.serialize();
+   $.ajax({
+     type: "POST",
+     url: url,
+     data: formData,
+     success: function(value) {
+       showMessage(form, 'Updated Data!');
+       console.log('data updated successfully');
+     },
+     error: function(error) {
+       console.log(error);
+     }
+   });
+   });
+   
+   $(function() {
+   // Attach a listener to the text input
+   $(document).on('input','.imagelink1, .imagelink2', function() {
+     // Get the value of the text input
+     var imageLink = $(this).val();
+     
+     // Get the parent form and the container div
+     var $form = $(this).closest('form');
+     var $container1 = $form.find('.image-container1');
+     var $container2 = $form.find('.image-container2');
+     
+     // Determine which input triggered the event
+     if ($(this).hasClass('imagelink1')) {
+       // Update the image in the container div for imagelink1
+       $container1.html('<img class="imageques" alt="" src="' + imageLink + '">');
+     } else {
+       // Update the image in the container div for imagelink2
+       $container2.html('<img class="imageques" alt="" src="' + imageLink + '">');
+     }
+   }).trigger('input'); // trigger the input event when the page loads
+   });
+   
+   
+   //show type wise data
+   
+   
+   
+   
+   //change content basis on type
+   $(document).on('change','select[name="typeforajax"]', function() {
+   let selectedType = $(this).val();
+   $.ajax({
+     type: 'GET',
+     url: '/admin/videocontent/type',
+     data: {
+       type: selectedType
+     },
+     success: function(data) {
+       console.log(data);
+       const value = data.data;
+     $('#updateddata').html(value)
+     console.log(value);
+     console.log('data updated');
+   
+       // Replace the contents of the data container with the new data
+       // 
+     },
+     error: function() {
+       console.log('An error occurred while fetching the data');
+     }
+   });
+   });
+   
+</script>

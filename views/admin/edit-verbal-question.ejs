@@ -1,0 +1,171 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+      <section class="rightside">
+      <div class="right-question-section">
+        <h1>Add Question Here</h1>
+        <form action="/iq/create/verbal/<%= data.exam_code %>/edit" method="post">
+          <div class="addquestion">
+            <select name="questiontype" id="">
+              <option value="puzzle">Puzzle</option>
+              <option value="jumble_words">Jumble Words</option>
+              <option value="trueorfalse">True or False</option>
+            </select>
+            <div class="ques-exp">
+              <input type="text" placeholder="Question" name="question">
+            </div>
+            <div class="ques-exp">
+              <input type="text" placeholder="Image Link" name="question_image" class="imagelink1">
+            </div>
+            <div class="image-container1"></div>
+  
+            <div class="options">
+              <input type="radio" name="answer" value="1">
+              <input type="text" placeholder="Choice 1" name="choice1">
+            </div>
+            <div class="options">
+              <input type="radio" name="answer" value="2">
+              <input type="text" placeholder="Choice 2" name="choice2">
+            </div>
+            <div class="options">
+              <input type="radio" name="answer" value="3" checked>
+              <input type="text" placeholder="Choice 3" name="choice3">
+            </div>
+            <div class="options">
+              <input type="radio" name="answer" value="4">
+              <input type="text" placeholder="Choice 4" name="choice4">
+            </div>
+            <div class="ques-exp">
+              <input type="text" placeholder="Explanation" name="explanation">
+            </div>
+            <div class="ques-exp">
+              <input type="text" placeholder="Image Link" name="explanation_image" class="imagelink2">
+            </div>
+            <div class="image-container2"></div>
+  
+            <div class="buttons">
+              <input type="submit" value="Save" class="button">
+            </div>
+          </div>
+        </form>
+
+        
+      <h1>Edit Question Here</h1>
+
+<% content.forEach(function(question) { %>
+  <form action="/iq/create/verbal/<%= data.exam_code %>/update?id=<%= question.id %>" method="post" class="ajaxForm">
+    <div class="addquestion">
+      <select name="question_type" id="">
+        <option value="puzzle" <%= question.question_type === 'puzzle' ? 'selected' : '' %>>Puzzle</option>
+        <option value="jumble_words" <%= question.question_type === 'jumble_words' ? 'selected' : '' %>>Jumble Words</option>
+        <option value="trueorfalse" <%= question.question_type === 'trueorfalse' ? 'selected' : '' %>>True or False</option>
+      </select>
+      <div class="ques-exp">
+        <input type="text" placeholder="Question" name="question" value="<%= question.question %>">
+      </div>
+      <div class="ques-exp">
+        <input type="text" placeholder="Image Link" name="question_image" value="<%= question.question_image %>" class="imagelink1">
+      </div>
+      <div class="image-container1"><img src="<%= question.question_image %>" alt="" class="imageques"></div>
+      <div class="options">
+        <input type="radio" name="answer" value="1" <%= question.answer === '1' ? 'checked' : '' %>>
+        <input type="text" placeholder="Choice 1" name="choice1" value="<%= question.choice1 %>">
+      </div>
+      <div class="options">
+        <input type="radio" name="answer" value="2" <%= question.answer === '2' ? 'checked' : '' %>>
+        <input type="text" placeholder="Choice 2" name="choice2" value="<%= question.choice2 %>">
+      </div>
+      <div class="options">
+        <input type="radio" name="answer" value="3" <%= question.answer === '3' ? 'checked' : '' %>>
+        <input type="text" placeholder="Choice 3" name="choice3" value="<%= question.choice3 %>"> 
+      </div>
+      <div class="options">
+        <input type="radio" name="answer" value="4" <%= question.answer === '4' ? 'checked' : '' %>>
+        <input type="text" placeholder="Choice 4" name="choice4" value="<%= question.choice4 %>">
+      </div>
+      <div class="ques-exp">
+        <input type="text" placeholder="Explanation" name="explanation" value="<%= question.explanation %>">
+      </div>
+      <div class="ques-exp">
+        <input type="text" placeholder="Image Link" name="explanation_image" value="<%= question.explanation_image %>" class="imagelink2">
+      </div>
+      <div class="image-container2"><img src="<%= question.explanation_image %>" class="imageques" alt=""></div>
+      <div class="buttons">
+        <input type="submit" value="Update" class="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="button"><a href="/iq/create/verbal/<%= data.exam_code %>/question?delete=<%= question.id %>">Delete</a></button>
+      </div>
+      <div class="message"></div>
+    </div> 
+  </form>   
+<% }) %>
+
+
+      </div>
+      </section>
+  </body>
+</html>
+
+
+
+
+
+<script>
+     function showMessage(form, message) {
+   // Update message div with new message
+   form.find('.message').text(message);
+   
+   // Show message div
+   form.find('.message').show();
+   
+   // Hide message div after 10 seconds
+   setTimeout(function() {
+     form.find('.message').hide();
+   }, 5000);
+   }
+   
+   
+   $(document).on('change', '.ajaxForm', function() {
+   var form = $(this);
+   var url = form.attr("action");
+   var formData = form.serialize();
+   $.ajax({
+     type: "POST",
+     url: url,
+     data: formData,
+     success: function(value) {
+       showMessage(form,"Question updated!")
+       console.log('data updated successfully');
+     },
+     error: function(error) {
+       console.log(error);
+     }
+   });
+   });
+
+
+
+
+   
+
+
+$(function() {
+  // Attach a listener to the text input
+  $(document).on('input','.imagelink1, .imagelink2', function() {
+    // Get the value of the text input
+    var imageLink = $(this).val();
+    
+    // Get the parent form and the container div
+    var $form = $(this).closest('form');
+    var $container1 = $form.find('.image-container1');
+    var $container2 = $form.find('.image-container2');
+    
+    // Determine which input triggered the event
+    if ($(this).hasClass('imagelink1')) {
+      // Update the image in the container div for imagelink1
+      $container1.html('<img class="imageques" alt="" src="' + imageLink + '">');
+    } else {
+      // Update the image in the container div for imagelink2
+      $container2.html('<img class="imageques" alt="" src="' + imageLink + '">');
+    }
+  }).trigger('input'); // trigger the input event when the page loads
+});
+
+</script>

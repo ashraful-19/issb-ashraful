@@ -1,0 +1,191 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+      <section class="rightside">
+      <div class="right-question-section">
+        <h1>Add Planning Excercise Here</h1>
+        <form action="/admin/planningcontent" method="post">
+        <div class="addquestion">
+          <div class="ques-exp">  
+            <input name="title" type="text" placeholder="Title..." >
+          </div>
+          <div class="ques-exp">  
+            <input type="text" name="image" placeholder="Image..." class="imagelink1" >
+          </div>
+          <div class="image-container1"></div>
+          <div class="ques-exp">
+            <textarea name="content_text" placeholder="write Description here..."></textarea>
+          </div>
+          <div class="ques-exp">
+            <textarea name="written" placeholder="write problems here..."></textarea>
+          </div>
+          
+          <div class="ques-exp">
+            <textarea name="discussion" placeholder="write solve discussion here..."></textarea>
+          </div>
+          
+        <div class="buttons">
+          <input type="submit" value="Save" class="button">
+        </div>
+        </div>
+       
+      </form>
+     
+      <h1>Edit Planning Excercise Here</h1>
+      <% data.forEach(function(content) { %>
+      <form action="/admin/planningcontent" method="post" class="ajaxFrom" id="id_<%= content._id %>">
+        <div class="addquestion">
+          <div class="ques-exp">  
+            <input name="title" type="text" placeholder="Title..." value="<%= content.title %>">
+          </div>
+          <div class="ques-exp">  
+            <input type="text" name="image" placeholder="Image..." value="<%= content.image %>" class="imagelink1">
+          </div>
+          <div class="image-container1"><img src="<%= content.image %>" alt="" class="imageques"></div>
+          <div class="ques-exp">
+            <textarea name="content_text" placeholder="write Description here..."><%= content.content_text %></textarea>
+          </div>
+          <div class="ques-exp">
+            <textarea name="written" placeholder="write problems here..."><%= content.written %></textarea>
+          </div>
+          
+          <div class="ques-exp">
+            <textarea name="discussion" placeholder="write solve discussion here..."><%= content.discussion %></textarea>
+          </div>
+          
+        <div class="buttons">
+          <input type="submit" value="Update" class="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="button"><a href="/admin/planningcontent/<%= content._id %>">Delete</a></button>
+        </div>
+        <div class="message"></div>
+        </div>
+       
+      </form>
+      
+      <% }) %>
+    </div>
+  </section>
+      
+  </body>
+  
+</html>
+
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- https://www.youtube.com/watch?v=egPiNXf4B3s this is the referencing video  -->
+
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<!-- Jquery Cnd minified -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script>
+   $("#updateddata").sortable({
+   update: function () { 
+   const ids = $(updateddata).sortable('serialize'); 
+   console.log(ids);
+   $.post('/admin/textcontent/order',ids,function(res){
+     console.log(res);
+   })
+   }
+   });
+   
+   
+   
+
+   
+   $(document).ready(function() {
+   $(document).mousedown(function(event) {
+     // Check if the target of the click event is not the navigation element itself
+     if (!$(event.target).closest(".modal").length) {
+       $(".modal").fadeOut(100);
+     }
+   });
+   });
+   
+   
+   
+   function showMessage(form, message) {
+   // Update message div with new message
+   form.find('.message').text(message);
+   
+   // Show message div
+   form.find('.message').show();
+   
+   // Hide message div after 10 seconds
+   setTimeout(function() {
+     form.find('.message').hide();
+   }, 5000);
+   }
+   
+   
+   $(document).on('change', '.ajaxFrom', function() {
+   var form = $(this);
+   var url = form.attr("action");
+   var formData = form.serialize();
+   $.ajax({
+     type: "POST",
+     url: url,
+     data: formData,
+     success: function(value) {
+       showMessage(form, 'Updated Data!');
+       console.log('data updated successfully');
+     },
+     error: function(error) {
+       console.log(error);
+     }
+   });
+   });
+   
+   $(function() {
+   // Attach a listener to the text input
+   $(document).on('input','.imagelink1, .imagelink2', function() {
+     // Get the value of the text input
+     var imageLink = $(this).val();
+     
+     // Get the parent form and the container div
+     var $form = $(this).closest('form');
+     var $container1 = $form.find('.image-container1');
+     var $container2 = $form.find('.image-container2');
+     
+     // Determine which input triggered the event
+     if ($(this).hasClass('imagelink1')) {
+       // Update the image in the container div for imagelink1
+       $container1.html('<img class="imageques" alt="" src="' + imageLink + '">');
+     } else {
+       // Update the image in the container div for imagelink2
+       $container2.html('<img class="imageques" alt="" src="' + imageLink + '">');
+     }
+   }).trigger('input'); // trigger the input event when the page loads
+   });
+   
+   
+   //show type wise data
+   
+   
+   
+   
+   //change content basis on type
+   $(document).on('change','select[name="typeforajax"]', function() {
+   let selectedType = $(this).val();
+   $.ajax({
+     type: 'GET',
+     url: '/admin/textcontent/type',
+     data: {
+       type: selectedType
+     },
+     success: function(data) {
+       console.log(data);
+       const value = data.data;
+     $('#updateddata').html(value)
+     console.log(value);
+     console.log('data updated');
+   
+       // Replace the contents of the data container with the new data
+       // 
+     },
+     error: function() {
+       console.log('An error occurred while fetching the data');
+     }
+   });
+   });
+   
+</script>

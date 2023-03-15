@@ -1,0 +1,216 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+<section class="rightside">
+   <div class="right-question-section">
+   <h1>Add Text Content</h1>
+   <form action="/admin/textcontent" method="post">
+    <div class="addquestion"> 
+       <div class="ques-exp">
+        <select name="type">
+          <option value="ppdt">PPDT</option>
+          <option value="picture_story">Picture Story</option>
+          <option value="essay_writing">Essay Writing</option>
+          <option value="incompleting_story">Incompleting story</option>
+          <option value="incompleting_sentences">Incompleting Sentences</option>
+          <option value="group_discussion">Group Discussion</option>
+          <option value="extemphore">Extemphore</option>
+        </select>
+        <select name="text_type">
+          <option value="both">Bangla and English</option>
+          <option value="bangla">Bangla</option>
+          <option value="english">English</option>
+        </select>
+       </div>
+       <div class="ques-exp">
+          <input type="text" name="title" placeholder="Content Title...">
+       </div>
+       <div class="ques-exp">
+        <textarea name="solve" placeholder="Solve here..."></textarea>
+      </div>
+       <div class="ques-exp">
+          <input type="text" name="hint" placeholder="Hints...">
+       </div>
+       <div class="buttons">
+          <input type="submit" value="Save" class="button"> 
+       </div>
+    </div>   
+  </form>
+  
+   <h1>Select Type & Edit</h1>
+   <select name="typeforajax">
+    
+          <option value="ppdt">PPDT</option>
+          <option value="picture_story">Picture Story</option>
+          <option value="essay_writing">Essay Writing</option>
+          <option value="incompleting_story">Incompleting story</option>
+          <option value="incompleting_sentences">Incompleting Sentences</option>
+          <option value="group_discussion">Group Discussion</option>
+          <option value="extemphore">Extemphore</option>
+  </select>
+  
+  <select name="text_type">
+    <option value="both">Bangla and English</option>
+    <option value="bangla">Bangla</option>
+    <option value="bangla">English</option>
+  </select>
+   <h1>Edit Text Content</h1>
+   <div id="updateddata">
+   <% if (data && data.length) { %>
+   <% data.forEach(function(content) { %>
+   <form action="/admin/updatetextcontent" method="post" class="ajaxFrom" id="id_<%= content._id %>">
+      <div class="addquestion">
+        <input type="text" name="id" value="<%= content._id %>" hidden> 
+         <div class="ques-exp">
+          <select name="type">
+            <option value="ppdt">PPDT</option>
+    <option value="picture_story">Picture Story</option>
+            <option value="Essay Writing" <%= content.type === "Essay Writing" ? "selected" : "" %>>Essay Writing</option>
+            <option value="Incompleting Story" <%= content.type === "Incompleting Story" ? "selected" : "" %>>Incompleting story</option>
+            <option value="Incompleting Sentences" <%= content.type === "Incompleting Sentences" ? "selected" : "" %>>Incompleting Sentenses</option>
+            <option value="Group Discussion" <%= content.type === "Group Discussion" ? "selected" : "" %>>Group Discussion</option>
+            <option value="Extemphore" <%= content.type === "Extemphore" ? "selected" : "" %>>Extemphore</option>
+          </select>
+         </div>
+         <div class="ques-exp">
+            <input type="text" name="title" placeholder="Content Title..." value="<%= content.title %>">
+         </div>
+         <div class="ques-exp">
+          <textarea name="solve" id="" placeholder="Solve here..."><%= content.solve %></textarea>
+        </div>
+         <div class="ques-exp">
+            <input type="text" name="" placeholder="Hints..." value="<%= content.hint %>">
+         </div>
+         <div class="buttons">
+            <input type="submit" value="Update" class="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="button"><a href="/admin/textcontent/<%= content._id %>">Delete</a></button>
+         </div>
+         <div class="message"></div>
+      </div>   
+   </form>
+   <% }) %>           
+   <% } else { %>
+   <p>No Text content found.</p>
+   <% } %>
+   </div>
+</section>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- https://www.youtube.com/watch?v=egPiNXf4B3s this is the referencing video  -->
+
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<!-- Jquery Cnd minified -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script>
+   $("#updateddata").sortable({
+   update: function () { 
+   const ids = $(updateddata).sortable('serialize'); 
+   console.log(ids);
+   $.post('/admin/textcontent/order',ids,function(res){
+     console.log(res);
+   })
+   }
+   });
+   
+   
+   
+
+   
+   $(document).ready(function() {
+   $(document).mousedown(function(event) {
+     // Check if the target of the click event is not the navigation element itself
+     if (!$(event.target).closest(".modal").length) {
+       $(".modal").fadeOut(100);
+     }
+   });
+   });
+   
+   
+   
+   function showMessage(form, message) {
+   // Update message div with new message
+   form.find('.message').text(message);
+   
+   // Show message div
+   form.find('.message').show();
+   
+   // Hide message div after 10 seconds
+   setTimeout(function() {
+     form.find('.message').hide();
+   }, 10000);
+   }
+   
+   
+   $(document).on('change', '.ajaxFrom', function() {
+   var form = $(this);
+   var url = form.attr("action");
+   var formData = form.serialize();
+   $.ajax({
+     type: "POST",
+     url: url,
+     data: formData,
+     success: function(value) {
+       showMessage(form, 'Updated Data!');
+       console.log('data updated successfully');
+     },
+     error: function(error) {
+       console.log(error);
+     }
+   });
+   });
+   
+   $(function() {
+   // Attach a listener to the text input
+   $(document).on('input','.imagelink1, .imagelink2', function() {
+     // Get the value of the text input
+     var imageLink = $(this).val();
+     
+     // Get the parent form and the container div
+     var $form = $(this).closest('form');
+     var $container1 = $form.find('.image-container1');
+     var $container2 = $form.find('.image-container2');
+     
+     // Determine which input triggered the event
+     if ($(this).hasClass('imagelink1')) {
+       // Update the image in the container div for imagelink1
+       $container1.html('<img class="imageques" alt="" src="' + imageLink + '">');
+     } else {
+       // Update the image in the container div for imagelink2
+       $container2.html('<img class="imageques" alt="" src="' + imageLink + '">');
+     }
+   }).trigger('input'); // trigger the input event when the page loads
+   });
+   
+   
+   //show type wise data
+   
+   
+   
+   
+   //change content basis on type
+   $(document).on('change','select[name="typeforajax"]', function() {
+   let selectedType = $(this).val();
+   $.ajax({
+     type: 'GET',
+     url: '/admin/textcontent/type',
+     data: {
+       type: selectedType
+     },
+     success: function(data) {
+       console.log(data);
+       const value = data.data;
+     $('#updateddata').html(value)
+     console.log(value);
+     console.log('data updated');
+   
+       // Replace the contents of the data container with the new data
+       // 
+     },
+     error: function() {
+       console.log('An error occurred while fetching the data');
+     }
+   });
+   });
+   
+</script>
