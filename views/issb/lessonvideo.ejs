@@ -5,7 +5,19 @@
 	  <iframe id="video-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/ub9Zk-akQbQ?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 	</div>
   </div>
-
+  </div>
+  <style>
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+    }
+  </style>
+  <div class="overlay"></div>
 
 
 <% content.forEach(function(video) { %>
