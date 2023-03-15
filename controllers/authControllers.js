@@ -85,38 +85,40 @@ const getLogin = async (req, res) => {
 
 
 
-            res.redirect('/auth/sendotp?phone='+ phoneNumber);
+           
 
 
 
 
-            // //SMS SENDING TO USER
+
+            //SMS SENDING TO USER
             
             const api_key = 'C200185063f13146cddc14.43129910';
-             const senderid = '8809601004771';
-             const type = 'text';
-             const scheduledDateTime = ''; // Leave empty for immediate sending
-             const msg = `Your OTP code from Ashraful's new APP: ${otpCode} `;
-             const contacts = phoneNumber;
+            const senderid = '8809601004771';
+            const type = 'text';
+            const scheduledDateTime = ''; // Leave empty for immediate sending
+            const msg = 'Your OTP code from ISSB: goodLuck';
+            // const contacts = phoneNumber;
             
             const url = 'https://isms.mimsms.com/smsapi';
             
             const data = {
-               api_key,
-               senderid,
+              api_key,
+              senderid,
               type,
-               scheduledDateTime,
-               msg,
-               contacts
-             };
+              scheduledDateTime,
+              msg,
+              contacts
+            };
             
-             axios.post(url, data)
+            axios.post(url, data)
               .then(response => {
                 console.log('SMS sent successfully:', response.data);
+               res.redirect('/auth/sendotp?phone='+ phoneNumber);
                 
-               })
+              })
               .catch(error => {
-                 console.error('Error sending SMS:', error);
+                console.error('Error sending SMS:', error);
               });
             
           
