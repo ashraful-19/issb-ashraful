@@ -4,6 +4,7 @@ const app = express();
 require('dotenv').config();
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
+const PORT = process.env.PORT;
 app.set("view engine","ejs");
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
@@ -16,9 +17,11 @@ const passport = require("passport")
 
 
 
+const adminRoute = require('./routes/adminRoutes');
 const authRoute = require('./routes/authRoutes');
 const homeRoute = require('./routes/homeRoutes');
 const homeListRoute = require('./routes/homeListRoutes');
+const iqRoute = require('./routes/iqRoutes');
 
 app.use(
   session({
@@ -73,7 +76,8 @@ app.use(function(req, res, next) {
 app.use('/auth', authRoute);
 app.use('/', homeRoute);
 app.use('/issb', homeListRoute);
-
+app.use('/admin', adminRoute);
+app.use('/iq', iqRoute);
 
 // app.get('/login-success', (req, res, next) => {
 //   res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>');
@@ -92,7 +96,6 @@ app.use('/issb', homeListRoute);
 
 
 
-
-app.listen(process.env.PORT || 8080, () => {
-  console.log(`App is running on`);
+app.listen(PORT, () => {
+  console.log(`App is running on ${PORT}`);
 });
