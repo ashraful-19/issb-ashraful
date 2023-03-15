@@ -1,35 +1,46 @@
 <%- include('../partials/header.ejs') %>
-   
+<style>
+	.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+	pointer-events: none;
+  }
+  .video-container-svg::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 9999;
+	  }
+	  .video-overlay {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 300px;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 9999;
+	  }
+  
+	</style>
 <div class="video-main-box">
 	<div class="video-container-lesson">
 	  <iframe id="video-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/ub9Zk-akQbQ?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	  <div class="video-overlay"></div>
 	</div>
   </div>
-  </div>
-  <style>
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  pointer-events: none;
-}
 
-  .video-container-svg::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 200px;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 9999;
-    }
-  </style>
   <div class="overlay"></div>
+
 
 
 <% content.forEach(function(video) { %>
