@@ -12,11 +12,19 @@ router.get('/sendotp', authController.getSendOtp);
 router.get('/loginNaow lagtepare', authController.getRegister);
 router.get('/login',checkLoggedIn, authController.getLogin);
 router.post('/login',
-passport.authenticate('local', { failureRedirect: '/login-failure' }),updateUser,
-(req, res) => {
-  console.log('Login successful!');
-  res.redirect('/');
-});
+  (req, res, next) => {
+    passport.authenticate('local', {
+      failureRedirect: '/auth/sendotp?phone='+req.session.phone,
+      failureFlash: true
+    })(req, res, next);
+  },
+  updateUser,
+  (req, res) => {
+    console.log('Login successful!');
+    res.redirect('/');
+  }
+);
+
 router.get('/google' , passport.authenticate('google', { scope:
   [ 'email', 'profile' ]
   }));
