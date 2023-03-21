@@ -36,6 +36,53 @@
 	
   </head>
 
+
+
+  <style>
+    .loadbackground {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      z-index: 9999;
+      display: none; /* add this line */
+    }
+    .load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+      /*change these sizes to fit into your project*/
+      width:100px;
+      height:100px;
+    }
+    .load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+    
+    .load :first-child{background:#19A68C;animation-delay:-1.5s}
+    .load :nth-child(2){background:#F63D3A;animation-delay:-1s}
+    .load :nth-child(3){background:#FDA543;animation-delay:-0.5s}
+    .load :last-child{background:#193B48}
+    
+    @keyframes spin{
+      0%,100%{transform:translate(0)}
+      25%{transform:translate(160%)}
+      50%{transform:translate(160%, 160%)}
+      75%{transform:translate(0, 160%)}
+    }
+    
+    #message {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+      font-size: 15px;
+			padding: 20px;
+			background-color: #ffffff;box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+			color: #6851fd;
+			text-align: center;
+      border-bottom-right-radius: 10px;
+      border-bottom-left-radius: 10px;
+		}
+    </style>
   <body><svg id="wave" style="transform:rotate(180deg); transition: 0.3s" viewBox="0 0 1440 330" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(108, 1, 255, 1)" offset="0%"></stop><stop stop-color="rgba(32.058, 230.325, 189.351, 1)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)" d="M0,264L48,264C96,264,192,264,288,269.5C384,275,480,286,576,280.5C672,275,768,253,864,203.5C960,154,1056,77,1152,49.5C1248,22,1344,44,1440,93.5C1536,143,1632,220,1728,258.5C1824,297,1920,297,2016,286C2112,275,2208,253,2304,214.5C2400,176,2496,121,2592,88C2688,55,2784,44,2880,38.5C2976,33,3072,33,3168,44C3264,55,3360,77,3456,77C3552,77,3648,55,3744,66C3840,77,3936,121,4032,126.5C4128,132,4224,99,4320,110C4416,121,4512,176,4608,170.5C4704,165,4800,99,4896,110C4992,121,5088,209,5184,214.5C5280,220,5376,143,5472,143C5568,143,5664,220,5760,258.5C5856,297,5952,297,6048,269.5C6144,242,6240,187,6336,137.5C6432,88,6528,44,6624,66C6720,88,6816,176,6864,220L6912,264L6912,330L6864,330C6816,330,6720,330,6624,330C6528,330,6432,330,6336,330C6240,330,6144,330,6048,330C5952,330,5856,330,5760,330C5664,330,5568,330,5472,330C5376,330,5280,330,5184,330C5088,330,4992,330,4896,330C4800,330,4704,330,4608,330C4512,330,4416,330,4320,330C4224,330,4128,330,4032,330C3936,330,3840,330,3744,330C3648,330,3552,330,3456,330C3360,330,3264,330,3168,330C3072,330,2976,330,2880,330C2784,330,2688,330,2592,330C2496,330,2400,330,2304,330C2208,330,2112,330,2016,330C1920,330,1824,330,1728,330C1632,330,1536,330,1440,330C1344,330,1248,330,1152,330C1056,330,960,330,864,330C768,330,672,330,576,330C480,330,384,330,288,330C192,330,96,330,48,330L0,330Z"></path><defs><linearGradient id="sw-gradient-1" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(108, 1, 255, 1)" offset="0%"></stop><stop stop-color="rgba(49.1, 52.791, 116.486, 1)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 50px); opacity:0.9" fill="url(#sw-gradient-1)" d="M0,132L48,126.5C96,121,192,110,288,88C384,66,480,33,576,27.5C672,22,768,44,864,77C960,110,1056,154,1152,176C1248,198,1344,198,1440,214.5C1536,231,1632,264,1728,280.5C1824,297,1920,297,2016,269.5C2112,242,2208,187,2304,170.5C2400,154,2496,176,2592,176C2688,176,2784,154,2880,170.5C2976,187,3072,242,3168,242C3264,242,3360,187,3456,154C3552,121,3648,110,3744,88C3840,66,3936,33,4032,44C4128,55,4224,110,4320,110C4416,110,4512,55,4608,77C4704,99,4800,198,4896,231C4992,264,5088,231,5184,203.5C5280,176,5376,154,5472,126.5C5568,99,5664,66,5760,93.5C5856,121,5952,209,6048,214.5C6144,220,6240,143,6336,126.5C6432,110,6528,154,6624,143C6720,132,6816,66,6864,33L6912,0L6912,330L6864,330C6816,330,6720,330,6624,330C6528,330,6432,330,6336,330C6240,330,6144,330,6048,330C5952,330,5856,330,5760,330C5664,330,5568,330,5472,330C5376,330,5280,330,5184,330C5088,330,4992,330,4896,330C4800,330,4704,330,4608,330C4512,330,4416,330,4320,330C4224,330,4128,330,4032,330C3936,330,3840,330,3744,330C3648,330,3552,330,3456,330C3360,330,3264,330,3168,330C3072,330,2976,330,2880,330C2784,330,2688,330,2592,330C2496,330,2400,330,2304,330C2208,330,2112,330,2016,330C1920,330,1824,330,1728,330C1632,330,1536,330,1440,330C1344,330,1248,330,1152,330C1056,330,960,330,864,330C768,330,672,330,576,330C480,330,384,330,288,330C192,330,96,330,48,330L0,330Z"></path></svg>
 	
     <div class="instruction">
@@ -142,8 +189,9 @@
                             <p id="<%= i %>" class="scroll scroll<%= i %>"><%= i %></p>
                         <% } %>
 				</div>
+       </div> 
 				  <br />
-			  </form>
+			  
 	</section>
 
 	<div id="floatingMenu">
@@ -192,7 +240,18 @@
 		</div>
 	</div>
 </div>
+<div class="loadbackground">
+  <div class="load">
+    <hr/><hr/><hr/><hr/>
+  </div>
+</div>
 
+
+<!-- 1 min remaining message -->
+<div id="message"> 
+  <h2 style="color:black;">Reminder!</h2>
+  <p>আপনার হাতে আর ১ মিনিট সময় আছে! যেসব  উত্তর করা হয়নি রিভিউ করে নিতে পারেন।</p>
+</div>
  <!-- bottom nagivatoin section  -->
 
 
@@ -227,7 +286,7 @@ $(document).ready(function(){
  
 </html>
 <script>
-let startingTime = 120;
+let startingTime = 1.1;
     let time = startingTime * 60; //minutes * 60 seconds
     let refreshIntervalId = setInterval(updateCountdown, 1000); //update every 1 second
     
@@ -253,12 +312,20 @@ let startingTime = 120;
         contdownEl.value = time;
       }
       time--;
+
+      if(time == 60){
+		    $('#message').slideDown();
+		    setTimeout(function() {
+			  $('#message').slideUp();
+		    }, 10000);
+      }
     
       if (time < 0) {
         //stop the setInterval when time = 0 for avoid negative time
         clearInterval(refreshIntervalId);
         contdownEl.value = time + 1;
         document.getElementById("form-id").submit();
+        $('.loadbackground').fadeIn();
       }
     }
 
@@ -268,6 +335,8 @@ submitexams.forEach((submitexam) => {
   submitexam.addEventListener('click', (event) => {
     event.preventDefault();
     document.getElementById("form-id").submit();
+    $('.loadbackground').fadeIn();
+
   });
 });
 
@@ -376,4 +445,12 @@ $(document).mousedown(function(event) {
   }
 });
 
+
+
+
+
+document.querySelector('#submit-button').addEventListener('click', function() {
+			document.querySelector('.spinner').style.display = 'block';
+			document.querySelector('#my-form').submit();
+		});
 </script>

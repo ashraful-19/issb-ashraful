@@ -1,5 +1,37 @@
 
 <%- include('../partials/header.ejs') %>
+<style>
+.loadbackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: 9999;
+  display: none; /* add this line */
+}
+.load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+  /*change these sizes to fit into your project*/
+  width:100px;
+  height:100px;
+}
+.load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+
+.load :first-child{background:#19A68C;animation-delay:-1.5s}
+.load :nth-child(2){background:#F63D3A;animation-delay:-1s}
+.load :nth-child(3){background:#FDA543;animation-delay:-0.5s}
+.load :last-child{background:#193B48}
+
+@keyframes spin{
+  0%,100%{transform:translate(0)}
+  25%{transform:translate(160%)}
+  50%{transform:translate(160%, 160%)}
+  75%{transform:translate(0, 160%)}
+}
+
+
+</style>
     <!-- TOP section -->
 
     <section class="top-nav">
@@ -36,30 +68,41 @@
       <a href="policy.html">Policy</a>
     </div>
 
-    <section class="login-container">
-      <div class="loginbody">
-        <div class="login">
-          <span><i class="fa-solid fa-phone"></i></span>
+    
+
+
+    <br><br>
+    <section class="login-container">         
+      <img width="150px" style="margin: 0px auto;" src="https://testmoz.com/ugc/2023-03-20/6d79f827-d67a-4f11-abcf-3d909c838d2e-image.png" alt="">
+      <br><br><br><br><br>
           <div class="phone-info">
-            <p style="margin-left: 20px">Login with Phone</p>
-            <form class="login-phone" method="post" action="/auth/sendotp">
-              <input type="text" name="phone" placeholder="01XXXXXXXXX" />
-              <input type="submit" value="Send OTP" />
-            </form>
+            <div class="login-center">
+            <h2 style="color:rgb(23, 127, 245)">লগইন করুন</h2>
           </div>
-        </div>
-        <a href="/auth/google">
-        <div class="login">
-          <span><i class="fa-brands fa-google"></i></span>
-           <p>Login with Gmail</p>
-        </div>
-      </a>
-        <div class="login">
-          <span><i class="fa-brands fa-facebook"></i></span>
-          <p>Login with Facebook</p>
-        </div>
-      </div>
+          <br>
+            <h4 class="login-width">আপনার ফোন নাম্বার দিনঃ</h4>
+            <form id="login-form" method="post" action="/auth/sendotp">
+            
+            <input class="login-input login-width" type="text" name="phone" placeholder="017XXXXXXXX" required />
+            <button type="submit" class="login-btn">
+              Login
+              <i class="fa-solid fa-arrow-right"></i>
+          
+            </button>
+              
+          </form>
+            
+         </div>
+     
     </section>
+<div class="loadbackground">
+  <div class="load">
+    <hr/><hr/><hr/><hr/>
+  </div>
+</div>
+    
+    
+    
   </body>
 
   <script src="./script.js"></script>
@@ -71,18 +114,53 @@
   ></script>
 </html>
 
-<script>
-  function slideToggle() {
-    $("#menulist").fadeToggle(100);
-  }
+<!-- <script>
+  
+  const form = document.getElementById('login-form');
 
-  $(".phone-info").click(function () {
-    $(".login-phone").slideDown();
+form.addEventListener('submit', (event) => {
+  event.preventDefault(); // prevent the form from submitting normally
+  
+  const phone = document.querySelector('input[name="phone"]').value;
+
+  // show the loading background before the AJAX call starts
+  $('.loadbackground').fadeIn();
+
+  fetch('/auth/sendotp', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      phone: phone
+    })
+  })
+  .then(response => response.text())
+  .then(data => {
+    // handle the response data
+    console.log(data);
+    $('.phone-info').html(data);
+  })
+  .catch(error => {
+    console.error(error);
+  })
+  .finally(() => {
+    // hide the loading background when the AJAX call is finished
+    $('.loadbackground').fadeOut();
   });
+});
 
-  //   $("body:not(")
-  //     .not(".tabcontent")
-  //     .click(function () {
-  //       console.log("cllikedddd");
-  //     });
+
+</script> -->
+
+
+<script>
+
+$(document).ready(function() {
+  $('#login-form').submit(function() {
+   $('.loadbackground').fadeIn(); // Apply fade-in animation to element with .loadbackground class
+    // Code to submit form data and handle response goes here
+  });
+});
+
 </script>
