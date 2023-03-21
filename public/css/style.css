@@ -944,11 +944,12 @@ align-items: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  background:red;
 }
 #profile-image{
   position: absolute;
   bottom: 0px;
-  background-color: #ffffff;
+  background-color: #d92121;
 
   padding: 5px 10px;
   border-radius: 40%;
@@ -958,7 +959,7 @@ align-items: center;
 
 #uploadButton {
   display: none;
-  background-color: #007bff;
+  background-color: #1281f9;
   color: #fff;
   font-size: 16px;
   padding: 10px 20px;
@@ -1029,14 +1030,18 @@ margin-bottom: 5px;
 #profile-form > input{
 
 outline: none;
-padding: 10px 15px;
+padding: 12px 15px;
 border: 1px solid rgb(224, 224, 224);
 margin: 0px auto;
 width: 100%;
 border-radius: 5px;
-font-size: 15px;
-margin-bottom: 15px;
-color: #7b7b7b; 
+font-size: 16px;
+margin-bottom: 10px;
+color: #252526; 
+}
+#profile-form > input:focus{
+
+border:3px solid #686c6c;
 }
 #profile-form > select{
   outline: none;
@@ -1045,7 +1050,7 @@ border: 1px solid rgb(224, 224, 224);
 margin: 0px auto;
 width: 100%;
 border-radius: 5px;
-font-size: 15px;
+font-size: 16px;
 margin-bottom: 15px;
 color:  #7b7b7b;
 }
@@ -1225,61 +1230,57 @@ table th {
 /*-----login page css--------  */
 .login-container{
   height: 100%;
-}
-.loginbody{
-width: 90%;
-margin: 200px auto 0px auto;
-
-
-
-}
-.login{
-  margin: 15px 5px;
-  display: flex;
-  flex-direction: row;
-  border-radius: 10px;
-  padding: 15px 25px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-
-
-}
-.login > p{
-  margin-left: 20px;
-}
-
-
-
-.login-phone{
+  width: 80%;
+  margin: 0px auto;
+  margin-top: 100px;
+  font-family: "Hind Siliguri";
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
-  display: none;
   
 }
-.phone-info{
-  width: 100%;
+.login-center{
+  text-align: center;
 }
 
-.login-phone > input{
-  width: 90%;
+
+.login-width{
+  width: 100%;
   margin: 5px auto;
+}
+
+.login-btn {
+  background-color: #002060; /* Change this to your preferred background color */
+  color: #fff; /* Change this to your preferred text color */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  width: 120px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0px auto;
+  margin-top: 20px;
+}
+
+.login-btn i {
+  margin-right: 10px;
+}
+
+.login-input{
   height: 35px;
-  border-radius: 5px;
+  border-radius: 8px;
   outline: none;
   border: none;
   padding: 10px 20px;
   font-size: 14px;
-
-}
-.login-phone > input:first-child{
-  border: 1px solid rgb(197, 197, 197);
+  border: 1px solid #0c0c0c;
   height: 40px;
   font-size: 15px;
 
+
 }
-.login-phone > input:last-child{
-  background-color: rgb(12, 13, 12);
-  color: rgb(255, 255, 255);
+.login-input:focus{
+  border: 3px solid #60b9ff99;
+
 
 }
 
@@ -1589,18 +1590,18 @@ margin: 200px auto 0px auto;
   justify-content: center;
   align-items: center;
   flex-direction:column;
-  padding: 20px;
+  padding: 0px;
 }
 
 .avatar-upload {
   position: relative;
   max-width: 205px;
-  margin: 50px auto;
+  margin: 10px auto;
 }
 
 .avatar-preview {
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
   position: relative;
   border-radius: 100%;
   border: 3px solid #4a444e;
