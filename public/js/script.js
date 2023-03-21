@@ -19,15 +19,3 @@ for (var i = 0; i < accordions.length; i++) {
 
 
 
-// simple text animation for homepage
-var string = "SELECTOR OF THE LEADERS";
-var str = string.split("");
-var el = document.getElementById('str');
-(function animate() {
-str.length > 0 ? el.innerHTML += str.shift() : clearTimeout(running); 
-var running = setTimeout(animate, 200);
-})();
-
-
-// MenuIconbar floating nav
-
