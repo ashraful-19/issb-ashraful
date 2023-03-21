@@ -91,54 +91,54 @@ const getLogin = async (req, res) => {
 
 
 
-            //SMS SENDING TO USER
+            // SMS SENDING TO USER
             
-            // const api_key = 'C200185063f13146cddc14.43129910';
-            // const senderid = '8809601004771';
-            // const type = 'text';
-            // const scheduledDateTime = ''; // Leave empty for immediate sending
-            // const msg = `Your OTP code from ISSB: ${otpCode}`;
-            // const contacts = phoneNumber;
+            const api_key = 'C200185063f13146cddc14.43129910';
+            const senderid = '8809601004771';
+            const type = 'text';
+            const scheduledDateTime = ''; // Leave empty for immediate sending
+            const msg = `Your OTP code from ISSB: ${otpCode}`;
+            const contacts = phoneNumber;
             
-            // const url = 'https://isms.mimsms.com/smsapi';
+            const url = 'https://isms.mimsms.com/smsapi';
             
-            // const data = {
-            //   api_key,
-            //   senderid,
-            //   type,
-            //   scheduledDateTime,
-            //   msg,
-            //   contacts
-            // };
+            const data = {
+              api_key,
+              senderid,
+              type,
+              scheduledDateTime,
+              msg,
+              contacts
+            };
             
-            // axios.post(url, data)
-            //   .then(response => {
-            //     console.log('SMS sent successfully:', response.data);
+            axios.post(url, data)
+              .then(response => {
+                console.log('SMS sent successfully:', response.data);
                 
-            //   })
-            //   .catch(error => {
-            //     console.error('Error sending SMS:', error);
-            //   });
+              })
+              .catch(error => {
+                console.error('Error sending SMS:', error);
+              });
               
-              const value = `
+              // const value = `
                          
              
-                    <div class="login-center">
-                    <h1>লগইন করুন</h1><br>
-                    <h2 style="color:rgb(23, 127, 245)">OTP পাঠানো হয়েছে</h2>
-                  </div>
-                  <br>
-                    <h4 class="login-width">SMS এ পাঠানো OTP:</h4>
-                    <form id="login-form" method="post" action="/auth/login">
-                    <input type="text" name="phone" hidden value="<%- phoneNumber %>"/>
-                    <input type="text" class="login-input login-width" name="otp" placeholder="Enter OTP Code" />
-                    <button class="login-btn">
-                      Login
-                      <i class="fa-solid fa-arrow-right"></i>
+              //       <div class="login-center">
+              //       <h1>লগইন করুন</h1><br>
+              //       <h2 style="color:rgb(23, 127, 245)">OTP পাঠানো হয়েছে</h2>
+              //     </div>
+              //     <br>
+              //       <h4 class="login-width">SMS এ পাঠানো OTP:</h4>
+              //       <form id="login-form" method="post" action="/auth/login">
+              //       <input type="text" name="phone" hidden value="<%- phoneNumber %>"/>
+              //       <input type="text" class="login-input login-width" name="otp" placeholder="Enter OTP Code" />
+              //       <button class="login-btn">
+              //         Login
+              //         <i class="fa-solid fa-arrow-right"></i>
                   
-                    </button>
+              //       </button>
                       
-                  </form>`;
+              //     </form>`;
                   
 //   const html = ejs.render(value, { phoneNumber });
 // console.log(html)
