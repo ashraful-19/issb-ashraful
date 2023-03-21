@@ -20,7 +20,7 @@
 
  <section class="top-section">
 	<div class="banner">
-			<h3 id="str"></h3>
+			<h3 id="str">SELECTOR OF THE LEADERS</h3>
 			<p>সপ্ন জয় তোমারই হবে, আজকে থেকে স্বপ্নের পথে নতুন যাত্রা মিশন আইএসএসবি এর সাথে।</p>
 	</div>	
 	<br>    
@@ -338,19 +338,6 @@
 
 
 	
-	
-	function slideToggle() {
-    $("#menulist").fadeToggle(100);
-
-
-}  
-
-$("body,html").not('.tabcontent').click(function(){
-	
-	console.log("cllikedddd")
-
-
-})
 
 
     const playBtn = document.getElementById('play-btn');
@@ -363,6 +350,13 @@ $("body,html").not('.tabcontent').click(function(){
       videoContainer.style.display = 'block';
       video.src += "&autoplay=1";
     });
+
+// Wait for 5 seconds and then add the 'animate' class to the playBtn
+setTimeout(() => {
+  playBtn.classList.add('animate');
+}, 2000);
+
+
 
 
 </script>
