@@ -1,0 +1,49 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+  <section class="rightside">
+    <h1>Verbal Model Test Dashboard</h1>
+    <br>
+  <div class="create-show">
+    <form action="/iq/create/<%= content.exam_code %>/settings" method="POST" class="setting_inputs">
+      <label for="exam_name">Exam Name:</label>
+      <input class="setting_input" type="text" name="exam_name" id="exam_name" value="<%= content.exam_name %>">
+    
+      <label for="Instruction">Instruction:</label> 
+      <textarea class="setting_input" name="instruction" id="instruction"><%= content.instruction %></textarea>
+    
+      <label for="randomize">Randomize:</label>
+      <div>
+        <input type="radio" name="randomize" value="true" <% if (content.randomize === "true") { %> checked <% } %>>
+        <label>Yes</label>
+        <input type="radio" name="randomize" value="false" <% if (content.randomize !== "true") { %> checked <% } %>>
+        <label>No</label>
+      </div>
+      <label for="randomize">Add to IQ:</label>
+      <div>
+        <input type="radio" name="add_iq" value="true" <% if (content.add_iq === "true") { %> checked <% } %>>
+        <label>Yes</label>
+        <input type="radio" name="add_iq" value="false" <% if (content.add_iq !== "true") { %> checked <% } %>>
+        <label>No</label>
+      </div>
+      <label for="randomize">Status:</label>
+      <div>
+        <input type="radio" name="status" value="true" <% if (content.status === "true") { %> checked <% } %>>
+        <label>Active</label>
+        <input type="radio" name="status" value="false" <% if (content.status !== "true") { %> checked <% } %>>
+        <label>In-Active</label>
+      </div>
+      
+      <label for="conclusion_text">Conclusion Text:</label>
+      <textarea class="setting_input" name="conclusion_text" id="conclusion_text"><%= content.conclusion_text %></textarea>
+    
+      <label for="time">Time:</label>
+      <input class="setting_input" type="number" name="time" id="time" min="0" max="180" value="<%= content.time %>">
+
+    
+      <input class="setting_input" type="submit" value="Update">
+    </form>
+    
+  </div>
+  </section>
+</div>
+</body>
+</html>

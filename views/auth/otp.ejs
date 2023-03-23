@@ -1,40 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ISSB SCHOOL BANGLADESH</title>
-    <link rel="stylesheet" href="/css/style.css" />
 
-    <!-- Compiled and minified JavaScript -->
-
-    <link
-      href="https://fonts.maateen.me/solaiman-lipi/font.css"
-      rel="stylesheet"
-    />
-
-    <!-- 9420 eii logota ekhn theke change korte hbe kaorn issb er logo  -->
-    <link
-      rel="shortcut icon"
-      href="https://issb-bd.org/imgs/logonew.png"
-      type="image/x-icon"
-    />
-    <!-- fontawesome link kora hoies kintu janina minified kina -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
-    />
-  </head>
-  <body>
+<%- include('../partials/header.ejs') %>
     <!-- TOP section -->
 
     <section class="top-nav">
@@ -72,26 +37,32 @@
     </div>
 
     <section class="login-container">
-      <div class="loginbody">
-        <div class="login">
-          <span><i class="fa-solid fa-phone"></i></span>
-          <div class="phone-info" style="display: block">
-            <h4 style="margin-left: 20px">মোবাইল নাম্বার কনফার্ম করুন</h4>
-            &nbsp;
-            <p>
-              <%- phoneNumber %> ফোনে পাঠানো 4 সংখ্যার
-              কোডটি লিখুন
-            </p>
-            <form class="login-phone" method="post" action="/auth/login" style="display: block">
-              <input type="text" name="phone" hidden value="<%- phoneNumber %>"/>
-              <input type="text" name="otp" placeholder="Enter OTP Code" />
-              <input type="submit" value="সাবমিট করুন" />
-            </form>
-            <br />
-            <p>আবার কোড পাঠান ১ মিনিট পরে</p>
-          </div>
-        </div>
+      <img width="150px" style="margin: 0px auto;" src="https://testmoz.com/ugc/2023-03-20/6d79f827-d67a-4f11-abcf-3d909c838d2e-image.png" alt="">
+      <br><br><br><br><br>
+          <div class="phone-info">
+      <div class="login-center">
+        <h1>লগইন করুন</h1><br>
+        <h2 style="color:rgb(23, 127, 245)">OTP পাঠানো হয়েছে</h2>
       </div>
+      <br>
+        <h4 class="login-width">SMS এ পাঠানো OTP:</h4>
+        <form id="login-form" method="post" action="/auth/login">
+        <input type="text" name="phone" hidden value="<%- phoneNumber %>"/>
+        <input type="text" class="login-input login-width" name="otp" placeholder="Enter OTP Code" required />
+       
+        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+          <p><%= errors[errors.length - 1] %></p>
+      <% } %>
+        
+
+        <button class="login-btn" type="submit">
+          Login
+          <i class="fa-solid fa-arrow-right"></i>
+      
+        </button>
+          
+      </form>
+    </div>
     </section>
   </body>
 
@@ -104,14 +75,3 @@
   ></script>
 </html>
 
-<script>
-  function slideToggle() {
-    $("#menulist").fadeToggle(100);
-  }
-
-  //   $("body:not(")
-  //     .not(".tabcontent")
-  //     .click(function () {
-  //       console.log("cllikedddd");
-  //     });
-</script>

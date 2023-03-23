@@ -1,0 +1,116 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ISSB SCHOOL BANGLADESH</title>
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Compiled and minified JavaScript -->
+
+    <link
+      href="https://fonts.maateen.me/solaiman-lipi/font.css"
+      rel="stylesheet"
+    />
+
+    <!-- 9420 eii logota ekhn theke change korte hbe kaorn issb er logo  -->
+    <link
+      rel="shortcut icon"
+      href="https://issb-bd.org/imgs/logonew.png"
+      type="image/x-icon"
+    />
+    <!-- fontawesome link kora hoies kintu janina minified kina -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
+    />
+  </head>
+  <body>
+
+	<section class="top-nav">
+		<div><h4><%= title %></h4></div>
+	 <img src="https://th.bing.com/th/id/R.23ca2f3fbf7e19a1e85cd9d556d5ffaf?rik=uoFjTlg8g%2bIkqw&pid=ImgRaw&r=0" id="top-nav-icon-issb">
+	</section><br><br><br>
+
+	<section class="iqlist-container">
+		
+		<div class="list-items">
+			<% content.forEach(function(exam) { %>
+			<div class="list-item">
+				
+				<div class="align-list"><span class="list-count"><i class="fa-solid fa-brain"></i></span><span class="name"><%= exam.exam_name %></span>
+				<span class="startbutton show-modal" data-exam-code="<%= exam.exam_code %>" data-exam-name="<%= exam.exam_name %>" data-instruction="<%= exam.instruction %>" data-time="<%= exam.time %>" data-marks="<%= exam.questions_length %>" >Start</span><pre style="display: none;"><%= exam.instruction %></pre></div>
+			</div>
+			
+			<% }) %>
+		</div>
+		
+
+	</section>
+
+ <!-- bottom nagivatoin section  -->
+ <%- include('../partials/bottom-nav.ejs') %>
+<div class="modal-section">
+	<div class="modal">
+	 <div class="instruction">
+	 <h3 class="exam-name">Verbal IQ Test 01</h3>
+	 <p class="marks"></p>
+	 <p class="time"></p>
+	</div>
+	<hr><br>
+	<div class="instruction-bangla">
+	 <h4>পরীক্ষার্থীদের জন্য নির্দেশনাবলি</h4>
+	 <pre class="instructions"></pre>
+	
+</div>
+<div class="practice-exam">
+	<a href="" class="practice-link">Practice</a>
+	<a href="" class="exam-link">Exam</a>
+</div>	
+</div>
+
+
+  </body>
+  <br><br><br>
+  <script src="./script.js"></script>
+  <!-- Jquery Cnd minified -->
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script>
+	
+let modal = $('.modal');
+$('.show-modal').click(function() {
+	let examCode = $(this).data('exam-code'); // Get the value of data-id attribute
+  $('.modal .exam-code').text(examCode);
+  $('.modal .practice-link').attr('href', '/issb/verbal/'+examCode+'/practice'); 
+  $('.modal .exam-link').attr('href', '/issb/verbal/'+examCode+'/exam');
+  
+
+  let examName = $(this).data('exam-name'); // Get the value of data-id attribute
+  $('.modal .exam-name').text(examName);
+   let instruction = $(this).closest('div').find('pre').text();  // Get the value of data-id attribute
+  $('.modal .instructions').text(instruction);
+  let time = $(this).data('time'); // Get the value of data-id attribute
+  $('.modal .time').text('Duration-'+ time+'min');
+  let marks = $(this).data('marks'); // Get the value of data-id attribute
+  $('.modal .marks').text('Total Questions-'+marks+'|| Marks-' + marks);
+  modal.fadeToggle(0);
+});
+
+$(document).mousedown(function(event) {
+  // Check if the target of the click event is not the modal element itself
+  if (!$(event.target).closest(".modal").length &&
+      !$(event.target).is('.show-modal')) {
+    modal.fadeOut(100);
+  }
+});
+
+
+</script>

@@ -1,0 +1,248 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+      <section class="rightside">
+      <div class="right-question-section">
+        <h1>Add PPDT Here</h1>
+        <form action="/admin/editppdt" method="post">
+        <div class="addquestion">
+          <div class="ques-exp">
+            <select name="type">
+              <option value="practice_ppdt">PPDT</option>
+              <option value="picture_story">Picture Story</option>
+            </select>
+          </div>
+          <div class="ques-exp">  
+            <input type="text" name="image" class="imagelink1" placeholder="Image Link" >
+          </div>
+          <div class="image-container1"></div>
+          <div class="ques-exp">
+            <textarea name="solve"  placeholder="write Solve here..."></textarea>
+          </div>
+          <div class="ques-exp">  
+            <input type="text" name="hint" placeholder="write hints here..." >
+          </div>
+        <div class="buttons">
+          <input type="submit" value="Save" class="button">
+        </div>
+        </div>
+       
+      </form>
+        
+      <h1>Edit PPDT Here</h1>
+      <select name="ppdtorstory">
+        <option value="" >All</option>
+        <option value="ppdt">PPDT</option>
+        <option value="picture_story">Picture Story</option>
+      </select>
+      
+      <div id="updateddata" >
+        <% data.forEach(function(content) { %>
+          <form action="/admin/updateppdt" method="post" class="ajaxFrom" id="id_<%= content._id %>">
+            
+            <div class="addquestion"> 
+              <input type="text" name="id" value="<%= content._id %>" hidden> 
+              <div class="ques-exp">
+                <select name="type">
+                  <option value="practice_ppdt" <%= content.type === "practice_ppdt" ? "selected" : "" %>>PPDT</option>
+                  <option value="picture_story" <%= content.type === "picture_story" ? "selected" : "" %>>Picture Story</option>
+                </select>
+                
+                
+              </div>
+              <div class="ques-exp">  
+                <input name="image" type="text" class="imagelink1"  placeholder="Image" value="<%= content.image %>" >
+              </div>
+              <div class="image-container1"><img class="imageques" alt="" src="<%= content.image %>"></div>
+              <div class="ques-exp">
+                <textarea name="solve"  placeholder="write Solve here..." ><%= content.solve %></textarea>
+              </div>
+              <div class="ques-exp">  
+                <input name="hint" type="text" placeholder="write hints here..." value="<%= content.hint %>" >
+              </div>
+              <div class="buttons">
+              <input type="submit" value="Update" class="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button class="button show-modal" id="<%= content._id %>">Delete</button>
+            </div>
+            </div>
+            <div class="message"></div>
+            
+          </form>  
+          <% }) %>  
+      
+       
+      </div>
+      </section>
+
+      
+
+      <div class="modal-section">
+        <div class="modal">
+         <div><h1>this is modal</h1> 
+        <button><a id="my-link">Yes</a></button></div>
+      </div>
+      
+  </body>
+  
+</html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<!-- https://www.youtube.com/watch?v=egPiNXf4B3s this is the referencing video  -->
+<script>
+
+
+
+
+// demo text area funtionality
+// select the textarea element
+var textarea = document.querySelector('textarea');
+
+// attach a keydown event listener to the textarea
+textarea.addEventListener('keydown', function(event) {
+  // check if the Enter key is pressed
+  if (event.keyCode === 13) {
+    // increase the height of the textarea
+    textarea.style.height = (textarea.scrollHeight + textarea.offsetHeight - textarea.clientHeight) + 'px';
+  }
+});
+</script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+  <!-- Jquery Cnd minified -->
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script>
+  
+  $("#updateddata").sortable({
+update: function () { 
+  const ids = $(updateddata).sortable('serialize'); 
+  console.log(ids);
+  $.post('/admin/editppdt/order',ids,function(res){
+    console.log(res);
+  })
+}
+});
+
+
+
+let modal = $('.modal');
+$('.show-modal').click(function(event) {
+  event.preventDefault();
+
+ modal.fadeIn(100);
+ var clickedDivID = $(this).attr('id');
+  console.log(clickedDivID); // or do whatever you want with the clickedDivID value
+  var myLink = $('#my-link');
+  let link = `/admin/editppdt/${clickedDivID}`
+
+// Set the value of the href attribute using the .attr() method
+myLink.attr("href",`${link}`);
+});
+
+
+$(document).ready(function() {
+  $(document).mousedown(function(event) {
+    // Check if the target of the click event is not the navigation element itself
+    if (!$(event.target).closest(".modal").length) {
+      $(".modal").fadeOut(100);
+    }
+  });
+});
+
+
+
+function showMessage(form, message) {
+  // Update message div with new message
+  form.find('.message').text(message);
+
+  // Show message div
+  form.find('.message').show();
+
+  // Hide message div after 10 seconds
+  setTimeout(function() {
+    form.find('.message').hide();
+  }, 10000);
+}
+
+
+$(document).on('change', '.ajaxFrom', function() {
+  var form = $(this);
+  var url = form.attr("action");
+  var formData = form.serialize();
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: formData,
+    success: function(value) {
+      showMessage(form, 'Updated Data!');
+      console.log('data updated successfully');
+    },
+    error: function(error) {
+      console.log(error);
+    }
+  });
+});
+
+
+
+
+$(function() {
+  // Attach a listener to the text input
+  $(document).on('input','.imagelink1, .imagelink2', function() {
+    // Get the value of the text input
+    var imageLink = $(this).val();
+    
+    // Get the parent form and the container div
+    var $form = $(this).closest('form');
+    var $container1 = $form.find('.image-container1');
+    var $container2 = $form.find('.image-container2');
+    
+    // Determine which input triggered the event
+    if ($(this).hasClass('imagelink1')) {
+      // Update the image in the container div for imagelink1
+      $container1.html('<img class="imageques" alt="" src="' + imageLink + '">');
+    } else {
+      // Update the image in the container div for imagelink2
+      $container2.html('<img class="imageques" alt="" src="' + imageLink + '">');
+    }
+  }).trigger('input'); // trigger the input event when the page loads
+});
+
+
+//show type wise data
+
+
+
+
+//change content basis on type
+$(document).on('change','select[name="ppdtorstory"]', function() {
+  let selectedType = $(this).val();
+  $.ajax({
+    type: 'GET',
+    url: '/admin/editppdt/type',
+    data: {
+      type: selectedType
+    },
+    success: function(data) {
+      console.log(data);
+      const value = data.data;
+    $('#updateddata').html(value)
+    console.log(value);
+    console.log('data updated');
+
+      // Replace the contents of the data container with the new data
+      // 
+    },
+    error: function() {
+      console.log('An error occurred while fetching the data');
+    }
+  });
+});
+
+</script>
+
+
+
+
+

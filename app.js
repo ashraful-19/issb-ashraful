@@ -10,6 +10,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const db = require('./config/db');   //this is for db connecting not need here just to see in console
+const flash = require('connect-flash');
 
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -41,6 +42,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+app.use(flash());
 app.use((req,res,next) => {
   if (req.isAuthenticated()) {
     console.log(req.user)

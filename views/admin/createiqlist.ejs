@@ -1,0 +1,64 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+  <section class="rightside">
+    <div class="create-section">
+      <form action="/iq/create/<%= title %>" method="POST" class="create-test">
+        <label for="create"><h3>Create Verbal Model Test</h3></label>
+        <input type="text" name="exam_name" id="create">
+        <input type="submit" value="Create" class="create-button">
+      </form>
+    </div>
+    <br><br>
+    
+    <% if (title == 'verbal') { %>
+      <h1>Verbal Model Test Dashboard</h1>
+    <% } else { %>
+      <h1>Non Verbal Model Test Dashboard</h1>
+    <% } %>
+    <br>
+  <div class="create-show">
+    <% content.forEach(item => { %>
+      <div class="model-item">
+          <div class="upper">
+            <a href="/iq/create/<%= item.exam_code %>/settings"><h3><%= item.exam_name %></h3></a>
+            <div class="active-delete">
+              <% if (item.add_iq === 'true') { %>
+                <p><i class="fa-solid fa-power-off"></i> Active</p>
+              <% } else { %>
+                <p style="background: red;"><i class="fa-solid fa-power-off"></i> In-Active</p>
+              <% } %>
+              <p><i class="fa-solid fa-trash"></i> <a href="/iq/create/<%= item.exam_code %>/delete"> Delete</a></p>
+            </div>
+          </div>
+          <div class="lower">
+            <p><i class="fa-regular fa-calendar-days"></i><%= item.createdAt.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
+            <p><a class="copy" href="/iq/create/verbal/<%= item.exam_code %>"><i class="fa-regular fa-clipboard"></i>&nbsp;<%= item.exam_code %></a></p>
+            <p><i class="fa-regular fa-circle-question"></i>Questions:<span><%= item.questions_length %></span></p>
+            <p><i class="fa-solid fa-people-line"></i> <span>508</span></p>
+          </div>
+      </div>
+      <% }) %>
+  </div>
+  </section>
+</div>
+</body>
+</html>
+<script>
+  // get all the link elements
+const links = document.querySelectorAll('.model-item .copy');
+
+// add a click event listener to each link
+links.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault(); // prevent the default link behavior
+    const linkText = link.href; // get the link text
+    navigator.clipboard.writeText(linkText); // copy the link to clipboard
+    const message = document.createElement('p'); // create a message element
+    message.textContent = `Copied Link!`; // set the message content
+    link.parentNode.parentNode.parentNode.appendChild(message); // add the message element to the parent of the parent of the link
+    setTimeout(() => {
+      message.remove();
+    },5000);
+  });
+});
+
+</script>
