@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
         cb(null, 'public/images'); // images e path ta hbe 
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_verbalIq' + Date.now() 
+        cb(null,'profilepic' + Date.now() 
         + path.extname(file.originalname))
       },
     

@@ -5,6 +5,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  googleId: {
+    type: String,
+  },
   name: {
     type: String,
     
@@ -18,6 +21,10 @@ const userSchema = new mongoose.Schema({
     
   },
   course: {
+    type: String,
+    
+  },
+  profile_pic: {
     type: String,
     
   },

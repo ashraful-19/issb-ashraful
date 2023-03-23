@@ -4,6 +4,7 @@ const {Otp,User} = require("../models/userModel");
 require("../config/passport");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const ejs = require('ejs');
 
 const getRegister = async (req, res) => {
   try {
@@ -85,12 +86,12 @@ const getLogin = async (req, res) => {
 
 
 
-           
+            
 
 
 
 
-            //SMS SENDING TO USER
+            // SMS SENDING TO USER
             
             const api_key = 'C200185063f13146cddc14.43129910';
             const senderid = '8809601004771';
@@ -114,14 +115,38 @@ const getLogin = async (req, res) => {
               .then(response => {
                 console.log('SMS sent successfully:', response.data);
                 
-                
               })
               .catch(error => {
                 console.error('Error sending SMS:', error);
               });
-              res.redirect('/auth/sendotp?phone='+ phoneNumber);
-          
-          
+              
+              // const value = `
+                         
+             
+              //       <div class="login-center">
+              //       <h1>লগইন করুন</h1><br>
+              //       <h2 style="color:rgb(23, 127, 245)">OTP পাঠানো হয়েছে</h2>
+              //     </div>
+              //     <br>
+              //       <h4 class="login-width">SMS এ পাঠানো OTP:</h4>
+              //       <form id="login-form" method="post" action="/auth/login">
+              //       <input type="text" name="phone" hidden value="<%- phoneNumber %>"/>
+              //       <input type="text" class="login-input login-width" name="otp" placeholder="Enter OTP Code" />
+              //       <button class="login-btn">
+              //         Login
+              //         <i class="fa-solid fa-arrow-right"></i>
+                  
+              //       </button>
+                      
+              //     </form>`;
+                  
+//   const html = ejs.render(value, { phoneNumber });
+// console.log(html)
+req.session.phone = phoneNumber;
+
+ res.redirect('/auth/sendotp?phone='+ phoneNumber);
+
+// res.render('auth/otp', { phoneNumber, message: req.flash('error') });        
         
         } 
         catch (error) {
@@ -139,8 +164,8 @@ const postRegister = async (req, res) => {
 
         const getUpdateProfile = async (req, res) => {
           try {
-  
-            res.render('auth/update-profile');
+            const user = await User.findOne({ phone: req.user.phone });
+            res.render('auth/update-profile',{user: user});
 
             
             } 
@@ -174,15 +199,22 @@ const postRegister = async (req, res) => {
               res.status(500).json({ error: error.message });
             }};        
         
-            const postUpdateProfilePic = async (req, res) => {
+
+
+
+
+
+
+      const postUpdateProfilePic = async (req, res) => {
               try {
-               
-                if(req.file){
-                    console.log(req.body);
-                    console.log(req.file);
-  
+                const result = await User.findOneAndUpdate(
+                { phone: req.user.phone },
+                { $set: { profile_pic: req.file.filename } },
+                { new: true }
+              );
+              res.json({data: req.user.phone});
                 
-                } }
+              }
                 catch (error) {
                
               }};               
@@ -192,7 +224,7 @@ const getSendOtp = async (req, res) => {
           try {
             
             const phoneNumber = req.query.phone;
-            res.render('auth/otp', {phoneNumber: phoneNumber});
+            res.render('auth/otp', {phoneNumber: phoneNumber,errors: req.flash('error') });
             
             } 
             catch (error) {
