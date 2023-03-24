@@ -51,6 +51,9 @@ const iqSettingSchema = new mongoose.Schema({
     question_type: {
     type: String,
   },
+  question_cat: {
+    type: String,
+  },
   question: {
     type: String,
   },
@@ -124,5 +127,5 @@ const Doubt = mongoose.model('doubt', DoubtSchema);
 module.exports = {
   IqSetting,
   VerbalQuestion,
-  Doubt
+  Doubt,
 };

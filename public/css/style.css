@@ -214,13 +214,7 @@ div.top-bottom {
   font-family: 'SolaimanLipi', Arial, sans-serif !important;
 }
 
-.explain {
-  padding: 7px;
-  background-color: rgb(197, 255, 223);
-  display: inline-block;
-  border-radius: 5px;
-  font-size: 12px;
-}
+
 
 .hideExplain{
   display: none;
@@ -341,6 +335,8 @@ div.explasec div:nth-child(2) {
 }
 
 
+
+
   #top-nav-icon-issb {
     margin-top: 2px;
     height: 40px;
@@ -360,7 +356,6 @@ div.explasec div:nth-child(2) {
     z-index: 45;
     font-size: 15px;
     font-family: "Hind Siliguri";
-    border-top: 1px solid rgb(212, 212, 212);
     display: none;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
     
@@ -369,11 +364,13 @@ div.explasec div:nth-child(2) {
    #menulist a{
     display: flex;
     flex-direction: column;
-    
+    margin:10px;
     padding: 8px 30px 8px 30px;
    }
    #menulist a:hover{
-    background-color: #e4e4e4;
+    background-color: #7263ff;
+     color:white;
+     border-radius: 5px;
    }
 
 /* top AREA DESIGN CSS */
@@ -447,7 +444,7 @@ margin-bottom: 33px;
 }
 
 .animate {
-  animation: pulse 2s linear infinite;
+  animation: pulse 3.5s linear infinite;
 }
 
 
@@ -927,15 +924,6 @@ align-items: center;
   text-align: justify;
 }
 
-.explain {
-  padding: 7px;
-  background-color: rgb(197, 255, 223);
-  display: inline-block;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-
 
 
 
@@ -1078,6 +1066,9 @@ box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0
   border-radius: 8px;
   margin:10px 10px;
 }
+.explain-toggle-hide{
+  display: none;
+}
 
 .doubts-details{
   
@@ -1091,14 +1082,25 @@ box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0
 
 
 .doubts-types{
-background-color: #d4b4ff69;
+background-color: #dfc8ff69;
  color: #834687;
 padding: 2px 15px;
 border-radius: 15px;
- 
+  padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+.doubts-date{
+background-color: #e7ffe8;
+ color: #1B5E20;
+padding: 2px 15px;
+border-radius: 15px;
+  padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
 }
 .solved{
-  background-color: #4dff6245;
+  background-color: #92ff9e17;
   padding: 2px 15px;
 border-radius: 15px;
  color:#1B5E20;
@@ -1214,11 +1216,16 @@ table th {
 .startbutton {
   background-color: #393737f7;
   color: #ffffff;
-  padding: 5px 15px;
-  border-radius: 5px;
+  padding: 3px 10px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
+.startbutton:hover{
+  border: 3px solid #b5adbf;
+    transform: scale(1.05);
 
+}
 .list-item{
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
@@ -1397,6 +1404,9 @@ table th {
   border: 1px solid rgb(0, 0, 0);
   color: white;
 }
+.practice-exam a:hover{
+  border:3px solid #BDBDBD;
+}
 
 
 
@@ -1448,7 +1458,15 @@ table th {
   justify-content: start;
   align-items: center;
   gap: 5px;
- padding: 3px 0px;
+ padding: 3px 5px;
+}
+.options:hover{
+  background:#E8F5E9;
+  border-radius:5px;
+}
+.option-color{
+  background:#E8F5E9;
+  border-radius:5px;
 }
 .q-image{
  padding: 10px 0px;
@@ -1459,7 +1477,7 @@ table th {
  width: 100%;
 }
 .explain {
-  margin-top:15px;
+
   padding: 5px 10px;
     background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
@@ -1471,6 +1489,19 @@ table th {
 .explain-toggle{
   display: none;
 
+}
+.deleted-doubts{
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 15px 10px;
+  margin:10px;
+  font-size: 15px;
+  background:#d4edda;
+  color:#18562b;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  font-family: 'SolaimanLipi', Arial, sans-serif !important;
 }
 .love{
   color: black;
@@ -1485,7 +1516,7 @@ table th {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin:10px 0px 10px 0px;
 }
 
 
@@ -1740,5 +1771,9 @@ input[type="radio"]:checked {
   .video-container-lesson{
     width: 60%;
     margin: 0 auto ;
+  }
+  #menulist{
+    width: 60%;
+    
   }
 }

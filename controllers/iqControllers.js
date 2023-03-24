@@ -180,6 +180,7 @@ const getCreateVerbalIq = async (req, res) => {
   const saveVerbalIq = async (req, res) => {
     try {
       const {
+        question_cat,
         question_type,
         question,
         question_image,
@@ -196,7 +197,8 @@ const getCreateVerbalIq = async (req, res) => {
       // Create a new verbal question
       const newQuestion = new VerbalQuestion({
         exam_code: examCode,
-        question_type: question_type,
+        question_cat: question_cat,
+        question_type: "Verbal IQ",
         question: question,
         question_image: question_image,
         choice1: choice1,
@@ -231,6 +233,7 @@ const getCreateVerbalIq = async (req, res) => {
   const updateEditVerbalIq = async (req, res) => {
     try {
       const {
+        question_cat,
         question_type,
         question,
         question_image,
@@ -252,7 +255,8 @@ const getCreateVerbalIq = async (req, res) => {
     if (!Question) {
       return res.status(404).json({ success: false, message: 'Question not found' });
     }
-        Question.question_type = question_type,
+        question_cat = question_cat,
+        question_type = "Verbal IQ",
         Question.question = question,
         Question.question_image = question_image,
         Question.choice1 = choice1,

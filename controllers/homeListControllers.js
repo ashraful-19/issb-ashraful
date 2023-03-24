@@ -128,6 +128,7 @@ const getPracticePpdt = async (req, res) => {
           const content = data.questions;
 
           console.log(content);
+          
           const userDoubts = await Doubt.findOne({ user: userId });
           if(userDoubts){
           var newContent = content.map((item) => {
@@ -138,10 +139,9 @@ const getPracticePpdt = async (req, res) => {
           });
         }else{
             newContent = content;
-        }
-      
+          }
           const result = {};
-          const mappedContent = newContent.map(question => ({
+          let mappedContent = newContent.map(question => ({
             _id: question._id,
             exam_code: question.exam_code,
             question: question.question,
@@ -156,7 +156,7 @@ const getPracticePpdt = async (req, res) => {
             doubts_count: question.doubts_count,
             createdAt: question.createdAt,
             your_answer: null, // initialize your_answer to null
-            doubt: question.createdAt
+            doubt: question.doubt
           }));
       
           for (let id in answers) {
@@ -201,7 +201,7 @@ const getPracticePpdt = async (req, res) => {
       
           console.log(count);
           console.log('mapper data ekhne ashbe')
-          console.log(newContent);
+          console.log(mappedContent);
           res.render("issb/iqresult", { content: mappedContent, count ,data});//newContent object e doubts ashtese kintu etay ashe na, ar eta dile tao result e prb hocche
         } catch (error) {
           console.log(error.message);
