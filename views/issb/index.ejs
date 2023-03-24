@@ -14,6 +14,19 @@
 	<a id="militarian"	href="/"><h3>Militarian</h3></a>
 </div>
 </section>
+<div id="menulist" >
+	<a href="/">Home</a>
+	<a href="about.html">About</a>
+	<a href="contact.html">Contact</a>
+	<a href="termandcondition.html">Terms & conditions</a>
+	<a href="policy.html">Policy</a>
+    <% if (req.user) { %>
+        <a href="/auth/logout">Logout</a>
+      <% } else { %>
+        <a href="/auth/login">Login</a>
+      <% } %>
+      
+</div>
 
 <style></style>
 <br><br>
@@ -21,7 +34,7 @@
  <section class="top-section">
 	<div class="banner">
 			<h3 id="str">SELECTOR OF THE LEADERS</h3>
-			<p>সপ্ন জয় তোমারই হবে, আজকে থেকে স্বপ্নের পথে নতুন যাত্রা মিশন আইএসএসবি এর সাথে।</p>
+			<p class="motivation">সপ্ন জয় তোমারই হবে, আজকে থেকে স্বপ্নের পথে নতুন যাত্রা মিশন আইএসএসবি এর সাথে।</p>
 	</div>	
 	<br>    
     <!-- thik immediate div e iframe-container name ekta class hbe -->
@@ -111,7 +124,6 @@
            <a href="/issb/textcontent?type=essay_writing&text_type=english">English</a>
         </div>
     </div>  
-
     <div class="tabcontent">
         <div class="accordion"> 
             <img src="https://cdn1.iconfinder.com/data/icons/game-design-color-pop-vol-2/64/story-512.png" alt="">
@@ -360,3 +372,37 @@ setTimeout(() => {
 
 
 </script>
+<script>
+    $(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
+    });
+    
+
+
+    var accordions = document.getElementsByClassName("accordion");
+
+for (var i = 0; i < accordions.length; i++) {
+  accordions[i].onclick = function() {
+    this.classList.toggle('is-open');
+
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+    content.style.transition = "max-height 0.2s ease-out";
+  }
+}
+
+    </script>

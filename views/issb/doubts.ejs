@@ -7,130 +7,315 @@
  <img src="https://th.bing.com/th/id/R.23ca2f3fbf7e19a1e85cd9d556d5ffaf?rik=uoFjTlg8g%2bIkqw&pid=ImgRaw&r=0" id="top-nav-icon-issb">
 </section><br><br><br>
 
-<section class="doubts-container">
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Non-verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Physchometrics</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Psychometrics</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
-<div class="doubts-item">
-    <p>01. This is my first problem we.....</p>
-    <div class="doubts-details">
-            <div class="doubts-types">Verbal</div>
-            <div class="solved">Solved</div>
-    </div>
-</div>
+<section class="questions-box">
+    <% let counter = 1 %>
+    <form action="/issb/verbal/<%= data.exam_code %>/result" method="post" id="form-id">
+        <% data.forEach(function(doubt) { %>
+        <div class="qcontainer" id="question<%= counter %>">
+           <p>
+              <span><b><%= counter %>)&nbsp;</b></span>
+              <b><%= doubt.question %></b>
+           </p>
+           <% if (doubt.question_image && doubt.question_image !== "") { %>
+           <img class="q-image" src="<%= doubt.question_image %>" alt="">
+           <% } else { %>
+           
+           <% } %>
+           <label class="options" for="option1<%= counter %>">  
+            <input
+            type="radio"
+            name="<%= doubt._id %>"
+            value="1"
+            id="option1<%= counter %>"  
+            <%= doubt.answer === '1' ? 'checked' : 'disabled' %>         
+          />
+          <label><%= doubt.choice1 %></label>
+          </label>
+          <label class="options" for="option2<%= counter %>">
+          <input
+            type="radio"
+            id="option2<%= counter %>"
+            name="<%= doubt._id %>"
+            value="2"
+            <%= doubt.answer === '2' ? 'checked' : 'disabled' %>
+          />
+          <label><%= doubt.choice2 %></label>
+         </label>
+         <label class="options" for="option3<%= counter %>">
+          
+          <input
+            type="radio"
+            id="option3<%= counter %>"
+            name="<%= doubt._id %>"
+            value="3"
+            <%= doubt.answer === '3' ? 'checked' : 'disabled' %>
+          />
+          <label><%= doubt.choice3 %></label>
+         </label>
+          <label class="options"  for="option4<%= counter %>">
+          
+          <input
+            type="radio"
+            id="option4<%= counter %>"
+            name="<%= doubt._id %>"
+            value="4"
+            <%= doubt.answer === '4' ? 'checked' : 'disabled' %>
+          />
+          <label><%= doubt.choice4 %></label>
+         </label>
+
+           <div class="explainer">
+              <div class="explain">
+                 <p>Explanation</p>
+              </div>
+              <div class="doubts-types"><%= doubt.question_type %></div>
+              <p class="doubts-date"><%= doubt.createdAt.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric'}) %></p>
+              <a class="love" href="/issb/verbal/<%= doubt.exam_code %>?id=<%= doubt._id %>">
+                <p><%= doubt.doubts_count %></p>
+                <i class="fa-solid fa-heart"></i>
+             </a>
+              
+           </div>
+           <div class="explain-toggle-hide">
+              <p><%= doubt.explanation %></p>
+              <% if (doubt.explanation_image && doubt.explanation_image !== "") { %>
+                <img class="e-image" src="<%= doubt.explanation_image %>" alt="">
+                <% } else { %>
+                
+                <% } %>
+           </div>
+          
+        </div>
+        <% counter++ %>
+        <% }) %>
+
+     </form>
+            
+ 
+            
+      <br />
+          
 </section>
 
+<div id="floatingMenu">
+    <div class="">
+        <div>
+        <p><b>Questions Navigation</b></p>
+        </div>
+        <div class="easynav-float">
+        
+            <% for (var i = 1; i <= data.length; i++) { %>
+                <p id="<%= i %>" class="scroll scroll<%= i %>"><%= i %></p>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<div id="menuicon">
+    <i class="fa-solid fa-list-ol"></i>
+</div>
 
 
- <%- include('../partials/bottom-nav.ejs') %>
+<!-- eye seciton -->
+<div id="eye-open-close">
+    <p>Show Explain </p>
+    <i class="fa-solid fa-eye"></i>
+    </div>
 
-<script src="/js/script.js"></script>
-<!-- Jquery Cnd minified -->
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
+
+
+<!-- bottom nagivatoin section  -->
+
+
+<%- include('../partials/bottom-nav.ejs') %>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+$("#menuicon").click(function(){
+$("#floatingMenu").fadeToggle(100);
+});
+
+$("#floatingMenu").click(function(event) {
+event.stopPropagation();
+});
+
+$(document).mousedown(function(event) {
+// Check if the clicked element is not a descendant of #floatingMenu or #menuicon
+if (!$(event.target).is("#floatingMenu") && !$(event.target).is("#menuicon") && !$(event.target).parents("#floatingMenu").length) {
+  $("#floatingMenu").fadeOut(500);
+}
+});
+});
+
+</script>
+
+</html>
 <script>
 
 
-	
-	
-	function slideToggle() {
-    $("#menulist").fadeToggle(100);
 
 
-}  
 
-$("body,html").not('.tabcontent').click(function(){
-	
-	console.log("cllikedddd")
+$(document).ready(function() {
+// Scroll to section when a p tag is clicked
+$(".scroll").click(function(event) {
+event.preventDefault(); // prevent the default behavior of the click event
+var id = $(this).attr("id"); // get the id of the clicked p tag
+
+var section = $("#question" + id); // get the corresponding section using the id
+var divPosition = $(section).offset().top;
+$('html, body').animate({ scrollTop: divPosition - 250
+}, 1000);
+});
+});
 
 
-})
+$(document).ready(function() {
+$('.explain').click(function() {
+$(this).closest('.qcontainer').find('.explain-toggle-hide').slideToggle();
+});
+
+});
+
+
+
+// Get all radio buttons
+const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+// Add event listener to each radio button
+radioButtons.forEach(radio => {
+radio.addEventListener('click', function() {
+// Check if the radio button is checked
+if (this.checked) {
+  // Find the closest parent div with class "qcontainer"
+  const qContainer = this.closest('.qcontainer');
+  // Get the class ID from the qContainer
+  const classId = qContainer.getAttribute('id');
+  // Remove the "question" prefix from the class ID
+  const questionId = classId.replace('question', '');
+  // Find all p tags with the same class as the matching question
+  const pTags = document.querySelectorAll(`.scroll${questionId}`);
+  // Set the color of each p tag to red
+  pTags.forEach(pTag => {
+    pTag.style.background = 'rgb(171, 255, 219)';
+  });
+}
+});
+});
+
+
+
+
 </script>
+<script>
+    
+
+
+
+
+
+// Get all the radio buttons
+const radioBtns = document.querySelectorAll('input[type="radio"]');
+
+// Add event listener for each radio button
+radioBtns.forEach(radioBtn => {
+radioBtn.addEventListener('change', function() {
+if (this.checked) {
+  // Get the label element that is a sibling of this radio button
+  const label = this.parentNode;
+  
+  // Get the parent label element of the sibling label
+  const parentLabel = label.parentNode;
+  
+  // Add the "checked" class to the parent label
+  parentLabel.classList.add('checked');
+} else {
+  // If the radio button is unchecked, remove the "checked" class from the parent label
+  const label = this.parentNode;
+  const parentLabel = label.parentNode;
+  parentLabel.classList.remove('checked');
+}
+});
+});
+
+
+
+
+$(document).ready(function() {
+  $('#eye-open-close').click(function() {
+    $('.explain-toggle-hide').slideToggle();
+    $(this).find('i').toggleClass('fa-eye-slash fa-eye');
+    $(this).find('p').text(function(_, text) {
+      return text === 'Hide Explain' ? 'Show Explain' : 'Hide Explain';
+    });
+  });
+});
+
+
+</script>
+<script>
+$(document).on('click', '.love', function(event) {
+  event.preventDefault(); // prevent the default behavior of the link
+
+  var form = $(this);
+  var url = form.attr("href"); // add "/remove" to the end of the URL
+  
+  var icon = form.find('i'); // get the heart icon inside the clicked element
+  var count = form.find('p'); // get the p tag inside the clicked element
+  if (icon.hasClass('fa-solid')) { // if the icon is solid
+    icon.removeClass('fa-solid').addClass('fa-regular'); // remove the solid class and add the regular class
+    count.text(parseInt(count.text()) - 1); // decrement the doubts_count value by 1
+  } else { // if the icon is regular
+    icon.removeClass('fa-regular').addClass('fa-solid'); // remove the regular class and add the solid class
+    count.text(parseInt(count.text()) + 1); // increment the doubts_count value by 1
+  }
+  icon.addClass('shake'); // add the shake class to the heart icon
+  setTimeout(function() {
+    icon.removeClass('shake'); // remove the shake class from the heart icon after 500ms
+  }, 500);
+  icon.addClass('wave'); // add the wave class to the heart icon
+  setTimeout(function() {
+    icon.removeClass('wave'); // remove the wave class from the heart icon after 800ms
+  }, 800);
+
+  let doubtsItems = form.closest('.qcontainer');
+let pTag = document.createElement('p');
+pTag.classList.add('deleted-doubts');
+pTag.textContent = 'আমার প্রশ্নের উত্তর পেয়ে গেছি!';
+doubtsItems.replaceWith(pTag);
+
+// Add CSS transitions
+pTag.style.opacity = 0;
+pTag.style.transition = 'opacity 0.5s ease-in-out';
+
+setTimeout(function() {
+  pTag.style.opacity = 1;
+}, 100);
+
+setTimeout(function() {
+  pTag.style.opacity = 0;
+  setTimeout(function() {
+    pTag.remove();
+  }, 500);
+}, 5000);
+
+
+  $.ajax({
+    type: "get",
+    url: url,
+    success: function(value) {
+      console.log('data updated successfully');
+    },
+    error: function(error) {
+      console.log(error);
+    }
+  });
+});
+
+
+</script>
+
+

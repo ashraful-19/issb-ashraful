@@ -104,25 +104,25 @@
                <% } else { %>
                
                <% } %>
-               <div class="options">  
+               <label class="options" for="option1<%= counter %>">  
                 <input
                 type="radio"
                 name="<%= exam._id %>"
                 value="1"
                 id="option1<%= counter %>"            
               />
-              <label for="option1<%= counter %>"><%= exam.choice1 %></label>
-              </div>
-              <div class="options">
+              <label><%= exam.choice1 %></label>
+              </label>
+              <label class="options" for="option2<%= counter %>">
               <input
                 type="radio"
                 id="option2<%= counter %>"
                 name="<%= exam._id %>"
                 value="2"
               />
-              <label for="option2<%= counter %>"><%= exam.choice2 %></label>
-             </div>
-             <div class="options">
+              <label><%= exam.choice2 %></label>
+             </label>
+             <label class="options" for="option3<%= counter %>">
               
               <input
                 type="radio"
@@ -130,9 +130,9 @@
                 name="<%= exam._id %>"
                 value="3"
               />
-              <label for="option3<%= counter %>"><%= exam.choice3 %></label>
-             </div>
-              <div class="options">
+              <label><%= exam.choice3 %></label>
+             </label>
+              <label class="options"  for="option4<%= counter %>">
               
               <input
                 type="radio"
@@ -140,8 +140,8 @@
                 name="<%= exam._id %>"
                 value="4"
               />
-              <label for="option4<%= counter %>"><%= exam.choice4 %></label>
-             </div>
+              <label><%= exam.choice4 %></label>
+             </label>
  
                <input
                   hidden
@@ -347,12 +347,8 @@ submitexams.forEach((submitexam) => {
 
   var form = $(this);
   var url = form.attr("href"); // add "/remove" to the end of the URL
-
-  $.ajax({
-    type: "get",
-    url: url,
-    success: function(value) {
-      var icon = form.find('i'); // get the heart icon inside the clicked element
+  
+  var icon = form.find('i'); // get the heart icon inside the clicked element
       var count = form.find('p'); // get the p tag inside the clicked element
       if (icon.hasClass('fa-solid')) { // if the icon is solid
         icon.removeClass('fa-solid').addClass('fa-regular'); // remove the solid class and add the regular class
@@ -369,7 +365,13 @@ submitexams.forEach((submitexam) => {
       setTimeout(function() {
         icon.removeClass('wave'); // remove the wave class from the heart icon after 800ms
       }, 800);
-      console.log('data updated successfully');
+
+
+  $.ajax({
+    type: "get",
+    url: url,
+    success: function(value) {
+            console.log('data updated successfully');
     },
     error: function(error) {
       console.log(error);
@@ -453,4 +455,34 @@ document.querySelector('#submit-button').addEventListener('click', function() {
 			document.querySelector('.spinner').style.display = 'block';
 			document.querySelector('#my-form').submit();
 		});
+
+
+
+
+// Get all the radio buttons
+const radioBtns = document.querySelectorAll('input[type="radio"]');
+
+// Add event listener for each radio button
+radioBtns.forEach(radioBtn => {
+  radioBtn.addEventListener('change', function() {
+    if (this.checked) {
+      // Get the label element that is a sibling of this radio button
+      const label = this.parentNode;
+      
+      // Get the parent label element of the sibling label
+      const parentLabel = label.parentNode;
+      
+      // Add the "checked" class to the parent label
+      parentLabel.classList.add('checked');
+    } else {
+      // If the radio button is unchecked, remove the "checked" class from the parent label
+      const label = this.parentNode;
+      const parentLabel = label.parentNode;
+      parentLabel.classList.remove('checked');
+    }
+  });
+});
+
+
+
 </script>
