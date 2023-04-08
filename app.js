@@ -18,9 +18,11 @@ const passport = require("passport")
 
 
 
+const MilitaryCourseRoute = require('./routes/MilitaryCourseRoutes');
 const adminRoute = require('./routes/adminRoutes');
 const authRoute = require('./routes/authRoutes');
 const homeRoute = require('./routes/homeRoutes');
+const paymentRoute = require('./routes/paymentRoutes');
 const homeListRoute = require('./routes/homeListRoutes');
 const iqRoute = require('./routes/iqRoutes');
 
@@ -78,8 +80,10 @@ app.use(function(req, res, next) {
 // // Visiting this route logs the user out
 app.use('/auth', authRoute);
 app.use('/', homeRoute);
+app.use('/',paymentRoute);
 app.use('/issb', homeListRoute);
 app.use('/admin', adminRoute);
+app.use('/admin/course', MilitaryCourseRoute);
 app.use('/iq', iqRoute);
 
 // app.get('/login-success', (req, res, next) => {
