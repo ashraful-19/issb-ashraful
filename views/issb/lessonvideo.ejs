@@ -1,114 +1,107 @@
 <%- include('../partials/header.ejs') %>
 <style>
-	.overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100px;
-	background-color: rgba(0, 0, 0, 0.5);
-	z-index: 9999;
-	pointer-events: none;
-  }
-  .video-container-svg::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
-		z-index: 9999;
-	  }
-	  .video-overlay {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 150px;
-		background-color: rgba(0, 0, 0, 0.5);
-		z-index: 9999;
-	  }
+	.con {
+  position: relative;
+  bottom: -10px;
+  height: auto;
+  border: none;
+ background-color: f4f4f461;
   
-	</style>
-<div class="video-main-box">
+}
+.accordion-content {
+max-height: 100%;
+position:relative;
+ top:-5px;
+transition: max-height 0.3s ease-in-out;
+background-color: #f4f4f461;
+display: flex;
+flex-direction: column;
+
+ border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+
+}
+.accordion-content a{
+  
+  width: 100%;
+  font-size: 14px;
+  color: #737373;
+  border:none!important;
+  padding: 15px 20px!important;
+  width:98%;
+  margin: 0px auto 0px!important;
+}
+.accordion-content a:hover{
+  background:#ededed;
+  cursor: pointer;
+}
+
+.accordion-content a:last-child{
+margin-bottom:10px;
+}
+.accordion-content a:first-child{
+margin-top:10px;
+}
+
+
+.accordion img{
+  width: 22px;
+  margin-right: 10px;
+}
+
+</style>
+<div class="video-main-box" style=" z-index:12;">
 	<div class="video-container-lesson">
-	  <iframe id="video-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/ub9Zk-akQbQ?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	  <div class="video-overlay"></div>
+	  <iframe id="video-iframe" width="100%" height="100%"  src="https://www.youtube.com/embed/ub9Zk-akQbQ?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;" allowfullscreen></iframe>
 	</div>
   </div>
+  
 
-  <div class="overlay"></div>
-
-
-
-<% content.forEach(function(video) { %>
-    <div class="lecture" data-video-link="<%= video.video_link %>">
-		<i class="fa-regular fa-circle-play"></i>
-		<p class="lecName"><%= video.title %></p> 
-	</div>
-	<% }) %>
+  <section class="con">
+	<h1>hello</h1>
+        <div class="accordion-content">
+           <a href="/issb/lessonvideo?type=iq"><i class="fa-solid fa-play"></i>&nbsp;&nbsp;&nbsp;Video: কিভাবে প্রথম দিন সবার সাথে পরিচিত হবেন</a>
+		   <a href="/issb/iqlist"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;&nbsp;</i>কিভাবে এটার সাথে মিলে মিশে থাকবেন</a>
+           <a href="/issb/iqlist"><i class="fa-solid fa-file-lines"></i></i>&nbsp;&nbsp;&nbsp;উপায় সমূহ যদি আপনি ব্যর্থ হন</a>
+		   <a href="/issb/lessonvideo?type=iq"><i class="fa-solid fa-play"></i>&nbsp;&nbsp;&nbsp;Video: কিভাবে প্রথম দিন সবার সাথে পরিচিত হবেন</a>
+		   <a href="/issb/iqlist"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;&nbsp;</i>কিভাবে এটার সাথে মিলে মিশে থাকবেন</a>
+           <a href="/issb/iqlist"><i class="fa-solid fa-file-lines"></i></i>&nbsp;&nbsp;&nbsp;উপায় সমূহ যদি আপনি ব্যর্থ হন</a>
+		   <a href="/issb/lessonvideo?type=iq"><i class="fa-solid fa-play"></i>&nbsp;&nbsp;&nbsp;Video: কিভাবে প্রথম দিন সবার সাথে পরিচিত হবেন</a>
+		   <a href="/issb/iqlist"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;&nbsp;</i>কিভাবে এটার সাথে মিলে মিশে থাকবেন</a>
+           <a href="/issb/iqlist"><i class="fa-solid fa-file-lines"></i></i>&nbsp;&nbsp;&nbsp;উপায় সমূহ যদি আপনি ব্যর্থ হন</a>
+		   <a href="/issb/lessonvideo?type=iq"><i class="fa-solid fa-play"></i>&nbsp;&nbsp;&nbsp;Video: কিভাবে প্রথম দিন সবার সাথে পরিচিত হবেন</a>
+		   <a href="/issb/iqlist"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;&nbsp;</i>কিভাবে এটার সাথে মিলে মিশে থাকবেন</a>
+           <a href="/issb/iqlist"><i class="fa-solid fa-file-lines"></i></i>&nbsp;&nbsp;&nbsp;উপায় সমূহ যদি আপনি ব্যর্থ হন</a>
+		   <a href="/issb/lessonvideo?type=iq"><i class="fa-solid fa-play"></i>&nbsp;&nbsp;&nbsp;Video: কিভাবে প্রথম দিন সবার সাথে পরিচিত হবেন</a>
+		   <a href="/issb/iqlist"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;&nbsp;</i>কিভাবে এটার সাথে মিলে মিশে থাকবেন</a>
+           <a href="/issb/iqlist"><i class="fa-solid fa-file-lines"></i></i>&nbsp;&nbsp;&nbsp;উপায় সমূহ যদি আপনি ব্যর্থ হন</a>
+        </div>
 </section>
-<div id="floatingMenu">
-	<ul><li><a href=""><i class="fa-regular fa-circle-play"></i>First Option jodi</a></li><li><a href=""><i class="fa-regular fa-circle-play"></i>Second Option</a></li>
-	<li><a href=""><i class="fa-regular fa-circle-play"></i>Third Option</a></li></ul>
-</div>
-
-    <div id="menuicon">
-        <i class="fa-solid fa-bars-staggered"></i>
-    </div>
 
 
-
+<br><br><br><br>
 
  <!-- bottom nagivatoin section  -->
+
  <%- include('../partials/bottom-nav.ejs') %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-  $(document).ready(function(){
-	$("#menuicon").click(function(){
-	  $("#floatingMenu").fadeToggle(100);
-	  
-	});
-   
-  });
-  
- 
- 
- 
- 
- 
-  $(document).ready(function() {
-  // add a click event listener to all lecture elements
-  $('.lecture').on('click', function() {
-    // get the video link from the clicked lecture's data attribute
-    var videoLink = $(this).data('video-link');
-    
-    // set the video link to the src attribute of the iframe
-    $('#video-iframe').attr('src', videoLink);
-  });
-});
+const videoIframe = document.querySelector('#video-iframe');
+const con = document.querySelector('.con');
+
+function setMarginTop() {
+  con.style.marginTop = videoIframe.offsetHeight + 'px';
+}
+
+setMarginTop(); // initial setting
+
+window.addEventListener('resize', setMarginTop);
+
+
+</script>
 
 
 
-
-
- </script>
- 
-
-
-
-<script src="/js/script.js"></script>
-<script>
-    var video = document.getElementById("video-iframe");
-    var overlay = document.querySelector(".video-overlay");
-
-    document.addEventListener("fullscreenchange", function () {
-      if (document.fullscreenElement === video) {
-        overlay.style.display = "block";
-      } else {
-        overlay.style.display = "none";
-      }
-    });
-  </script>

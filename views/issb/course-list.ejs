@@ -1,0 +1,82 @@
+
+
+<%- include('../partials/header.ejs') %>
+
+
+
+<section class="top-nav">
+    <div><h4>Courses</h4></div>
+ <img src="https://th.bing.com/th/id/R.23ca2f3fbf7e19a1e85cd9d556d5ffaf?rik=uoFjTlg8g%2bIkqw&pid=ImgRaw&r=0" id="top-nav-icon-issb">
+</section><br><br><br>
+
+<section class="course-list">
+   <% course.forEach(function(course) { %>
+    <a href="/course-details/<%= course.course_id %>" class="">  
+   <div class="box">
+    <img src="<%= course.thumbnail %>" alt="">
+   
+   <div class="course-name"><%= course.course_name %></div>
+   <div class="course-left-right"><div class="left"><span>Details</span><span>Join Now</span></div>
+<div class="right"><span>৳&nbsp;<span class="bangla-fee"><%= course.course_fee %></span></span></div></div>
+</div>
+</a>
+<% }) %>
+</section>
+<section class="course-list">
+    <div class="box">
+     <img src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg" alt="">
+    
+    <div class="course-name">ISSB Master Course</div>
+    <div class="course-left-right"><div class="left"><span>Details</span><span>Join Now</span></div>
+ <div class="right"><span>$২৫০০</span></div></div>
+ </div>
+ </section>
+ <section class="course-list">
+    <div class="box">
+     <img src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg" alt="">
+    
+    <div class="course-name">ISSB Master Course</div>
+    <div class="course-left-right"><div class="left"><span>Details</span><span>Join Now</span></div>
+ <div class="right"><span>$২৫০০</span></div></div>
+ </div>
+ </section>
+ <section class="course-list">
+    <div class="box">
+     <img src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg" alt="">
+    
+    <div class="course-name">ISSB Master Course</div>
+    <div class="course-left-right"><div class="left"><span>Details</span><span>Join Now</span></div>
+ <div class="right"><span>$২৫০০</span></div></div>
+ </div>
+ </section>
+
+
+ <%- include('../partials/bottom-nav.ejs') %>
+
+<script src="/js/script.js"></script>
+<!-- Jquery Cnd minified -->
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+<script>
+
+
+// Define a function to convert an English number string to Bengali numerals
+function convertToBengaliNumerals(number) {
+  const bengaliNumerals = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  let bengaliNumeralsString = '';
+  for (let i = 0; i < number.length; i++) {
+    const digit = parseInt(number[i]);
+    bengaliNumeralsString += bengaliNumerals[digit];
+  }
+  return bengaliNumeralsString;
+}
+
+// Convert all prices with class 'bangla-fee' to Bengali numerals
+const banglaFees = document.querySelectorAll('.bangla-fee');
+banglaFees.forEach(banglaFee => {
+  const englishPrice = banglaFee.textContent.trim();
+  const bengaliPrice = convertToBengaliNumerals(englishPrice);
+  banglaFee.textContent = bengaliPrice;
+});
+
+</script>
