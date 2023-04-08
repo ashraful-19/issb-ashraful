@@ -444,6 +444,8 @@ const orderTextContent = async (req, res) => {
 
 
 const updateTextContent = async (req, res) => {
+  console.log(req.body)
+  console.log('datagece')
   try {
     const { id, type,title, hint,solve } = req.body;
     console.log(req.body);

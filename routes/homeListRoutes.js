@@ -9,9 +9,9 @@ router.get('/practiceppdt', homeListController.getPracticePpdt);
 router.get('/picture-story', homeListController.getPictureStory);
 router.get('/textcontent', homeListController.getTextContent);
 router.get('/iqlist', homeListController.getIqList);
-router.get('/verbal/:id/exam', homeListController.getVerbalIqExam);
-router.post('/verbal/:id/result', homeListController.postVerbalIqExamResult);
-router.get('/verbal/:id', homeListController.postDoubt);
+router.get('/verbal/:id/exam',checkAuthenticated, homeListController.getVerbalIqExam);
+router.post('/verbal/:id/result',checkAuthenticated, homeListController.postVerbalIqExamResult);
+router.get('/verbal/:id',checkAuthenticated, homeListController.postDoubt);
 
 
 

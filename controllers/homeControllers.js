@@ -1,7 +1,7 @@
 const express = require ("express");
 const {User} = require("../models/userModel");
 const {Doubt} = require("../models/iqModel");
-
+const {MilitaryCourse} = require('../models/militaryCourseModel');
 const getIndex = async (req, res) => {
   try {
     res.render('issb/index');
@@ -44,19 +44,60 @@ const getDoubts = async (req, res) => {
    console.log(error.message);
   }};
 
-  const getResults = async (req, res) => {
+  const getCourses = async (req, res) => {
   try {
-    res.render('issb/results');
+    const course = await MilitaryCourse.find({}).sort({ course_id: -1 }).exec();
+      console.log(course)
+
+    res.render('issb/course-list',{course});
     } 
     catch (error) {
    console.log(error.message);
   }};
+
+  const getCourseDetails = async (req, res) => {
+    try {
+     
+      const courseId = req.params.id;
+      const course = await MilitaryCourse.findOne({course_id: courseId}).sort({ course_id: -1 }).exec();
+      console.log(course)
+  
+      res.render('issb/course-details',{course});
+      } 
+      catch (error) {
+     console.log(error.message);
+    }};
+    const getCourseLecture = async (req, res) => {
+      try {
+       
+        const courseId = req.params.id;
+        const course = await MilitaryCourse.findOne({course_id: courseId}).sort({ course_id: -1 }).exec();
+        console.log(course)
+    
+        res.render('issb/coursevideo',{course});
+        } 
+        catch (error) {
+       console.log(error.message);
+      }};
+    
+  const getDashboard = async (req, res) => {
+    try {
+      const user = await User.findOne({ phone: req.user.phone });
+      const course = await MilitaryCourse.find({}).sort({ course_id: -1 }).exec();
+      console.log(course)
+      res.render('issb/dashboard',{user: user,course});
+      } 
+      catch (error) {
+     console.log(error.message);
+    }};
+
+
   const getProfile = async (req, res) => {
     try {
       const user = await User.findOne({ phone: req.user.phone });
       
    
-      res.render('issb/profile',{user: user});
+      res.render('issb/editprofile',{user: user});
       } 
       catch (error) {
      console.log(error.message);
@@ -68,9 +109,12 @@ const getDoubts = async (req, res) => {
 
 module.exports = {
   getIndex,
-  getResults,
+  getCourses,
   getDoubts,
   getProfile,
+  getDashboard,
+  getCourseDetails,
+  getCourseLecture,
 };
 
 
