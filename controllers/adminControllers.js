@@ -1,5 +1,7 @@
 const express = require ("express");
 const { Ppdtorstory, PlanningContent, VideoContent, TextContent } = require('../models/subAdminModel');
+const {Payment} = require("../models/paymentModel");
+const {MilitaryCourse} = require("../models/militaryCourseModel");
 const ejs = require('ejs');
 
 
@@ -444,6 +446,8 @@ const orderTextContent = async (req, res) => {
 
 
 const updateTextContent = async (req, res) => {
+  console.log(req.body)
+  console.log('datagece')
   try {
     const { id, type,title, hint,solve } = req.body;
     console.log(req.body);
@@ -511,9 +515,16 @@ const createPlanningContent = async (req, res) => {
 
 const readPlanningContent = async (req, res) => {
   try {
-    const planningContentList = await PlanningContent.find().sort({ _id: -1 });
+    const page = parseInt(req.query.page) || 1; // current page, default to 1
+        const perPage = 2; 
+        const count = await PlanningContent.countDocuments({}); // Count total documents
+        const totalPages = Math.ceil(count / perPage);
+    const planningContentList = await PlanningContent.find().sort({ _id: -1 })
+    .skip((page - 1) * perPage) // Skip documents
+    .limit(perPage); // Limit number of documents per page;
     console.log(planningContentList);
-    res.render('admin/edit-planning-excercise', {data: planningContentList} );
+    res.render('admin/edit-planning-excercise', {data: planningContentList,currentPage: page,
+      totalPages: totalPages} );
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Failed to retrieve Planning content list. Please try again later." });
@@ -564,6 +575,66 @@ const deletePlanningContent = async (req, res) => {
 };
 
 
+const getPaymentHistory = async (req, res) => {
+  try {
+
+    const payments = await Payment.find()
+    .populate({
+      path: 'user',
+      select: 'phone name'
+    })
+    .populate({
+      path: 'course',
+      select: 'course_id course_name'
+    });
+  console.log(payments);
+  
+  
+    res.render('admin/payment-history', { payments })
+
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const postPaymentAccessUpdate = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const courseId = req.body.courseId;
+    const isActive = req.body.isActive;
+
+    // Find the payment in the database
+    const payment = await Payment.findOne({ user: userId, course: courseId });
+
+    if (!payment) {
+      return res.status(404).send('Payment not found');
+    }
+
+    if (isActive && !payment.validityDate) {
+      // Calculate the new validity date as 6 months from today
+      const validityDate = new Date();
+      validityDate.setMonth(validityDate.getMonth() + 6);
+
+      // Update the payment in the database with new validity date and is_active status
+      await Payment.updateOne({ user: userId, course: courseId }, { $set: { is_active: isActive, validityDate: validityDate } });
+      console.log(`Payment for user ${userId} and course ${courseId} updated:`, { is_active: isActive, validityDate: validityDate });
+      
+    } else {
+      // Only update the is_active status
+      await Payment.updateOne({ user: userId, course: courseId }, { $set: { is_active: isActive } });
+      console.log(`Payment for user ${userId} and course ${courseId} updated:`, { is_active: isActive });
+      console.log(payment);
+    }
+
+    res.send('Success');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating payment');
+  }
+};
+
+
 module.exports = {
  dashboard,
  createPpdtorstory, //ppdt and story items
@@ -588,6 +659,8 @@ module.exports = {
  readPlanningContent,
  updatePlanningContent,
  deletePlanningContent,
+ getPaymentHistory,
+ postPaymentAccessUpdate,
 
 };
 

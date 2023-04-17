@@ -32,7 +32,6 @@ a, a:hover, a:active, a:link, a:visited {
 }
 
 .mainbody{
-  background-color: blueviolet;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -341,4 +340,27 @@ input[type="radio"] {
 
 input[type="radio"]:checked {
   background-color: rgb(0, 0, 0);
+}
+
+.pagination{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 5px;
+  margin-top: 10px;
+  align-items: center;
+  cursor:pointer;
+}
+.pagination p,.pagination a {
+  border-radius: 3px;
+  background-color: rgb(80 69 153);
+ color:white!important;
+  margin: 1px;
+  padding: 3px 5px 3px 5px;
+  font-size: 15px;
+}
+
+.pagination-active{
+  background-color: rgb(91 8 137)!important;
 }
