@@ -28,7 +28,10 @@ const getLogin = async (req, res) => {
     const postLogin = async (req, res) => {
       try {
         console.log('passport is working cool');
-        res.redirect('/success');
+        const returnTo = req.session.returnTo || '/';
+        delete req.session.returnTo;
+        res.redirect(returnTo);
+        // res.redirect('/success');
       } catch (error) {
         console.error(error);
         res.redirect('/failure');

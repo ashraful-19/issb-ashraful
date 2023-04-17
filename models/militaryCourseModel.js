@@ -87,7 +87,7 @@ const MilitaryCourseSchema = new mongoose.Schema({
   //     type: Date,
   //     default: Date.now,
   //   },
-  // });
+  // });mongoose.model(name, schema)
   
 
 const MilitaryCourse = mongoose.model('military_course', MilitaryCourseSchema);

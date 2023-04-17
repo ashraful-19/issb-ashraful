@@ -1,5 +1,7 @@
 
 const {Otp,User} = require("../models/userModel");
+
+const {Payment} = require("../models/paymentModel");
 // const updateUser = async (req, res) => {
 //     try {
 //       const phone = req.user.phone;
@@ -41,8 +43,60 @@ const updateUser = async (req, res,next) => {
       } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
-      }};        
+      }}; 
+      
+      
 
+      const checkPayment = async (req, res, next) => {
+        try {
+          const userId = req.user._id;
+          const courseId = req.params.id;
+          console.log(userId, courseId);
+      
+          const payment = await Payment.findOne({ user: userId, course_id: courseId });
+          console.log(payment);
+      
+          if (!payment || !payment.is_active) {
+          
+            return next();
+          }
+      
+          
+      
+          // Payment found and active, allow to next middleware/controller
+          res.redirect(`/course-lecture/${courseId}`);
+        } catch (error) {
+          console.error(error);
+          res.status(500).send('Error checking payment');
+        }
+      };
+
+      const checkAccess = async (req, res, next) => {
+        try {
+          const userId = req.user._id;
+          const courseId = req.params.id;
+          console.log(userId, courseId);
+      
+          const payment = await Payment.findOne({ user: userId, course_id: courseId });
+          console.log(payment);
+      
+          if (payment || payment.is_active) {
+          
+            return next();
+          }
+         
+      
+          // Payment found and active, allow to next middleware/controller
+          res.redirect(`/course-details/${courseId}`);
+        } catch (error) {
+          console.error(error);
+          res.status(500).send('Error checking payment');
+        }
+      };
+
+      
     module.exports={
         updateUser,
+        checkPayment,
+        checkAccess,
     }

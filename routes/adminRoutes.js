@@ -50,5 +50,9 @@ router.get('/planningcontent/:id',adminController.deletePlanningContent);
 
 
 
+router.get('/payment-history',adminController.getPaymentHistory);
+router.post('/payment-history',adminController.postPaymentAccessUpdate);
+
+
 
 module.exports = router;

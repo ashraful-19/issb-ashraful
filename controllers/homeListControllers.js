@@ -38,22 +38,33 @@ const getPracticePpdt = async (req, res) => {
     }};
 
 
-
     const getTextContent = async (req, res) => {
       try {
+        const page = parseInt(req.query.page) || 1; // current page, default to 1
+        const perPage = 2; // number of users per page
         const type = req.query.type;
         const text_type = req.query.text_type;
-        let data = await TextContent.find({type: type,text_type: text_type}, null, { sort: { order: 1 } });
-        console.log(text_type);
-        console.log(data);
-        console.log(type)
-        res.render('issb/text_content',{content:data,title: 'Picture Story'});
-        } 
-        catch (error) {
-       console.log(error.message);
-      }};
     
-    
+        const count = await TextContent.countDocuments({type: type, text_type: text_type}); // Count total documents
+        const totalPages = Math.ceil(count / perPage); // Calculate total pages
+    console.log(page,perPage,type,text_type,count,totalPages)
+        const data = await TextContent.find({type: type, text_type: text_type})
+          .sort({ order: 1 }) // Sort by order
+          .skip((page - 1) * perPage) // Skip documents
+          .limit(perPage); // Limit number of documents per page
+    console.log(data)
+        res.render('issb/text_content', {
+          content: data,
+          title: 'Picture Story',
+          currentPage: page,
+          totalPages: totalPages,
+          type: type,
+          text_type: text_type
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
     
 
     const getIqList = async (req, res) => {

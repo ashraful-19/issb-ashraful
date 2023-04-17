@@ -2,6 +2,7 @@ const express = require ("express");
 const {User} = require("../models/userModel");
 const {Doubt} = require("../models/iqModel");
 const {MilitaryCourse} = require('../models/militaryCourseModel');
+const {Payment} = require("../models/paymentModel");
 const getIndex = async (req, res) => {
   try {
     res.render('issb/index');
@@ -82,10 +83,15 @@ const getDoubts = async (req, res) => {
     
   const getDashboard = async (req, res) => {
     try {
-      const user = await User.findOne({ phone: req.user.phone });
-      const course = await MilitaryCourse.find({}).sort({ course_id: -1 }).exec();
-      console.log(course)
-      res.render('issb/dashboard',{user: user,course});
+      const user = await User.findOne({ phone: req.user.phone }); 
+      const userId = req.user._id;
+      const payment = await Payment.find({ user: userId, is_active: true }).populate({
+        path: 'course',
+        select: 'course_id course_name thumbnail'
+      });
+      
+      console.log(payment);
+      res.render('issb/dashboard',{user: user,payment});
       } 
       catch (error) {
      console.log(error.message);
