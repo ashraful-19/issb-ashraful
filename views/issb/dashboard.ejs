@@ -1,0 +1,103 @@
+
+
+<%- include('../partials/header.ejs') %>
+<style>.update-profile-button{
+  color: white!important;
+  background-color: black;
+  margin-top: 10px!important;
+}</style>
+
+<section class="top-nav">
+  <div><h4>Profile</h4></div>
+  <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+</section>
+<br><br><br>
+<style>
+
+
+</style>
+<div class="profile-container">
+  <div class="profile-details">
+    <img src="/images/<%= user.profile_pic %>" alt="Profile Picture" class="profile-img">
+    <div class="profile-info">
+      <p class="profile-name"><%= user.name %></p>
+      <p class="profile-phone"><%= user.phone %></p>
+      <p class="profile-email"><%= user.email %></p>
+    </div>
+  </div>
+ <a class="edit-profile-btn" style="color:white;" href="/profile"> Edit Profile</a>
+</div>
+<br>
+
+
+<% payment.forEach(function(course) { %>
+  <a href="/course-details/<%= course.course.course_id %>">
+<div class="box">
+    <h3>My Courses</h3>
+    <br>
+    <img src="<%= course.course.thumbnail %>" alt="">
+   
+   <div class="course-name"><%= course.course.course_name %></div>
+   <div class="course-left-right"><div class="left"><span>Class</span><span>Exam</span></div>
+  <div class="start-now"><span>Start Now</span></div></div>
+</div>
+</a>
+<% }) %>
+
+<br><br><br><br>
+
+ <%- include('../partials/bottom-nav.ejs') %>
+
+ <script src="/js/script.js"></script>
+ <!-- Jquery Cnd minified -->
+ <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+   <script>
+  $(document).ready(function() {
+  // Trigger the file input field on clicking the avatar-preview div
+  $('.avatar-preview').click(function() {
+    $('#imageUpload').click();
+  });
+
+  // Show the image preview on selecting a file
+  $('#imageUpload').change(function() {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+      $('#imagePreview').hide();
+      $('#imagePreview').fadeIn(650);
+      $('#uploadButton').show();
+    }
+    reader.readAsDataURL(this.files[0]);
+  });
+
+  // Handle the upload button click
+  $('#uploadButton').click(function(event) {
+    event.preventDefault();
+    $('#uploadButton').addClass('loading').text('Upload My photo');
+
+    const fileInput = $('#imageUpload')[0];
+    const formData = new FormData();
+    formData.append('avatar', fileInput.files[0]);
+
+    $.ajax({
+      url: '/auth/update-profilepic',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function(response) {
+        console.log(response);
+        $('#uploadButton').removeClass('loading').text('Upload My photo');
+
+        $('#uploadButton').hide(); // Hide the button after a successful upload
+      },
+      error: function(error) {
+        // Handle error response
+      }
+    });
+  });
+});
+
+  
+  </script>
+     

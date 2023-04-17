@@ -1,0 +1,51 @@
+
+
+<%- include('../partials/admin_sidenav.ejs') %>
+<div>
+  
+  <h1>Create Course</h1> <br>
+  <form method="POST" action="/admin/course/create_course">
+    <div>
+      <label for="course_name">Course Name</label>
+      <input type="text" id="course_name" name="course_name">
+    </div>
+    <div>
+      <label for="thumbnail">Thumbnail URL</label>
+      <input type="text" id="thumbnail" name="thumbnail">
+    </div>
+    <div>
+      <label for="course_ads">Course Promo Video</label>
+      <input type="text" id="course_ads" name="course_ads">
+    </div>
+    <div>
+      <label for="course_fee">Course Fee</label>
+      <input type="text" id="course_fee" name="course_fee">
+    </div>
+    <div>
+      <label for="course_description">Course Description</label>
+      <textarea id="course_description" name="course_description"></textarea>
+    </div>
+    <div>
+      <label for="is_active">Active:</label>
+      <span>Yes</span>
+      <input type="radio" id="is_active_yes" name="is_active" value="true">
+      <span>No</span>
+      <input type="radio" id="is_active_no" name="is_active" value="false">
+    </div>
+    <div>
+      <label for="is_update">Update:</label>
+      <span>Yes</span>
+      <input type="radio" id="is_update_yes" name="is_update" value="true">
+      <span>No</span>
+      <input type="radio" id="is_update_no" name="is_update" value="false">
+    </div>
+    <div>
+      <button type="submit">Create Course</button>
+    </div>
+  </form>
+
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+

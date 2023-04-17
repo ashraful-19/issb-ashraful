@@ -47,7 +47,10 @@
 			<div class="list-item">
 				
 				<div class="align-list"><span class="list-count"><i class="fa-solid fa-brain"></i></span><span class="name"><%= exam.exam_name %></span>
-				<span class="startbutton show-modal" data-exam-code="<%= exam.exam_code %>" data-exam-name="<%= exam.exam_name %>" data-instruction="<%= exam.instruction %>" data-time="<%= exam.time %>" data-marks="<%= exam.questions_length %>" >Start</span><pre style="display: none;"><%= exam.instruction %></pre></div>
+         <div class="free-exam"> 
+				<span class="startbutton show-modal" data-exam-code="<%= exam.exam_code %>" data-exam-name="<%= exam.exam_name %>" data-instruction="<%= exam.instruction %>" data-time="<%= exam.time %>" data-marks="<%= exam.questions_length %>" >Start</span><pre style="display: none;"><%= exam.instruction %></pre>
+      </div>
+      </div>
 			</div>
 			
 			<% }) %>
@@ -77,40 +80,137 @@
 </div>	
 </div>
 
+</div>
 
+<style>
+  .modal-poster {
+  background-color: #ffffff;
+  display: none;
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  margin: 0px auto;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  z-index: 133330;
+  box-shadow: 0 0 0 99999px rgb(0 0 0 / 70%);
+  text-align: center;
+}
+
+.modal-poster > img{
+ border-radius:10px;
+ margin-bottom:10px!important;
+ 
+}
+.buy-btn{
+ background:rgb(141, 71, 255);
+ color:white!important;
+ padding: 5px 30px;
+ border-radius:5px;
+ text-align:center;
+ margin-bottom: 30px!important;
+ position: relative;
+ bottom:15px;
+ 
+}
+
+</style>
+
+<div class="modal-section">
+	<div class="modal-poster">
+    <img src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg" width="100%" alt="">
+    <p>কোর্সটি কিনে নিলে সব গুলো প্রিমিয়াম ফিচার ব্যাবহারের সুযোগ পাবেন।</p>
+    <br>
+	<a href="/course-details/3" class="buy-btn">Enroll Now</a>
+  <br>
+</div>	
+</div>
+
+</div>
   </body>
   <br><br><br>
   <script src="./script.js"></script>
   <!-- Jquery Cnd minified -->
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 <script>
-	
 let modal = $('.modal');
-$('.show-modal').click(function() {
-	let examCode = $(this).data('exam-code'); // Get the value of data-id attribute
+$(document).on('click', '.Yes', function() {
+  let examCode = $(this).data('exam-code'); // Get the value of data-id attribute
   $('.modal .exam-code').text(examCode);
   $('.modal .practice-link').attr('href', '/issb/verbal/'+examCode+'/practice'); 
   $('.modal .exam-link').attr('href', '/issb/verbal/'+examCode+'/exam');
-  
 
   let examName = $(this).data('exam-name'); // Get the value of data-id attribute
   $('.modal .exam-name').text(examName);
-   let instruction = $(this).closest('div').find('pre').text();  // Get the value of data-id attribute
+  let instruction = $(this).closest('div').find('pre').text();  // Get the value of data-id attribute
   $('.modal .instructions').text(instruction);
   let time = $(this).data('time'); // Get the value of data-id attribute
   $('.modal .time').text('Duration-'+ time+'min');
   let marks = $(this).data('marks'); // Get the value of data-id attribute
   $('.modal .marks').text('Total Questions-'+marks+'|| Marks-' + marks);
-  modal.fadeToggle(0);
+
+  $('.modal').fadeToggle(0);
 });
 
 $(document).mousedown(function(event) {
   // Check if the target of the click event is not the modal element itself
   if (!$(event.target).closest(".modal").length &&
-      !$(event.target).is('.show-modal')) {
-    modal.fadeOut(100);
+      !$(event.target).is('.Yes')) {
+    $('.modal').fadeOut(100);
   }
 });
+
+
+
+
+let modalPoster = $('.modal-poster');
+$(document).on('click', '.No', function() {
+  modalPoster.fadeToggle(0);
+});
+
+$(document).mousedown(function(event) {
+  // Check if the target of the click event is not the modal-poster element itself
+  if (!$(event.target).closest(".modal-poster").length &&
+      !$(event.target).is('.No')) {
+    $('.modal-poster').fadeOut(100);
+  }
+});
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const freeExam = document.querySelector('.free-exam');
+  
+
+  const addClass = "" || "No"; // or "No"
+const freeExams = document.querySelectorAll('.free-exam');
+for (let i = 0; i < freeExams.length; i++) {
+  const freeExam = freeExams[i];
+  if (i === 0|| i=== 1) {
+
+ const startButton = freeExam.querySelector('.startbutton');
+  
+    startButton.classList.add("Yes");
+    const newSpan = document.createElement('span');
+    newSpan.innerText = 'ফ্রি এক্সাম';
+    freeExam.appendChild(newSpan);
+    // Skip the first free-exam class
+    continue;
+  }
+  const startButton = freeExam.querySelector('.startbutton');
+  
+    startButton.classList.add(addClass);
+  
+}
+
+});
+
 
 
 </script>

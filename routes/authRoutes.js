@@ -21,7 +21,10 @@ router.post('/login',
   updateUser,
   (req, res) => {
     console.log('Login successful!');
-    res.redirect('/');
+    const returnTo = req.session.returnTo || '/';
+    delete req.session.returnTo;
+    res.redirect(returnTo);
+    
   }
 );
 

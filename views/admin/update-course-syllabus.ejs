@@ -1,0 +1,185 @@
+
+
+<%- include('../partials/admin_sidenav.ejs') %>
+
+<style>
+  .syllabus-details{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+
+  }
+
+</style>
+<div class="syllabus-details">
+  <h1>Course Syllabus</h1>
+<% course.course_syllabus.forEach(function(syllabus) { %>
+  <form action="/admin/course/update-syllabus/<%= courseId %>" method="post">
+    <div class="syllabus_container">
+      <div class="syllabus_item">
+        <input type="text" hidden name="id" value="<%= syllabus._id %>">
+        <label><%= syllabus.course_content_icon_url %></label>
+        <p class="syllabustitle"><%= syllabus.course_content_title %></p>
+      </div>
+    </div>
+    <div class="add-items-container">
+      <div class="add_more">Add More</div>
+      <div class="add-items">
+        <% syllabus.course_content_details.forEach(function(content){%>
+          <div class="added-item">
+            <label for="">Type</label><br>
+            <select name="type[]" data-selected="<%= content.type %>">
+              <option value="video">Video</option>
+              <option value="pdf">PDF</option>
+              <option value="exam">Exam</option>
+            </select><br>
+            <label for="">Link</label><br>
+            <input type="text" name="link[]" value="<%= content.link %>"><br>
+            <label for="">Title</label><br>
+            <input type="text" name="title[]" value="<%= content.title %>">
+            <div class="remove-items"><a href="/admin/course/<%= courseId %>/syllabus/<%= syllabus._id %>/details/<%= content._id %>">Remove</a></div>
+          </div>
+          
+            <% }) %>
+
+      </div>
+    </div>
+    <div>
+      <button type="submit">Save</button>
+    </div>
+  </form>  <br>
+<% }) %>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Add a click event listener to the "Add More" button
+    $('.add_more').on('click', function() {
+      // Get the parent form element
+      var form = $(this).closest('form');
+
+      // Get the "Add Items" container
+      var addItems = form.find('.add-items');
+
+      // Create a new "added-item" element
+      var newItem = $('<div class="added-item"><label for="">Type</label><br><select name="type[]"><option value="video">Video</option><option value="pdf">PDF</option><option value="exam">Exam</option></select><br><label for="">Link</label><br><input type="text" name="link[]"><br><label for="">Title</label><br><input type="text" name="title[]"><div class="remove-items">Remove</div></div>');
+
+      // Insert the new element after the last added-item element
+      addItems.append(newItem);
+    });
+  });
+
+
+   // Get all elements with the "remove-items" class
+   const removeButtons = document.querySelectorAll('.remove-items');
+
+// Add a click event listener to each "remove-items" element
+removeButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Find the closest parent container that contains both the "remove-items" and "added-item" elements
+    const parent = button.closest('.add-items');
+
+    // Find the "added-item" element within the parent container
+    const itemToRemove = parent.querySelector('.added-item');
+
+    // Remove the "added-item" element
+    itemToRemove.remove();
+  });
+});
+</script>
+
+
+
+
+<style>
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background-color: rgb(255, 0, 0);
+    transition: width 0.3s ease-in-out;
+    z-index: 9999;
+  }
+</style>
+
+<div class="progress-bar"></div>
+
+
+
+
+<script>
+  // HTML markup for the progress bar
+const progressBar = document.createElement('div');
+progressBar.classList.add('progress-bar');
+
+// Function to update the progress bar
+function updateProgressBar(percentage) {
+  progressBar.style.width = `${percentage}%`;
+}
+
+// Function to show the progress bar
+function showProgressBar() {
+  document.body.appendChild(progressBar);
+}
+
+// Function to hide the progress bar
+function hideProgressBar() {
+  document.body.removeChild(progressBar);
+}
+
+// State variable for loading status
+let loading = false;
+
+// Event listener for page loading
+window.addEventListener('load', () => {
+  loading = false;
+  hideProgressBar();
+});
+
+// Event listener for page redirecting
+window.addEventListener('beforeunload', () => {
+  loading = true;
+  showProgressBar();
+});
+
+// Event listener for content loading
+document.addEventListener('readystatechange', () => {
+  if (document.readyState === 'loading') {
+    if (loading) {
+      updateProgressBar(20); // Set initial progress bar percentage
+      showProgressBar();
+    }
+  } else if (document.readyState === 'interactive') {
+    if (loading) {
+      updateProgressBar(50); // Set intermediate progress bar percentage
+    }
+  } else if (document.readyState === 'complete') {
+    if (loading) {
+      updateProgressBar(100); // Set final progress bar percentage
+      setTimeout(() => hideProgressBar(), 1000); // Hide the progress bar after 1 second
+    }
+  }
+});
+
+// Animate the progress bar while loading
+setInterval(() => {
+  if (loading) {
+    const currentWidth = parseFloat(progressBar.style.width) || 0;
+    const newWidth = currentWidth + 1;
+    if (newWidth <= 99) {
+      updateProgressBar(newWidth);
+    }
+  }
+}, 20);
+
+
+</script>
+
+
+
+
+

@@ -19,14 +19,14 @@
 			<b>
 				<p><%= data.title %></p>
 			</b>
-			
+			<div class="explainer">
 			<div class="explain solve">
 			  <p>Solution</p>
 			</div>
 			<div class="explain hint">
 			  <p>Hints</p>
 			</div>
-			<br><br>
+		</div>
 			<p class="solve-content" >
 				<%= data.solve %>
 			</p>
@@ -55,8 +55,25 @@
 	<div id="eye-open-close">
 		<p>show Hints </p>
 		<i class="fa-solid fa-eye"></i>
-		</div>
+	</div>
 
+	<div class="pagination">
+		<% if (currentPage > 1) { %>
+		  <p><a href="/issb/textcontent?type=essay_writing&text_type=bangla&page=<%= currentPage - 1 %>">Prev</a></p>
+		<% } %>
+	  
+		<% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
+		  <% if (i === currentPage) { %>
+		  <p class="pagination-active" ><span><%= i %></span></p>
+		  <% } else { %>
+		  <p><a href="/issb/textcontent?type=essay_writing&text_type=bangla&page=<%= i %>"><%= i %></a></p>
+		  <% } %>
+		<% } %>
+	  
+		<% if (currentPage < totalPages) { %>
+		<p><a href="/issb/textcontent?type=essay_writing&text_type=bangla&page=<%= currentPage + 1 %>">Next</a></p>
+		<% } %>
+	  </div>
 
  <!-- bottom nagivatoin section  -->
 
@@ -114,6 +131,8 @@ $(document).ready(function() {
     });
   });
 });
+
+
 
 
 </script>

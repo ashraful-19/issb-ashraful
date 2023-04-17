@@ -1,0 +1,12 @@
+<%- include('../partials/admin_sidenav.ejs') %>
+
+<div><a href="/admin/course/create_course"><i class="fa-solid fa-plus">&nbsp;</i>Create Course</a></div>
+<div>
+<% course.forEach(function(content) { %>
+<a href="/admin/course/update/<%= content.course_id %>">
+<div><%- content.course_id %></div> <br>
+<div><%- content.course_name %></div><br>
+<div><%= content.thumbnail %></div><br>
+</a>
+<% }) %>
+</div>

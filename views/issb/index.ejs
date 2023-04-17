@@ -7,11 +7,11 @@
 
  <section class="top-nav">
 
-	<div onclick="slideToggle()" id="top-nav-left">
+	<div id="top-nav-left">
 	<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
  </div>
 <div>
-	<a id="militarian"	href="/"><h3>Militarian</h3></a>
+	<a id="militarian"	href="/"><img height="50px" src="https://testmoz.com/ugc/2023-04-12/5321b2c1-c99b-453e-8aab-9d2666b5adcc-image.png" alt=""></a>
 </div>
 </section>
 <div id="menulist" >
@@ -43,7 +43,7 @@
           <iframe id="videosvg" width="100%" height="100%" src="https://www.youtube.com/embed/ub9Zk-akQbQ?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div class="image-container-svg">
-          <img class="slideimg" src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg">
+          <img class="slideimg" src="https://testmoz.com/ugc/2023-04-12/d6404dbe-5dfd-4ce9-8770-a56a3b51a0f8-image.png">
           <svg id="play-btn" width="65" height="65" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="32.5" cy="32.5" r="32.5" fill="white" fill-opacity="0.5" />
             <ellipse cx="32.4991" cy="32.5011" rx="20.546" ry="20.546" fill="white" />
@@ -96,9 +96,9 @@
             <span>   Intelligence Test </span>
         </div>
         <div class="accordion-content">
-           <a href="/issb/lessonvideo?type=iq">Lesson Video</a>
-		   <a href="/issb/iqlist">Verbal Test</a>
-           <a href="/issb/iqlist">Non Verbal Test</a>
+           <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
+		   <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
+           <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
         </div>
     </div>   
     <div class="tabcontent">
@@ -334,8 +334,24 @@
         </div> 
     </div>  
 </section>
+<script>
+    // Store the scroll position when leaving the page
+window.addEventListener('beforeunload', function() {
+  window.sessionStorage.setItem('scrollPos', window.scrollY);
+});
 
+// Scroll to the stored position after a 2-second delay
+window.addEventListener('load', function() {
+  var scrollPos = window.sessionStorage.getItem('scrollPos');
+  if (scrollPos !== null) {
+    setTimeout(function() {
+      window.scrollTo(0, scrollPos);
+      window.sessionStorage.removeItem('scrollPos');
+    }, 2000);
+  }
+});
 
+</script>
 <br><br><br><br>
 
  <!-- bottom nagivatoin section  -->
@@ -405,4 +421,8 @@ for (var i = 0; i < accordions.length; i++) {
   }
 }
 
+
+
     </script>
+
+    
