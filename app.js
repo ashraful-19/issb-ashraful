@@ -46,6 +46,7 @@ app.use(passport.session());
 
 
 app.use(flash());
+
 app.use((req,res,next) => {
   if (req.isAuthenticated()) {
     console.log(req.user)
@@ -59,7 +60,8 @@ app.use(function(req, res, next) {
   res.locals.req = req;
   res.locals.isAuthenticated = req.isAuthenticated();
   res.locals.currentUser = req.user;
-  
+  res.locals.flash = req.flash();
+
   next();
 });
 

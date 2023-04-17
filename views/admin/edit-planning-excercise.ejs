@@ -28,7 +28,23 @@
         </div>
        
       </form>
-     
+      <div class="pagination">
+        <% if (currentPage > 1) { %>
+          <p><a href="/admin/planningcontent?page=<%= currentPage - 1 %>">Prev</a></p>
+        <% } %>
+        
+        <% for (let i = Math.max(currentPage - 10, 1); i <= Math.min(currentPage + 10, totalPages); i++) { %>
+          <% if (i === currentPage) { %>
+          <p class="pagination-active" ><span><%= i %></span></p>
+          <% } else { %>
+          <p><a href="/admin/planningcontent?page=<%= i %>"><%= i %></a></p>
+          <% } %>
+        <% } %>
+        
+        <% if (currentPage < totalPages) { %>
+        <p><a href="/admin/planningcontent?page=<%= currentPage + 1 %>">Next</a></p>
+        <% } %>
+        </div>
       <h1>Edit Planning Excercise Here</h1>
       <% data.forEach(function(content) { %>
       <form action="/admin/planningcontent" method="post" class="ajaxFrom" id="id_<%= content._id %>">
@@ -52,10 +68,10 @@
           </div>
           
         <div class="buttons">
-          <input type="submit" value="Update" class="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="button"><a href="/admin/planningcontent/<%= content._id %>">Delete</a></button>
         </div>
         <div class="message"></div>
+
         </div>
        
       </form>
@@ -63,6 +79,7 @@
       <% }) %>
     </div>
   </section>
+
       
   </body>
   
@@ -187,5 +204,9 @@
      }
    });
    });
+
+
+
+
    
 </script>

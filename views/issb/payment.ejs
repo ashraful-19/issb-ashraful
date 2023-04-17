@@ -1,0 +1,165 @@
+
+
+<%- include('../partials/header.ejs') %>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6438d6f24247f20fefeb8bae/1gtv0f90p';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+ <!-- TOP section -->
+
+ <section class="top-nav">
+
+	<div id="top-nav-left">
+	<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+ </div>
+<div>
+	<a id="militarian"	href="/"><img height="50px" src="https://testmoz.com/ugc/2023-04-12/5321b2c1-c99b-453e-8aab-9d2666b5adcc-image.png" alt=""></a>
+</div>
+</section>
+<div id="menulist" >
+	<a href="/">Home</a>
+	<a href="about.html">About</a>
+	<a href="contact.html">Contact</a>
+	<a href="termandcondition.html">Terms & conditions</a>
+	<a href="policy.html">Policy</a>
+    <% if (req.user) { %>
+        <a href="/auth/logout">Logout</a>
+      <% } else { %>
+        <a href="/auth/login">Login</a>
+      <% } %>
+      
+</div>
+<br><br><br><br>
+<div class="instructor-container">
+    <div class="instructor-details">
+      <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGh1bWFufGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt=" Picture" class="instructor-img">
+      <div class="instructor-info">
+        <p class="instructor-name">Md Ashraful Islam</p>
+        <p class="instructor-phone">Director,Mission Academy</p>
+      </div>
+    </div>
+    <div class="payment-message">
+        প্রিয় রিফাত, বিকাশে পেমেন্টের জন্য নিচের নিয়ম অনুসরন করো। অথবা যেকোনো সমস্যায় পেইজে ম্যাসেজ দিয়ে সমাধান নিয়ে নাও।
+    </div>
+    <br>
+    <img width="100%" src="https://www.focusonlinectg.com/wp-content/uploads/2019/03/bkash.png" alt="">
+  </div>  
+<!-- payment.ejs -->
+
+<% if (flash.error) { %>
+    <div class="alert alert-danger">
+      <%= flash.error %>
+    </div>
+  <% } %>
+  
+<form action="/payment?course_id=<%= courseId %>" method="post">
+    <label for="">তোমার বিকাশ নাম্বার</label>
+    <input type="text" name="payment_phone">
+<br>
+    <label for="">তোমার Transaction Id</label>
+    <input type="text" name="transaction_id">
+    <input type="text" name="payment_method" value="bkash" hidden>
+    <input type="submit" value="Submit" >
+</form>
+
+
+<script>
+    // Store the scroll position when leaving the page
+window.addEventListener('beforeunload', function() {
+  window.sessionStorage.setItem('scrollPos', window.scrollY);
+});
+
+// Scroll to the stored position after a 2-second delay
+window.addEventListener('load', function() {
+  var scrollPos = window.sessionStorage.getItem('scrollPos');
+  if (scrollPos !== null) {
+    setTimeout(function() {
+      window.scrollTo(0, scrollPos);
+      window.sessionStorage.removeItem('scrollPos');
+    }, 2000);
+  }
+});
+
+</script>
+<br><br><br><br>
+
+
+
+<script src="/js/script.js"></script>
+<!-- Jquery Cnd minified -->
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+<script>
+
+
+	
+
+
+    const playBtn = document.getElementById('play-btn');
+    const imageContainer = document.querySelector('.image-container-svg');
+    const videoContainer = document.querySelector('.video-container-svg');
+    const video = document.getElementById('videosvg');
+    
+    playBtn.addEventListener('click', () => {
+      imageContainer.style.display = 'none';
+      videoContainer.style.display = 'block';
+      video.src += "&autoplay=1";
+    });
+
+// Wait for 5 seconds and then add the 'animate' class to the playBtn
+setTimeout(() => {
+  playBtn.classList.add('animate');
+}, 2000);
+
+
+
+
+</script>
+<script>
+    $(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
+    });
+    
+
+
+    var accordions = document.getElementsByClassName("accordion");
+
+for (var i = 0; i < accordions.length; i++) {
+  accordions[i].onclick = function() {
+    this.classList.toggle('is-open');
+
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+    content.style.transition = "max-height 0.2s ease-out";
+  }
+}
+
+
+
+    </script>
+
+    

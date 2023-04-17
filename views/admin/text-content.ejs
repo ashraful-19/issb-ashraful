@@ -34,34 +34,7 @@
        </div>
     </div>   
   </form>
-  <!-- HTML code for the form -->
-<form id="myForm" method="post" action="/admin/updatetextcontent">
-  <div class="form-row">
-    <input type="text" name="type">
-    <input type="text" name="title">
-    <input type="text" name="link">
-  </div>
-  <input type="submit" value="submit">
-</form>
 
-<!-- HTML code for the button to add new form items -->
-<button id="addRow">Add row</button>
-
-<script>
-  $(document).ready(function() {
-    // Handler for the "Add row" button click event
-    $('#addRow').click(function() {
-      // Clone the first row of the form
-      var newRow = $('#myForm .form-row:first').clone();
-      
-      // Reset the values of the cloned input fields
-      newRow.find('input').val('');
-      
-      // Append the new row to the form
-      $('#myForm').append(newRow);
-    });
-  });
-</script>
 
    <h1>Select Type & Edit</h1>
    <select name="typeforajax">
@@ -108,7 +81,6 @@
             <input type="text" name="" placeholder="Hints..." value="<%= content.hint %>">
          </div>
          <div class="buttons">
-            <input type="submit" value="Update" class="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="button"><a href="/admin/textcontent/<%= content._id %>">Delete</a></button>
          </div>
          <div class="message"></div>
