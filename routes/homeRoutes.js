@@ -7,7 +7,7 @@ const { checkPayment,checkAccess } = require("../middlewares/updateUser");
 router.get('/', homeController.getIndex);
 router.get('/doubts',checkAuthenticated, homeController.getDoubts);
 
-router.get('/terms&conditions', homeController.getTerms&Conditions);
+router.get('/terms&conditions', homeController.getTermsAndConditions);
 router.get('/course', homeController.getCourses);
 router.get('/profile',checkAuthenticated, homeController.getProfile);
 router.get('/course-details/:id', checkPayment ,homeController.getCourseDetails);
