@@ -135,7 +135,7 @@ module.exports = {
   getDashboard,
   getCourseDetails,
   getCourseLecture,
-  getTerms&Conditions,
+  getTermsAndConditions,
 };
 
 
