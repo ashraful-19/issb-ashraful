@@ -49,7 +49,7 @@ const getDoubts = async (req, res) => {
 
 
 
-const getTerms&Conditions = async (req, res) => {
+const getTermsAndConditions = async (req, res) => {
   try {
     res.render('issb/terms&conditions');
     } 
