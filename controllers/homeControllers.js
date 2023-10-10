@@ -45,6 +45,20 @@ const getDoubts = async (req, res) => {
    console.log(error.message);
   }};
 
+
+
+
+
+const getTerms&Conditions = async (req, res) => {
+  try {
+    res.render('issb/terms&conditions');
+    } 
+    catch (error) {
+   console.log(error.message);
+  }};
+
+
+
   const getCourses = async (req, res) => {
   try {
     const course = await MilitaryCourse.find({}).sort({ course_id: -1 }).exec();
@@ -121,6 +135,7 @@ module.exports = {
   getDashboard,
   getCourseDetails,
   getCourseLecture,
+  getTerms&Conditions,
 };
 
 
