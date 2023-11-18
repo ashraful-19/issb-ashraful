@@ -9,6 +9,7 @@ router.get('/create_course', MilitaryCourseController.getCreateCourse);
 router.post('/create_course', MilitaryCourseController.postCreateCourse);
 router.get('/update/:id', MilitaryCourseController.getUpdateCourse);
 router.post('/update/:id', MilitaryCourseController.postUpdateCourseSyllabusList);
+router.post('/order/:id', MilitaryCourseController.updateCourseSyllabusOrder);
 router.get('/:id/syllabus/:syllabus_id/', MilitaryCourseController.deleteCourseSyllabusItem);
 router.get('/:id/syllabus/:syllabus_id/details/:details_id', MilitaryCourseController.deleteCourseSyllabusItemDetails);
 router.get('/update-syllabus/:id', MilitaryCourseController.getUpdateCourseSyllabus);

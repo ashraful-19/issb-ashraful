@@ -1,8 +1,78 @@
 
 
 <%- include('../partials/admin_sidenav.ejs') %>
-<div>
-  
+  <style>
+
+
+
+    form {
+            min-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Syllabus Section Styles */
+        .syllabus_item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+
+        #add_more {
+            cursor: pointer;
+            color: #007bff;
+            margin-top: 10px;
+        }
+
+        .remove_item a {
+            color: red;
+            text-decoration: none;
+        }
+
+        .remove_item a:hover {
+            text-decoration: underline;
+        }
+    
+  </style>
   <h1>Update Course</h1> <br>
   <form method="POST" action="/admin/course/create_course?course_id=<%= courseId %>">
     <div>
@@ -49,16 +119,22 @@
 <br><br><br>
 <h1>Course Syllabus</h1>
 <form action="/admin/course/update/<%= courseId %>" method="post">
-  <div id="syllabus_container">
-    <% course.course_syllabus.forEach(function(syllabus) { %>
-      <div class="syllabus_item">
-        <input type="text" hidden name="id[]" value="<%= syllabus._id %>">
-        <label>Course Syllabus Icon</label>
-        <input name="course_content_icon_url[]" value="<%= syllabus.course_content_icon_url %>">
-        <label>Course Syllabus</label>
-        <input name="course_content_title[]" value="<%= syllabus.course_content_title %>">
-        <div class="remove_item"><a href="/admin/course/<%= courseId %>/syllabus/<%= syllabus._id %>/">Remove</a></div>
-      </div>
+  <div style="background-color: red;" id="main-sortable" data-sortlink="/admin/course/order/<%= courseId %>">
+    <% 
+    // Sort the course syllabus array by the "order" field
+    const sortedSyllabus = course.course_syllabus.sort((a, b) => a.order - b.order);
+    
+    // Iterate through the sorted syllabus array
+    sortedSyllabus.forEach(function(syllabus) { 
+    %>
+    <div class="syllabus_item" style="background-color: blue;" id="id_<%= syllabus._id %>">
+      <input type="text" hidden name="id[]" value="<%= syllabus._id %>">
+      <label>Course Syllabus Icon</label>
+      <input name="course_content_icon_url[]" value="<%= syllabus.course_content_icon_url %>">
+      <label>Course Syllabus</label>
+      <input name="course_content_title[]" value="<%= syllabus.course_content_title %>">
+      <div class="remove_item"><a href="/admin/course/<%= courseId %>/syllabus/<%= syllabus._id %>/">Remove</a></div>
+    </div>
     <% }) %>
   </div>
   <div>
@@ -164,7 +240,7 @@ setInterval(() => {
 
 <script>
 const addMoreButton = document.getElementById("add_more");
-const syllabusContainer = document.getElementById("syllabus_container");
+const syllabusContainer = document.getElementById("main-sortable");
 
 addMoreButton.addEventListener("click", function() {
   const newSyllabusItem = document.createElement("div");
@@ -192,3 +268,33 @@ document.addEventListener('click', function(event) {
   }
 });
 </script>
+
+<!-- ... Previous HTML content ... -->
+
+<!-- Load jQuery and jQuery UI -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+
+
+$(document).ready(function() {
+    const formAction = $("#main-sortable").data("sortlink"); // Get the form action URL
+  
+    $("#main-sortable").sortable({
+      placeholder: "sortable-placeholder", // Add a placeholder class for styling
+      update: function() {
+        const sortableElement = document.getElementById("main-sortable");
+        const ids = $(sortableElement).sortable('serialize');
+        console.log(ids);
+        console.log(formAction)
+        $.post(formAction, ids, function(res) {
+          console.log(res);
+        });
+      }
+    });
+    });
+  </script>
+  
+<!-- ... Rest of your HTML content ... -->
+

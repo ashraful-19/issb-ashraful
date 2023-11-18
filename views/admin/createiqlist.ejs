@@ -2,37 +2,36 @@
   <section class="rightside">
     <div class="create-section">
       <form action="/iq/create/<%= title %>" method="POST" class="create-test">
-        <label for="create"><h3>Create Verbal Model Test</h3></label>
+        <label for="create"><h3>Create New Exam</h3></label>
         <input type="text" name="exam_name" id="create">
         <input type="submit" value="Create" class="create-button">
       </form>
     </div>
     <br><br>
     
-    <% if (title == 'verbal') { %>
-      <h1>Verbal Model Test Dashboard</h1>
-    <% } else { %>
-      <h1>Non Verbal Model Test Dashboard</h1>
-    <% } %>
+  <h1>Question Panel</h1>
     <br>
   <div class="create-show">
     <% content.forEach(item => { %>
       <div class="model-item">
+        <input type="checkbox" name="" id="">
           <div class="upper">
             <a href="/iq/create/<%= item.exam_code %>/settings"><h3><%= item.exam_name %></h3></a>
             <div class="active-delete">
               <% if (item.add_iq === 'true') { %>
                 <p><i class="fa-solid fa-power-off"></i> Active</p>
               <% } else { %>
-                <p style="background: red;"><i class="fa-solid fa-power-off"></i> In-Active</p>
+                <p style="background: rgb(255, 183, 183);"><i class="fa-solid fa-power-off"></i> open</p>
               <% } %>
               <p><i class="fa-solid fa-trash"></i> <a href="/iq/create/<%= item.exam_code %>/delete"> Delete</a></p>
             </div>
           </div>
           <div class="lower">
-            <p><i class="fa-regular fa-calendar-days"></i><%= item.createdAt.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
+            <p><i class="fa-regular fa-calendar-days"></i><%= item.createdAt.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) %>/<%= item.createdAt.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
             <p><a class="copy" href="/iq/create/verbal/<%= item.exam_code %>"><i class="fa-regular fa-clipboard"></i>&nbsp;<%= item.exam_code %></a></p>
-            <p><i class="fa-regular fa-circle-question"></i>Questions:<span><%= item.questions_length %></span></p>
+            <p><i class="fa-regular fa-circle-question"></i>Count:<span><%= item.questions_length %></span></p>
+            <p><i class="fa-solid fa-people-line"></i> <span>HSC SSC JSC</span></p>
+  
             <p><i class="fa-solid fa-people-line"></i> <span>508</span></p>
           </div>
       </div>

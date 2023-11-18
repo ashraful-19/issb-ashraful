@@ -96,14 +96,9 @@
             <% content.forEach(function(exam) { %>
             <div class="qcontainer" id="question<%= counter %>">
                <p>
-                  <span><b><%= counter %>)&nbsp;</b></span>
-                  <b><%= exam.question %></b>
+                  <span><b><%- counter %>)&nbsp;</b></span>
+                  <b><%- exam.question %></b>
                </p>
-               <% if (exam.question_image && exam.question_image !== "") { %>
-               <img class="q-image" src="<%= exam.question_image %>" alt="">
-               <% } else { %>
-               
-               <% } %>
                <label class="options" for="option1<%= counter %>">  
                 <input
                 type="radio"
@@ -111,7 +106,7 @@
                 value="1"
                 id="option1<%= counter %>"            
               />
-              <label><%= exam.choice1 %></label>
+              <label><%- exam.choice1 %></label>
               </label>
               <label class="options" for="option2<%= counter %>">
               <input
@@ -120,7 +115,7 @@
                 name="<%= exam._id %>"
                 value="2"
               />
-              <label><%= exam.choice2 %></label>
+              <label><%- exam.choice2 %></label>
              </label>
              <label class="options" for="option3<%= counter %>">
               
@@ -130,7 +125,7 @@
                 name="<%= exam._id %>"
                 value="3"
               />
-              <label><%= exam.choice3 %></label>
+              <label><%- exam.choice3 %></label>
              </label>
               <label class="options"  for="option4<%= counter %>">
               
@@ -140,7 +135,7 @@
                 name="<%= exam._id %>"
                 value="4"
               />
-              <label><%= exam.choice4 %></label>
+              <label><%- exam.choice4 %></label>
              </label>
  
                <input
@@ -151,22 +146,12 @@
                   value="0"
                   />
                <div class="explainer">
-                  <div class="explain">
-                     <p>Explanation</p>
-                  </div>
                   <a class="love" href="/issb/verbal/<%= data.exam_code %>?id=<%= exam._id %>">
                      <p><%= exam.doubts_count %></p>
                      <i class="<%= exam.doubt == 0 ? 'fa-regular fa-heart' : 'fa-solid fa-heart' %>"></i>
                   </a>
                </div>
-               <div class="explain-toggle">
-                  <p><%= exam.explanation %></p>
-                  <% if (exam.explanation_image && exam.explanation_image !== "") { %>
-                    <img class="e-image" src="<%= exam.explanation_image %>" alt="">
-                    <% } else { %>
-                    
-                    <% } %>
-               </div>
+           
               
             </div>
             <% counter++ %>

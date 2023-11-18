@@ -15,7 +15,8 @@ const MilitaryCourseSchema = new mongoose.Schema({
     },
     course_description: {
       type: String,
-    },course_fee: {
+    },
+    course_fee: {
       type: Number,
     },
     course_syllabus: [{
@@ -41,6 +42,7 @@ const MilitaryCourseSchema = new mongoose.Schema({
             ],
             order: {
               type: Number,
+              default: 0,
             }
           }],
     is_active: {

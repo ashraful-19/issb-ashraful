@@ -1,49 +1,109 @@
 <%- include('../partials/admin_sidenav.ejs') %>
-  <section class="rightside">
+
+<section class="rightside">
     <h1>Verbal Model Test Dashboard</h1>
     <br>
   <div class="create-show">
-    <form action="/iq/create/<%= content.exam_code %>/settings" method="POST" class="setting_inputs">
+    <form action="/iq/create/<%= content.exam_code %>/settings" method="POST" class="setting_inputs" id="setting_form">
       <label for="exam_name">Exam Name:</label>
-      <input class="setting_input" type="text" name="exam_name" id="exam_name" value="<%= content.exam_name %>">
-    
+      <input class="setting_input" type="text" name="exam_name"  value="<%= content.exam_name %>">
       <label for="Instruction">Instruction:</label> 
-      <textarea class="setting_input" name="instruction" id="instruction"><%= content.instruction %></textarea>
+      <textarea class="setting_input" name="instruction"><%= content.instruction %></textarea>
+      <div>
+         <div><input type="checkbox" name="randomize"   <% if (content.randomize) { %>checked<% } %>> <span>Randomize the order of the questions during the test</span></div>
+         <div><input type="checkbox" name="negative_marking"  <% if (content.negative_marking) { %>checked<% } %>> <span> Penalize incorrect answers (negative marking)</span></div>
+         <div><input type="checkbox" name="custom_message"  <% if (content.custom_message) { %>checked<% } %>> <span>Show a custom message if the student passed or failed</span></div>
+         <div>
+            <h4>What is the passing score 1?</h4>
+            <input type="number" min="0" max="100" name="passing_score1" value="<%= content.passing_score1 %>">%
+            <h4>Pass Message</h4>
+            <textarea name="message_on_pass1" id="" cols="30" rows="10"><%= content.message_on_pass1 %></textarea>
+            <h4>What is the passing score 2?</h4>
+            <input type="number" min="0" max="100" name="passing_score2" value="<%= content.passing_score2 %>">%
+            <h4>Pass Message</h4>
+            <textarea name="message_on_pass2" id="" cols="30" rows="10"><%= content.message_on_pass2 %></textarea>
+            <h4>What is the failing score?</h4>
+            <input type="number" min="0" max="100" name="failing_score" value="<%= content.failing_score %>">%
+            <h4>Fail Message</h4>
+            <textarea name="message_on_fail" id="" cols="30" rows="10"><%= content.message_on_fail %></textarea>
+         </div>
+         <h4>At the end of the test, display the user's:</h4>
+         <div><input type="checkbox" name="show_score" <% if (content.show_score) { %>checked<% } %>> <span>Score</span></div>
+         <div><input type="checkbox" name="show_right_wrong"  <% if (content.show_right_wrong) { %>checked<% } %>> <span> Indicate if their response was correct or incorrect</span></div>
+         <div><input type="checkbox" name="practice" <% if (content.
+          practice) { %>checked<% } %>> <span> Practice</span></div>
+         <div><input type="checkbox" name="show_explanation"  <% if (content.show_explanation) { %>checked<% } %>> <span> Display the explanation</span></div>
+         <h4>How much time do test takers have to complete the test?</h4>
+         <div><input type="radio" name="unlimited_time" value="false"  > <span>Unlimited</span></div>
+         <div><input type="radio" name="unlimited_time" value="false"><input type="number" min="0" max="200" name="time" value="0"> <span>minutes</span></div>
+         <h4>How many times can someone take your test?</h4>
+         <div><input type="radio" name="unlimited_attempt" value="false"> <span>Unlimited</span></div>
+         <div><input type="radio" name="unlimited_attempt" value="true"><input type="number" min="1" max="100" name="attempt" value="1"> <span>times</span></div>
+         
+         
+         <h4>Conclution Text</h4>
+         <textarea name="conclusion_text" id="" cols="30" rows="10"><%= content.conclusion_text %></textarea>
+      </div>
+      <h1>Publishing the Test</h1>
     
-      <label for="randomize">Randomize:</label>
-      <div>
-        <input type="radio" name="randomize" value="true" <% if (content.randomize === "true") { %> checked <% } %>>
-        <label>Yes</label>
-        <input type="radio" name="randomize" value="false" <% if (content.randomize !== "true") { %> checked <% } %>>
-        <label>No</label>
-      </div>
-      <label for="randomize">Add to IQ:</label>
-      <div>
-        <input type="radio" name="add_iq" value="true" <% if (content.add_iq === "true") { %> checked <% } %>>
-        <label>Yes</label>
-        <input type="radio" name="add_iq" value="false" <% if (content.add_iq !== "true") { %> checked <% } %>>
-        <label>No</label>
-      </div>
-      <label for="randomize">Status:</label>
-      <div>
-        <input type="radio" name="status" value="true" <% if (content.status === "true") { %> checked <% } %>>
-        <label>Active</label>
-        <input type="radio" name="status" value="false" <% if (content.status !== "true") { %> checked <% } %>>
-        <label>In-Active</label>
-      </div>
-      
-      <label for="conclusion_text">Conclusion Text:</label>
-      <textarea class="setting_input" name="conclusion_text" id="conclusion_text"><%= content.conclusion_text %></textarea>
-    
-      <label for="time">Time:</label>
-      <input class="setting_input" type="number" name="time" id="time" min="0" max="180" value="<%= content.time %>">
+      <div><input type="radio" name="active_status" value="closed"> <span>Closed</span></div>
+      <div><input type="radio"name="active_status" value="open"> <span>Open</span></div>
+      <div><input type="radio" name="active_status" value="scheduled"> <span>Scheduled</span></div>
+     
+     
+      <h1>Schedule Exam</h1>
+
+      <label for="startDateTime">Start Date and Time:</label>
+  <input type="datetime-local" id="startDateTime" name="startDateTime" value="<%= content.startDateTime ? content.startDateTime.toISOString().slice(0, 16) : '' %>">
+  <br>
+  <label for="endDateTime">End Date and Time:</label>
+  <input type="datetime-local" id="endDateTime" name="endDateTime" value="<%= content.endDateTime ? content.endDateTime.toISOString().slice(0, 16) : '' %>">
+
+      <div><input type="checkbox" name="is_live" <% if (content.is_live) { %>checked<% } %>> <span>Live exam</span></div>
+
+
+      <h1>Selected Course</h1>
+      <label>
+        <input type="checkbox" name="couxrse_added" value="233">
+        MIlitary Joining Course
+    </label>
+    <br>
+    <label>
+        <input type="checkbox" name="course_added" value="344">
+        Course 344
+    </label>
+    <br>
+    <label>
+        <input type="checkbox" name="course_added" value="345">
+        Course 345
+    </label>
+    <br>
+    <label>
+        <input type="checkbox" name="course_added" value="566">
+        Course 566
+    </label>
+      <input class="setting_input" type="submit" value="Update">
+   </form>
+
 
     
-      <input class="setting_input" type="submit" value="Update">
-    </form>
-    
+
+
+    <h1>Export Options</h1> 
+    <div class="export">
+      <div><input type="radio" name="" id=""> <span>View/print in your browser</span></div>
+      <div><input type="radio" name="" id=""><span>Download as Word doc</span></div>
+      <div> <input type="checkbox" name="" id=""> <span>Show Answer</span></div>
+      <div><input type="checkbox" name="" id=""> <span>Show Explanation</span></div>
+      <button>View/Print/Download</button>
+      <div>  <span>Other Formats:</span> <span>CSV</span></div>
+    </div>
   </div>
   </section>
 </div>
 </body>
 </html>
+
+
+
+  

@@ -1,171 +1,1139 @@
 <%- include('../partials/admin_sidenav.ejs') %>
-      <section class="rightside">
-      <div class="right-question-section">
-        <h1>Add Question Here</h1>
-        <form action="/iq/create/verbal/<%= data.exam_code %>/edit" method="post">
-          <div class="addquestion">
-            <select name="question_cat">
-              <option value="puzzle">Puzzle</option>
-              <option value="jumble_words">Jumble Words</option>
-              <option value="trueorfalse">True or False</option>
-            </select>
-            <div class="ques-exp">
-              <input type="text" placeholder="Question" name="question">
-            </div>
-            <div class="ques-exp">
-              <input type="text" placeholder="Image Link" name="question_image" class="imagelink1">
-            </div>
-            <div class="image-container1"></div>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/froala/css/froala_editor.css">
+  <link rel="stylesheet" href="/froala/css/froala_style.css">
+  <link rel="stylesheet" href="/froala/css/plugins/code_view.css">
+  <link rel="stylesheet" href="/froala/css/plugins/colors.css">
+  <link rel="stylesheet" href="/froala/css/plugins/emoticons.css">
+  <link rel="stylesheet" href="/froala/css/plugins/image_manager.css">
+  <link rel="stylesheet" href="/froala/css/plugins/image.css">
+  <link rel="stylesheet" href="/froala/css/plugins/line_breaker.css">
+  <link rel="stylesheet" href="/froala/css/plugins/quick_insert.css">
+  <link rel="stylesheet" href="/froala/css/plugins/table.css">
+  <link rel="stylesheet" href="/froala/css/plugins/file.css">
+  <link rel="stylesheet" href="/froala/css/plugins/char_counter.css">
+  <link rel="stylesheet" href="/froala/css/plugins/video.css">
+  <link rel="stylesheet" href="/froala/css/plugins/emoticons.css">
+  <link rel="stylesheet" href="/froala/css/plugins/fullscreen.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- https://www.youtube.com/watch?v=egPiNXf4B3s this is the referencing video  -->
+
+
+<!-- Jquery Cnd minified -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.6/css/froala_editor.pkgd.min.css">
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.6/js/froala_editor.pkgd.min.js"></script>
+     <style>
+      /* Style for the modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 3331;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+
+.modal-content {
+  background-color: rgb(245, 116, 116);
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  position: relative;
+}
+
+/* Style for the math preview area */
+.mathjax-preview {
+  margin-top: 10px;
+}
+.mathjax-equation {
+  display: inline-block;
+  position: relative;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin: 0 2px;
+  border: 1px dotted black;
+}
+
+.mathjax-equation::before{
+  content: 'AsciiMath:';
+  margin-right: 5px;
+  background-color: aquamarine;
+}
+
+#mathPreview{
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+}
+     </style>
+
+   <div id="mathModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Insert Math Equation</h2>
+      <input type="text" id="equationInput" placeholder="Enter ASCIIMath equation...">
+      <div id="equationPreview" class="mathjax-preview"></div>
+      <button id="insertEquationBtn" class="modal-btn">Insert</button>
+      <button id="cancelEquationBtn" class="modal-btn">Cancel</button>
+    </div>
+  </div>
   
-            <div class="options">
-              <input type="radio" name="answer" value="1">
-              <input type="text" placeholder="Choice 1" name="choice1">
-            </div>
-            <div class="options">
-              <input type="radio" name="answer" value="2">
-              <input type="text" placeholder="Choice 2" name="choice2">
-            </div>
-            <div class="options">
-              <input type="radio" name="answer" value="3" checked>
-              <input type="text" placeholder="Choice 3" name="choice3">
-            </div>
-            <div class="options">
-              <input type="radio" name="answer" value="4">
-              <input type="text" placeholder="Choice 4" name="choice4">
-            </div>
-            <div class="ques-exp">
-              <input type="text" placeholder="Explanation" name="explanation">
-            </div>
-            <div class="ques-exp">
-              <input type="text" placeholder="Image Link" name="explanation_image" class="imagelink2">
-            </div>
-            <div class="image-container2"></div>
-  
-            <div class="buttons">
-              <input type="submit" value="Save" class="button">
-            </div>
+
+   
+<section class="rightside">
+   <div class="right-question-section">
+      
+         <h1>Add Question Here</h1>
+
+         <form action="/iq/create/verbal/<%= data.exam_code %>/edit" method="post" class="options-form">
+          <div id="choice">
+             <div class="selection">
+                <label for="exam_type">Exam Type:</label>
+                <select id="exam_type" name="exam_type" class="exam_type">
+                   <option value="">Select Exam Type</option>
+                   <option value="HSC">HSC</option>
+                   <option value="SSC">SSC</option>
+                   <option value="ADMISSION">ADMISSION</option>
+                   <option value="ISSB">ISSB</option>
+                </select>
+                <label for="subject">Subject:</label>
+                <select id="subject" name="subject" class="subject">
+                   <option value="">Select Subject</option>
+                </select>
+                <label for="chapter">Chapter:</label>
+                <select id="chapter" name="chapter" class="chapter">
+                   <option value="">Select Chapter</option>
+                </select>
+                <label for="topic">Topic:</label>
+                <select id="topic" name="topic" class="topic">
+                   <option value="">Select Topic</option>
+                </select>
+                <label for="board">Board:</label>
+                <select id="board" name="board" class="board">
+                   <option value="">Select Board</option>
+                </select>
+                <label for="year">Year:</label>
+                <select id="year" name="year" class="year">
+                   <option value="">Select Year</option>
+                </select>
+                <label for="version">Version:</label>
+                <select id="version" name="version" class="version">
+                   <option value="">Select Version</option>
+                </select>
+             </div>
+             <div class="addquestion">
+              <div class="ques-exp">
+                 <textarea name="question" placeholder="write question here..." rows="1" class="edit">Question</textarea>
+              </div>
+              <div class="options-container">
+                 <div class="options">
+                     <input type="radio" name="answer" value="1">
+                     <textarea name="option[]" placeholder="Choice 1" rows="1" class="edit">Choice 1</textarea>
+                     <button type="button" class="remove-option">Remove</button>
+                 </div>
+                 <div class="options">
+                     <input type="radio" name="answer" value="2">
+                     <textarea name="option[]" placeholder="Choice 2" rows="1" class="edit">Choice 2</textarea>
+                     <button type="button" class="remove-option">Remove</button>
+                 </div>
+                 <div class="options">
+                     <input type="radio" name="answer" value="3">
+                     <textarea name="option[]" placeholder="Choice 3" rows="1" class="edit">Choice 3</textarea>
+                     <button type="button" class="remove-option">Remove</button>
+                 </div>
+                 <div class="options">
+                     <input type="radio" name="answer" value="4">
+                     <textarea name="option[]" placeholder="Choice 4" rows="1" class="edit">Choice 4</textarea>
+
+                     <button type="button" class="remove-option">Remove</button>
+                 </div>
+              </div>
+              <button type="button" class="add-option">Add Option</button>
+              <div class="ques-exp">
+                 <textarea name="explanation" placeholder="write explanation here..." rows="1" class="edit"></textarea>
+              </div>
+           </div>
           </div>
-        </form>
-
+          <!-- <div id="short_answer">
+             <div class="ques-exp">
+                <input type="text" placeholder="Short Answer Question" class="short_answer" name="question">
+                <input type="text">
+             </div>
+          </div>
+          <div id="textblock">
+             <div class="ques-exp">
+                <input type="text" placeholder="Title goes here" class="textblock" name="question">
+             </div>
+          </div> -->
+          <select id="change" name="field_type">
+             <option value="choice">Choice</option>
+             <option value="textblock">Textblock</option>
+             <option value="short_answer">Short Answer</option>
+          </select>
+          <div class="buttons">
+             <input type="submit" value="Save" class="button">
+          </div>
         
-      <h1>Edit Question Here</h1>
+       </form>   
 
-<% content.forEach(function(question) { %>
-  <form action="/iq/create/verbal/<%= data.exam_code %>/update?id=<%= question.id %>" method="post" class="ajaxForm">
-    <div class="addquestion">
-      <select name="question_type" id="">
-        <option value="puzzle" <%= question.question_type === 'puzzle' ? 'selected' : '' %>>Puzzle</option>
-        <option value="jumble_words" <%= question.question_type === 'jumble_words' ? 'selected' : '' %>>Jumble Words</option>
-        <option value="trueorfalse" <%= question.question_type === 'trueorfalse' ? 'selected' : '' %>>True or False</option>
-      </select>
+       <div id="edit">Your content here</div>
+
+       <h1>Edit Question Here</h1>
+
+
+   <div id="main-sortable">
+    <% let serial = 1; %>
+   <% content.forEach(function(question) { %>
+   <form class="block-shadow ajaxForm options-form"  action="/iq/create/verbal/<%= data.exam_code %>/update?id=<%= question.id %>" method="post"  id="id_<%= question._id %>">
+ order: <%= question.order %>
+<input type="text" hidden name="order" value="<%= question.order %>">
+<h2><%= serial %></h2>
+    <div class="field-section">
+        <div class="selection selection1" data-selectedFromDatabase='{
+            "examType": "<%= question.exam_type %>",
+            "subject": "<%= question.subject %>",
+            "chapter": "<%= question.chapter %>",
+            "topic": "<%= question.topic %>",
+            "board": "<%= question.board %>",
+            "year": "<%= question.year %>",
+            "version": "<%= question.version %>"
+            }'>
+            <label for="exam_type">Exam Type:</label>
+            <select name="exam_type" class="exam_type">
+               <option value="">Select Exam Type</option>
+               <option value="HSC">HSC</option>
+               <option value="SSC">SSC</option>
+               <option value="ADMISSION">ADMISSION</option>
+               <option value="ISSB">ISSB</option>
+            </select>
+            <label for="subject">Subject:</label>
+            <select name="subject" class="subject">
+               <option value="">Select Subject</option>
+            </select>
+            <label for="chapter">Chapter:</label>
+            <select name="chapter" class="chapter">
+               <option value="">Select Chapter</option>
+            </select>
+            <label for="topic">Topic:</label>
+            <select name="topic" class="topic">
+               <option value="">Select Topic</option>
+            </select>
+            <label for="board">Board:</label>
+            <select name="board" class="board">
+               <option value="">Select Board</option>
+            </select>
+            <label for="year">Year:</label>
+            <select name="year" class="year">
+               <option value="">Select Year</option>
+            </select>
+            <label for="version">Version:</label>
+            <select name="version" class="version">
+               <option value="">Select Version</option>
+            </select>
+         </div>
+      <div class="addquestion">
+       
       <div class="ques-exp">
-        <input type="text" placeholder="Question" name="question" value="<%= question.question %>">
+         <textarea placeholder="Question" name="question" class="edit"><%= question.question %></textarea>
       </div>
+      <div class="options-container">
+      <% let counter = 1; %>
+      <% question.option.forEach((option) => { %>
+      
+        <div class="options">
+         <input type="radio" name="answer" value="<%= counter %>" <%= question.answer === String(counter) ? 'checked' : '' %>>
+         <textarea placeholder="Choice <%= counter %>" name="option[]" rows="1" class="edit"><%= option %></textarea>
+         <button type="button" class="remove-option">Remove</button>
+
+      </div>
+      <% counter++; %>
+      <% }) %>
+</div>      
+      <button type="button" class="add-option">Add Option</button>
+
       <div class="ques-exp">
-        <input type="text" placeholder="Image Link" name="question_image" value="<%= question.question_image %>" class="imagelink1">
+         <textarea placeholder="Explanation" name="explanation" rows="1" class="edit"><%= question.explanation %></textarea>
       </div>
-      <div class="image-container1"><img src="<%= question.question_image %>" alt="" class="imageques"></div>
-      <div class="options">
-        <input type="radio" name="answer" value="1" <%= question.answer === '1' ? 'checked' : '' %>>
-        <input type="text" placeholder="Choice 1" name="choice1" value="<%= question.choice1 %>">
-      </div>
-      <div class="options">
-        <input type="radio" name="answer" value="2" <%= question.answer === '2' ? 'checked' : '' %>>
-        <input type="text" placeholder="Choice 2" name="choice2" value="<%= question.choice2 %>">
-      </div>
-      <div class="options">
-        <input type="radio" name="answer" value="3" <%= question.answer === '3' ? 'checked' : '' %>>
-        <input type="text" placeholder="Choice 3" name="choice3" value="<%= question.choice3 %>"> 
-      </div>
-      <div class="options">
-        <input type="radio" name="answer" value="4" <%= question.answer === '4' ? 'checked' : '' %>>
-        <input type="text" placeholder="Choice 4" name="choice4" value="<%= question.choice4 %>">
-      </div>
-      <div class="ques-exp">
-        <input type="text" placeholder="Explanation" name="explanation" value="<%= question.explanation %>">
-      </div>
-      <div class="ques-exp">
-        <input type="text" placeholder="Image Link" name="explanation_image" value="<%= question.explanation_image %>" class="imagelink2">
-      </div>
-      <div class="image-container2"><img src="<%= question.explanation_image %>" class="imageques" alt=""></div>
+    </div>
+    </div>  
+   <select class="change" name="field_type">
+    <option value="choice">Choice</option>
+    <option value="textblock">Textblock</option>
+    <option value="short_answer">Short Answer</option>
+ </select>
       <div class="buttons">
-        <input type="submit" value="Update" class="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="button"><a href="/iq/create/verbal/<%= data.exam_code %>/question?delete=<%= question.id %>">Delete</a></button>
+        <div class="button insert-question"> <a href="/iq/create/verbal/<%= data.exam_code %>/edit"> Insert Question</a></div>
+         <button class="button delete-button"><a href="/iq/create/verbal/<%= data.exam_code %>/question?delete=<%= question.id %>">Delete</a></button>
       </div>
       <div class="message"></div>
-    </div> 
-  </form>   
-<% }) %>
+   </form>
 
+   <% serial++; %>
+   <% }) %>
+   
 
-      </div>
-      </section>
-  </body>
+  </div>  
+</section>
+</body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+      // Remove option
+      $(document).on("click", ".remove-option", function() {
+          const optionsContainer = $(this).closest(".addquestion").find(".options-container");
+          $(this).parent().remove();
+          renumberOptions(optionsContainer);
+      });
+
+      // Add option
+      $(document).on("click", ".add-option", function() {
+          const optionsContainer = $(this).closest(".addquestion").find(".options-container");
+          const lastOption = optionsContainer.find(".options").last();
+          const highestValue = parseInt(lastOption.find('input[type="radio"]').val());
+          const newValue = highestValue + 1;
+
+          const newOption = `
+          <div class="options">
+              <input type="radio" name="answer" value="${newValue}">
+              <textarea placeholder="Choice ${newValue}" name="option[]" rows="1" class="edit"></textarea>
+              <button type="button" class="remove-option">Remove</button>
+          </div>`;
+          
+          lastOption.after(newOption);
+      });
+
+      function renumberOptions(optionsContainer) {
+          const options = optionsContainer.find(".options");
+          options.each(function(index) {
+              const inputRadio = $(this).find('input[type="radio"]');
+              const textarea = $(this).find('textarea');
+              const newValue = index + 1;
+              console.log(index);
+              
+              inputRadio.val(newValue);
+              textarea.attr("placeholder", "Choice " + newValue);
+              textarea.attr("class","edit")
+          });
+      }
+  });
+</script>
+
+
+<script>
+$(document).on('change', '.ajaxForm', function() {
+   var form = $(this);
+   var url = form.attr("action");
+   var formData = form.serialize();
+   $.ajax({
+      type: "POST",
+      url: url,
+      data: formData,
+      success: function(response) {
+         showMessage(form, "Question updated!");
+         console.log('Data updated successfully');
+         // You can add code here to update the form or other UI elements based on the response
+      },
+      error: function(error) {
+         console.log(error);
+      }
+   });
+});
+
+function showMessage(form, message) {
+   var messageDiv = form.find(".message");
+   messageDiv.text(message);
+   // You can also add code here to style the message div or handle its visibility
+}
+   
+</script>
+
+
+
 
 
 
 
 
 <script>
-     function showMessage(form, message) {
-   // Update message div with new message
-   form.find('.message').text(message);
+   const dummyData = {
+     examTypes: {
+       HSC: {
+         subjects: {
+           Physics: {
+             topics: {
+               Wave: ["Wave Properties", "Wave Behavior"],
+               Vector: ["Vector Addition", "Vector Components"],
+             },
+           },
+           Chemistry: {
+             topics: {
+               Organic: ["Organic Compounds", "Organic Reactions"],
+               "Qualitative Analysis": ["Qualitative Analysis Techniques", "Identification of Ions"],
+             },
+           },
+           Biology: {
+             topics: {
+               Botany: ["Plant Anatomy", "Photosynthesis"],
+               Zoology: ["Animal Physiology", "Genetics"],
+             },
+           },
+           Mathematics: {
+             topics: {
+               Algebra: ["Linear Equations", "Quadratic Equations"],
+               Calculus: ["Differentiation", "Integration"],
+             },
+           },
+         },
+         boards: ["Dhaka", "Chittagong", "Rajshahi"],
+         years: [2023, 2022, 2025],
+         versions: ["Bangla", "English"],
+       },
+       SSC: {
+         subjects: {
+           Physics: {
+             topics: {
+               Mechanics: ["Motion", "Forces"],
+               Thermodynamics: ["Heat Transfer", "Laws of Thermodynamics"],
+             },
+           },
+           Chemistry: {
+             topics: {
+               Inorganic: ["Chemical Bonding", "Periodic Table"],
+               Organic: ["Hydrocarbons", "Alcohols"],
+               Physical: ["Chemical Equilibrium", "Chemical Kinetics"],
+             },
+           },
+           Biology: {
+             topics: {
+               Botany: ["Plant Anatomy", "Plant Reproduction"],
+               Zoology: ["Animal Tissues", "Nervous System"],
+             },
+           },
+           Mathematics: {
+             topics: {
+               Algebra: ["Polynomials", "Rational Expressions"],
+               Geometry: ["Triangles", "Circles"],
+             },
+           },
+         },
+         boards: ["Dhaka", "Chittagong", "Rajshahi"],
+         years: [2023, 2022, 2024],
+         versions: ["Bangla", "English"],
+       },
+       ADMISSION: {
+         subjects: {
+           English: {
+             topics: {
+               Grammar: ["Parts of Speech", "Tenses"],
+               Composition: ["Essay Writing", "Letter Writing"],
+             },
+           },
+           Mathematics: {
+             topics: {
+               Algebra: ["Equations", "Inequalities"],
+               Calculus: ["Limits", "Derivatives"],
+             },
+           },
+           "General Knowledge": {
+             topics: {
+               History: ["Ancient History", "Modern History"],
+               Geography: ["Physical Geography", "Human Geography"],
+               Politics: ["Government Systems", "International Relations"],
+             },
+           },
+           "Analytical Skills": {
+             topics: {
+               "Logical Reasoning": ["Deductive Reasoning", "Inductive Reasoning"],
+               "Critical Thinking": ["Problem Solving", "Decision Making"],
+             },
+           },
+         },
+         boards: ["Dhaka", "Chittagong", "Rajshahi"],
+         years: [2023, 2022, 2011],
+         versions: ["Bangla", "English"],
+       },
+       ISSB: {
+    subjects: {
+      "IQ": {
+        topics: {
+          "Verbal Intelligence": ["Word Analogy", "Sentence Completion"],
+          "Non-Verbal Intelligence": ["Pattern Recognition", "Spatial Visualization"],
+        },
+      },
+      "PPDT": {
+        topics: {
+          "Picture Perception": ["PPDT"],
+        },
+      },
+      "Essay Writing": {
+        topics: {
+          "Essay Writing": ["Essay Writing"],
+        },
+      },
+      "Incomplete Story": {
+        topics: {
+          "Incomplete Story": ["Incomplete Story"],
+        },
+      },
+      "Picture Story": {
+        topics: {
+          "Picture Story": ["Picture Story"],
+        },
+      },
+      "Incomplete Sentences": {
+        topics: {
+          "Incomplete Sentences": ["Incomplete Sentences"],
+        },
+      },
+      "WAT": {
+        topics: {
+          "Word Association": ["WAT"],
+        },
+      },
+      "Memorable Bitter": {
+        topics: {
+          "Memorable Bitter": ["Memorable Bitter"],
+        },
+      },
+      "Self Criticism": {
+        topics: {
+          "Self Criticism": ["Self Criticism"],
+        },
+      },
+      "Self Assessment": {
+        topics: {
+          "Self Assessment": ["Self Assessment"],
+        },
+      },
+      "Biodata": {
+        topics: {
+          "Biodata": ["Biodata"],
+        },
+      },
+      "GD": {
+        topics: {
+          "Group Discussion": ["GD"],
+        },
+      },
+      "PGT": {
+        topics: {
+          "Progressive Group Task": ["PGT"],
+        },
+      },
+      "HGT": {
+        topics: {
+          "Half Group Task": ["HGT"],
+        },
+      },
+      "Extempore Speech": {
+        topics: {
+          "Extempore Speech": ["Extempore Speech"],
+        },
+      },
+      "PAT": {
+        topics: {
+          "Personal Appearance": ["PAT"],
+        },
+      },
+      "Medical": {
+        topics: {
+          "Medical Examination": ["Medical"],
+        },
+      },
+      "DP Viva": {
+        topics: {
+          "Directing Staff Interview": ["DP Viva"],
+        },
+      },
+      "Planning Exercise": {
+        topics: {
+          "Planning Exercise": ["Planning Exercise"],
+        },
+      },
+      "GTO Viva": {
+        topics: {
+          "Group Testing Officer Interview": ["GTO Viva"],
+        },
+      },
+      "CT": {
+        topics: {
+          "Conference Task": ["CT"],
+        },
+      },
+      "Psychometrics Test": {
+        topics: {
+          "Psychometrics Test": ["Psychometrics Test"],
+        },
+      },
+      // ... Add more subjects as needed ...
+    },
+    boards: ["Practice"],
+    years: [2023, 2022, 2021],
+    versions: ["Bangla", "English"],
+  },
    
-   // Show message div
-   form.find('.message').show();
+}
+};
    
-   // Hide message div after 10 seconds
-   setTimeout(function() {
-     form.find('.message').hide();
-   }, 5000);
+   function updateDropdown(select, options) {
+     select.innerHTML = '<option value="">Select...</option>';
+     options.forEach(function (option) {
+       select.innerHTML += `<option value="${option}">${option}</option>`;
+     });
+   }
+   
+   function populateDropdown(select, data) {
+     updateDropdown(select, Object.keys(data));
+   }
+   
+   function updateDropdownWithOptions(select, options) {
+     select.innerHTML = '<option value="">Select...</option>';
+     options.forEach(function (option) {
+       select.innerHTML += `<option value="${option}">${option}</option>`;
+     });
+   }
+   
+   function resetDependentDropdowns(selectionDiv) {
+     const dependentDropdowns = selectionDiv.querySelectorAll('.dependent');
+     dependentDropdowns.forEach(function (dropdown) {
+       dropdown.innerHTML = '<option value="">Select...</option>';
+     });
+   }
+   
+   function handleExamTypeChange(event) {
+     const selectionDiv = event.target.closest('.selection');
+     if (selectionDiv) {
+       const examTypeSelect = selectionDiv.querySelector('.exam_type');
+       const subjectSelect = selectionDiv.querySelector('.subject');
+       const chapterSelect = selectionDiv.querySelector('.chapter');
+       const topicSelect = selectionDiv.querySelector('.topic');
+       const boardSelect = selectionDiv.querySelector('.board');
+       const yearSelect = selectionDiv.querySelector('.year');
+       const versionSelect = selectionDiv.querySelector('.version');
+   
+       const examType = examTypeSelect.value;
+   
+       // Handle dependent dropdowns
+       if (examType === '') {
+         resetDependentDropdowns(selectionDiv);
+         boardSelect.innerHTML = '<option value="">Select...</option>';
+      yearSelect.innerHTML = '<option value="">Select...</option>';
+      versionSelect.innerHTML = '<option value="">Select...</option>';
+   
+      // Clear selected values
+      boardSelect.value = '';
+      yearSelect.value = '';
+      versionSelect.value = '';
+       } else {
+         const examTypeData = dummyData.examTypes[examType];
+         populateDropdown(subjectSelect, examTypeData.subjects);
+         populateDropdown(chapterSelect, {}); // Reset chapter and topic dropdowns
+         populateDropdown(topicSelect, {}); // Reset topic dropdown
+         updateDropdownWithOptions(boardSelect, examTypeData.boards); // Update board dropdown with options
+         updateDropdownWithOptions(yearSelect, examTypeData.years.map(String)); // Update year dropdown with options
+         updateDropdownWithOptions(versionSelect, examTypeData.versions); // Update version dropdown with options
+       }
+   
+       // Reset subjects, chapters, and topics
+       subjectSelect.value = '';
+       chapterSelect.innerHTML = '<option value="">Select...</option>';
+       topicSelect.innerHTML = '<option value="">Select...</option>';
+       boardSelect.value = '';
+       yearSelect.value = '';
+       versionSelect.value = '';
+     }
+   }
+   
+   function handleSubjectChange(event) {
+     const selectionDiv = event.target.closest('.selection');
+     if (selectionDiv) {
+       const subjectSelect = selectionDiv.querySelector('.subject');
+       const chapterSelect = selectionDiv.querySelector('.chapter');
+       const topicSelect = selectionDiv.querySelector('.topic');
+   
+       const examType = selectionDiv.querySelector('.exam_type').value;
+       const subject = subjectSelect.value;
+   
+       // Handle dependent dropdowns
+       if (subject === '') {
+         resetDependentDropdowns(selectionDiv);
+       } else {
+         const examTypeData = dummyData.examTypes[examType];
+         const subjectData = examTypeData.subjects[subject];
+         populateDropdown(chapterSelect, subjectData.topics);
+       }
+   
+       // Reset chapters and topics
+       chapterSelect.value = '';
+       topicSelect.innerHTML = '<option value="">Select...</option>';
+     }
+   }
+   
+   function handleChapterChange(event) {
+    
+     const selectionDiv = event.target.closest('.selection');
+     if (selectionDiv) {
+       const chapterSelect = selectionDiv.querySelector('.chapter');
+       const topicSelect = selectionDiv.querySelector('.topic');
+   
+       const examType = selectionDiv.querySelector('.exam_type').value;
+       const subject = selectionDiv.querySelector('.subject').value;
+       const chapter = chapterSelect.value;
+   
+       // Handle dependent dropdowns
+       if (chapter === '') {
+         topicSelect.innerHTML = '<option value="">Select...</option>';
+       } else {
+         const examTypeData = dummyData.examTypes[examType];
+         const subjectData = examTypeData.subjects[subject];
+         const chapterData = subjectData.topics[chapter];
+         updateDropdown(topicSelect, chapterData);
+       }
+   
+       // Reset topics
+       topicSelect.value = '';
+     }
+   }
+   
+   // Event listeners
+   const examTypeSelects = document.querySelectorAll('.exam_type');
+   examTypeSelects.forEach(function (examTypeSelect) {
+     examTypeSelect.addEventListener('change', handleExamTypeChange);
+   });
+   
+   const subjectSelects = document.querySelectorAll('.subject');
+   subjectSelects.forEach(function (subjectSelect) {
+     subjectSelect.addEventListener('change', handleSubjectChange);
+   });
+   
+   const chapterSelects = document.querySelectorAll('.chapter');
+   chapterSelects.forEach(function (chapterSelect) {
+     chapterSelect.addEventListener('change', handleChapterChange);
+   });
+   
+   
+   
+   
+   
+   
+   
+   // Function to load the user's selected options from localStorage for the first selection class
+   function loadUserSelection() {
+   const savedSelection = JSON.parse(localStorage.getItem('userSelection'));
+   if (savedSelection) {
+    const { examType, subject, chapter, topic, board, year, version } = savedSelection;
+   
+    document.querySelector('.selection:first-child .exam_type').value = examType;
+    handleExamTypeChange({ target: document.querySelector('.selection:first-child .exam_type') });
+   
+    document.querySelector('.selection:first-child .subject').value = subject;
+    handleSubjectChange({ target: document.querySelector('.selection:first-child .subject') });
+   
+    document.querySelector('.selection:first-child .chapter').value = chapter;
+    handleChapterChange({ target: document.querySelector('.selection:first-child .chapter') });
+   
+    document.querySelector('.selection:first-child .topic').value = topic;
+   
+    document.querySelector('.selection:first-child .board').value = board;
+    document.querySelector('.selection:first-child .year').value = year;
+    document.querySelector('.selection:first-child .version').value = version;
+   }
+   }
+   
+   // Save user's selection to localStorage for the first selection class
+   function saveUserSelection(event) {
+   const selectionDiv = document.querySelector('.selection:first-child'); // Select the first "selection" class explicitly
+   if (selectionDiv) {
+    const examTypeSelect = selectionDiv.querySelector('.exam_type');
+    const subjectSelect = selectionDiv.querySelector('.subject');
+    const chapterSelect = selectionDiv.querySelector('.chapter');
+    const topicSelect = selectionDiv.querySelector('.topic');
+    const boardSelect = selectionDiv.querySelector('.board');
+    const yearSelect = selectionDiv.querySelector('.year');
+    const versionSelect = selectionDiv.querySelector('.version');
+   
+    const userSelection = {
+      examType: examTypeSelect.value,
+      subject: subjectSelect.value,
+      chapter: chapterSelect.value,
+      topic: topicSelect.value,
+      board: boardSelect.value,
+      year: yearSelect.value,
+      version: versionSelect.value,
+    };
+   
+    localStorage.setItem('userSelection', JSON.stringify(userSelection));
+   }
+   }
+   
+   // Load user's selected options for the first selection class when the page loads
+   window.addEventListener('DOMContentLoaded', loadUserSelection);
+   
+   // Remove the event listeners from other "selection" elements
+   const selects = document.querySelectorAll('.selection:not(:first-child) select');
+   selects.forEach(select => {
+   select.removeEventListener('change', saveUserSelection);
+   });
+   
+   // Add the event listener to save user's selection for the first selection class whenever there's a change
+   const firstSelects = document.querySelectorAll('.selection:first-child select');
+   firstSelects.forEach(select => {
+   select.addEventListener('change', saveUserSelection);
+   });
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   // Function to load the user's selected options from data-selectedFromDatabase attribute for all selection classes except the first one
+   function loadUserSelectionForAllSelections() {
+   const selectionDivs = document.querySelectorAll('.selection1');
+   selectionDivs.forEach((selectionDiv, index) => {
+    const savedSelection = JSON.parse(selectionDiv.getAttribute('data-selectedFromDatabase'));
+   
+    if (savedSelection) {
+      const { examType, subject, chapter, topic, board, year, version } = savedSelection;
+   
+   
+   
+    
+   
+      selectionDiv.querySelector('.exam_type').value = examType;
+      handleExamTypeChange({ target: selectionDiv.querySelector('.exam_type') });
+   
+      selectionDiv.querySelector('.subject').value = subject;
+      handleSubjectChange({ target: selectionDiv.querySelector('.subject') });
+   
+      selectionDiv.querySelector('.chapter').value = chapter;
+      handleChapterChange({ target: selectionDiv.querySelector('.chapter') });
+   
+   
+   
+      
+      selectionDiv.querySelector('.topic').value = topic;
+     
+   
+      
+      selectionDiv.querySelector('.board').value = board;
+      selectionDiv.querySelector('.year').value = year;
+      selectionDiv.querySelector('.version').value = version;
+    }
+   });
    }
    
    
-   $(document).on('change', '.ajaxForm', function() {
-   var form = $(this);
-   var url = form.attr("action");
-   var formData = form.serialize();
-   $.ajax({
-     type: "POST",
-     url: url,
-     data: formData,
-     success: function(value) {
-       showMessage(form,"Question updated!")
-       console.log('data updated successfully');
-     },
-     error: function(error) {
-       console.log(error);
-     }
-   });
-   });
-
-
-
-
+   // Load user's selected options for all selection classes (except the first one) after a 5-second delay
+   loadUserSelectionForAllSelections();
    
+   // Alternatively, you can use the DOMContentLoaded event as before, but make sure this code comes after the event listener registration for 'change'.
+   // window.addEventListener('DOMContentLoaded', loadUserSelectionForAllSelections);
+   
+</script>
 
 
-$(function() {
-  // Attach a listener to the text input
-  $(document).on('input','.imagelink1, .imagelink2', function() {
-    // Get the value of the text input
-    var imageLink = $(this).val();
-    
-    // Get the parent form and the container div
-    var $form = $(this).closest('form');
-    var $container1 = $form.find('.image-container1');
-    var $container2 = $form.find('.image-container2');
-    
-    // Determine which input triggered the event
-    if ($(this).hasClass('imagelink1')) {
-      // Update the image in the container div for imagelink1
-      $container1.html('<img class="imageques" alt="" src="' + imageLink + '">');
-    } else {
-      // Update the image in the container div for imagelink2
-      $container2.html('<img class="imageques" alt="" src="' + imageLink + '">');
-    }
-  }).trigger('input'); // trigger the input event when the page loads
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function() {
+    $(".delete-button").click(function(event) { // Added 'event' parameter here
+        event.preventDefault();
+        var button = $(this); // Store the button reference
+
+        var link = $(this).find("a").attr("href");
+
+        $.ajax({
+            url: link,
+            method: "GET",
+            success: function(data) {
+                console.log("AJAX call success:", data);
+
+                var ajaxForm = button.closest(".ajaxForm");
+                ajaxForm.fadeOut(500, function() {
+                    // Replace the content of .ajaxForm with the success message
+                    $(this).html("<p>Deleted data successfully</p>").fadeIn(500);
+
+                    // Remove the success message after a delay
+                    setTimeout(function() {
+                        ajaxForm.fadeOut(1000, function() {
+                            $(this).remove(); // Remove the parent div
+                        });
+                    }, 5000);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log("An error occurred:", error);
+            }
+        });
+    });
 });
 
+
 </script>
+
+
+
+
+
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
+  <script type="text/javascript" src="/froala/js/froala_editor.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/align.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/code_beautifier.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/code_view.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/colors.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/emoticons.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/draggable.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/font_size.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/font_family.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/image.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/image_manager.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/line_breaker.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/quick_insert.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/link.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/lists.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/paragraph_format.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/paragraph_style.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/video.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/table.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/url.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/emoticons.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/file.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/entities.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/inline_style.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/save.min.js"></script>
+  <script type="text/javascript" src="/froala/js/plugins/fullscreen.min.js"></script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+ 
+ 
+ 
+ 
+ <script>
+  MathJax.Hub.Config({
+  extensions: ["asciimath2jax.js"],
+  jax: ["input/TeX", "output/CommonHTML"],
+  asciimath2jax: {
+    delimiters: [['`','`']]
+  }
+});
+
+
+
+</script>
+
+<div id="mathPreview"></div>
+ 
+  <!-- Your HTML and other code -->
+  <script>
+    $(document).ready(function () {
+      MathJax.Hub.Config({
+    extensions: ["asciimath2jax.js"],
+    jax: ["input/TeX", "output/CommonHTML"],
+    asciimath2jax: {
+      delimiters: [['`','`']]
+    }
+  });
+
+  FroalaEditor.DefineIcon('insertMath', { NAME: 'insert', SVG_KEY: 'insert' });
+  FroalaEditor.RegisterCommand('insertMath', {
+    title: 'Insert Math',
+    focus: true,
+    undo: true,
+    refreshAfterCallback: true,
+    callback: function () {
+      let editor = this; // Store editor instance
+      
+      editor.html.insert(`&nbsp;<span class="mathjax-equation">  </span>&nbsp;`);
+    
+    }
+  });
+
+      $('.edit').each(function () {
+        const editor = new FroalaEditor(this, {
+          pastePlain: true, // Paste as plain text
+          pasteDeniedTags: ['style', 'script'], // Deny specific tags on paste
+          toolbarInline: true,
+          toolbarVisibleWithoutSelection: true,
+          toolbarButtons: [
+  ['bold', 'italic', 'underline', 'subscript', 'superscript'],
+  ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'],
+  ['paragraphStyle', 'align', 'formatOL', 'formatUL'],
+  ['insertLink', 'insertImage','insertMath', 'insertVideo', 'insertFile', 'insertTable', 'insertHR'],
+  ['emoticons', 'specialCharacters', 'insertCode', 'insertFormula'],
+  ['html']
+],
+          imageUploadParam: 'image', // Match this with your Multer field name
+          imageUploadURL: '/upload', // Your server-side upload route
+          events: {
+            'image.beforeUpload': function (images) {
+              // Called before image upload
+              console.log('Before image upload:', images);
+            },
+            'image.uploaded': function (response) {
+              // Called after image is uploaded
+              console.log('Image uploaded:', response);
+  
+              // Replace the blob link with the actual image URL
+              const img = $('img[src^="blob:"]');
+              img.each(function () {
+                $(this).attr('src', response.link);
+              }); 
+              
+            },
+            'click': function (e) {
+        const target = e.target;
+        if ($(target).hasClass('mathjax-equation')) {
+          const equationContent = $(target).text();
+          console.log(equationContent)
+          showMathPreview(equationContent);
+        } else {
+          clearMathPreview();
+        }
+      },
+            'contentChanged': function () {
+            var losestForm = $(this.$oel[0]).closest('form');
+
+            // Prevent the default form submission
+            closestForm.on('submit', function (event) {
+              event.preventDefault();
+
+              var form = $(this);
+              var formValues = form.serialize();
+
+              $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: formValues,
+                success: function(response) {
+                  showMessage(form, 'Form submitted successfully through AJAX!');
+                  console.log('Form submitted successfully through AJAX');
+                  // You can add code here to update the form or other UI elements based on the response
+                },
+                error: function(error) {
+                  console.log('Form submission error:', error);
+                }
+              });
+            });
+
+            // Manually trigger the form submission
+            closestForm.submit();
+          }
+        }
+      });
+    });
+  });
+
+  function showMathPreview(equation) {
+  const mathPreviewDiv = $('#mathPreview');
+  mathPreviewDiv.empty();
+  mathPreviewDiv.append('<p>Math Preview:</p>');
+  mathPreviewDiv.append('<div id="previewEquation"></div>');
+  
+  const previewEquationDiv = $('#previewEquation');
+  previewEquationDiv.text('`'+equation+'`');
+  MathJax.Hub.Queue(['Typeset', MathJax.Hub, previewEquationDiv[0]]);
+}
+
+function clearMathPreview() {
+  const mathPreviewDiv = $('#mathPreview');
+  mathPreviewDiv.empty();
+}
+
+  function showMessage(form, message) {
+    var messageDiv = form.find('.message');
+    messageDiv.text(message);
+    // You can also add code here to style the message div or handle its visibility
+  }
+</script>
+
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<script>
+  
+  $(".insert-question").click(function(event) {
+  event.preventDefault();
+
+  const form = $(this).closest(".ajaxForm");
+
+  $.ajax({
+    url: '/iq/create/verbal/<%= data.exam_code %>/edit', // URL to handle question creation
+    type: "POST",
+    data: form.serialize(), // Serialize form data
+    success: function(response) {
+      console.log('successfully added new question');
+      
+      // Reattach sortable functionality
+      $("#main-sortable").sortable({
+  update: function () { 
+       const sortableElement = document.getElementById("main-sortable");
+       const ids = $(sortableElement).sortable('serialize'); 
+       console.log(ids);
+       $.post('/iq/create/verbal/<%= data.exam_code %>/sort', ids, function(res) {
+           console.log(res);
+       });
+   }
+   });
+
+      // Replace the content of the body element with the new HTML from the response
+      location.reload();
+    }
+  });
+});
+
+
+
+
+</script>  
+<script>
+  
+$("#main-sortable").sortable({
+  update: function () { 
+       const sortableElement = document.getElementById("main-sortable");
+       const ids = $(sortableElement).sortable('serialize'); 
+       console.log(ids);
+       $.post('/iq/create/verbal/<%= data.exam_code %>/sort', ids, function(res) {
+           console.log(res);
+       });
+   }
+   });
+</script>
+

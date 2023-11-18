@@ -1,6 +1,6 @@
 const express = require ("express");
 const {User} = require("../models/userModel");
-const {Doubt} = require("../models/iqModel");
+const {Doubt} = require("../models/examModel");
 const {MilitaryCourse} = require('../models/militaryCourseModel');
 const {Payment} = require("../models/paymentModel");
 const getIndex = async (req, res) => {
@@ -17,10 +17,10 @@ const getDoubts = async (req, res) => {
 
   
     const data = await Doubt.findOne({ user: req.user }).populate({
-      path: "question_id",
+      path: "question_ids",
       options: { sort: { createdAt: -1 } },
     });
-    console.log(data.question_id);
+    console.log(data.question_ids);
   //   let content = data.questions;
     
   //   const userDoubts = await Doubt.findOne({ user: userId });
@@ -37,27 +37,13 @@ const getDoubts = async (req, res) => {
   //   console.log(newContent);
 
   //   // Render the page inside the aggregate callback
-  //   res.render("issb/iqexam", { content: newContent, data });
+  //   res.render("issb/iqexam", { content: newCi ontent, data });
   //   console.log(problem);
-    res.render('issb/doubts',{data: data.question_id});
+    res.render('issb/doubts',{data: data.question_ids});
     } 
     catch (error) {
    console.log(error.message);
   }};
-
-
-
-
-
-const getTermsAndConditions = async (req, res) => {
-  try {
-    res.render('issb/terms&conditions');
-    } 
-    catch (error) {
-   console.log(error.message);
-  }};
-
-
 
   const getCourses = async (req, res) => {
   try {
@@ -135,7 +121,6 @@ module.exports = {
   getDashboard,
   getCourseDetails,
   getCourseLecture,
-  getTermsAndConditions,
 };
 
 

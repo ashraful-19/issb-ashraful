@@ -1,32 +1,93 @@
 
 
 <%- include('../partials/admin_sidenav.ejs') %>
-
 <style>
-  .syllabus-details{
+  .syllabus-details {
     display: flex;
     flex-direction: column;
     width: 100%;
     padding: 20px;
-
   }
 
+  .syllabus-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+  }
+
+  .syllabus-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .syllabus-item label {
+    margin-right: 10px;
+  }
+
+  .syllabus-title {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+
+  .add-items-container {
+    margin-top: 10px;
+  }
+
+  .add-more {
+    cursor: pointer;
+    color: #007bff;
+    margin-top: 10px;
+  }
+
+  .added-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #f9f9f9;
+  }
+
+  .remove-items a {
+    color: red;
+    text-decoration: none;
+  }
+
+  .remove-items a:hover {
+    text-decoration: underline;
+  }
 </style>
-<div class="syllabus-details">
-  <h1>Course Syllabus</h1>
-<% course.course_syllabus.forEach(function(syllabus) { %>
-  <form action="/admin/course/update-syllabus/<%= courseId %>" method="post">
-    <div class="syllabus_container">
-      <div class="syllabus_item">
+
+<h1>Course Syllabus</h1>
+<div class="syllabus-details" id="main-sortable"  data-sortlink="/admin/course/order/<%= courseId %>">
+ 
+  <% 
+  // Sort the course syllabus array by the "order" field
+  const sortedSyllabus = course.course_syllabus.sort((a, b) => a.order - b.order);
+  
+  // Iterate through the sorted syllabus array
+  sortedSyllabus.forEach(function(syllabus) { 
+  %>
+  <form action="/admin/course/update-syllabus/<%= courseId %>" method="post" id="id_<%= syllabus._id %>">
+    <div class="syllabus-container">
+      <div class="syllabus-item" >
         <input type="text" hidden name="id" value="<%= syllabus._id %>">
         <label><%= syllabus.course_content_icon_url %></label>
-        <p class="syllabustitle"><%= syllabus.course_content_title %></p>
+        <p class="syllabus-title"><%= syllabus.course_content_title %></p>
       </div>
-    </div>
-    <div class="add-items-container">
-      <div class="add_more">Add More</div>
-      <div class="add-items">
-        <% syllabus.course_content_details.forEach(function(content){%>
+      <div class="add-items-container">
+        <div class="add-more">Add More</div>
+        <div class="add-items">
+                   
+          <% 
+          // Sort the course content details array by the "order" field
+          const sortedContentDetails = syllabus.course_content_details.sort((a, b) => a.order - b.order);
+          
+          // Iterate through the sorted content details array
+          sortedContentDetails.forEach(function(content) { 
+          %>
+
+
+
           <div class="added-item">
             <label for="">Type</label><br>
             <select name="type[]" data-selected="<%= content.type %>">
@@ -38,18 +99,19 @@
             <input type="text" name="link[]" value="<%= content.link %>"><br>
             <label for="">Title</label><br>
             <input type="text" name="title[]" value="<%= content.title %>">
-            <div class="remove-items"><a href="/admin/course/<%= courseId %>/syllabus/<%= syllabus._id %>/details/<%= content._id %>">Remove</a></div>
+            <div class="remove-items">
+              <a href="/admin/course/<%= courseId %>/syllabus/<%= syllabus._id %>/details/<%= content._id %>">Remove</a>
+            </div>
           </div>
-          
-            <% }) %>
-
+          <% }) %>
+        </div>
+      </div>
+      <div>
+        <button type="submit">Save</button>
       </div>
     </div>
-    <div>
-      <button type="submit">Save</button>
-    </div>
-  </form>  <br>
-<% }) %>
+  </form>
+  <% }) %>
 </div>
 
 
@@ -57,41 +119,35 @@
 <script>
   $(document).ready(function() {
     // Add a click event listener to the "Add More" button
-    $('.add_more').on('click', function() {
-      // Get the parent form element
-      var form = $(this).closest('form');
-
-      // Get the "Add Items" container
-      var addItems = form.find('.add-items');
+    $('.add-more').on('click', function() {
+      // Get the parent "add-items" container
+      var addItems = $(this).siblings('.add-items');
 
       // Create a new "added-item" element
-      var newItem = $('<div class="added-item"><label for="">Type</label><br><select name="type[]"><option value="video">Video</option><option value="pdf">PDF</option><option value="exam">Exam</option></select><br><label for="">Link</label><br><input type="text" name="link[]"><br><label for="">Title</label><br><input type="text" name="title[]"><div class="remove-items">Remove</div></div>');
+      var newItem = $('<div class="added-item">' +
+        '<label for="">Type</label><br>' +
+        '<select name="type[]">' +
+        '<option value="video">Video</option>' +
+        '<option value="pdf">PDF</option>' +
+        '<option value="exam">Exam</option>' +
+        '</select><br>' +
+        '<label for="">Link</label><br>' +
+        '<input type="text" name="link[]"><br>' +
+        '<label for="">Title</label><br>' +
+        '<input type="text" name="title[]">' +
+        '<div class="remove-items">Remove</div>' +
+        '</div>');
 
-      // Insert the new element after the last added-item element
+      // Insert the new element
       addItems.append(newItem);
     });
+
+    // Add a click event listener to the "Remove" button in "added-item"
+    $(document).on('click', '.remove-items', function() {
+      $(this).parent().remove();
+    });
   });
-
-
-   // Get all elements with the "remove-items" class
-   const removeButtons = document.querySelectorAll('.remove-items');
-
-// Add a click event listener to each "remove-items" element
-removeButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    // Find the closest parent container that contains both the "remove-items" and "added-item" elements
-    const parent = button.closest('.add-items');
-
-    // Find the "added-item" element within the parent container
-    const itemToRemove = parent.querySelector('.added-item');
-
-    // Remove the "added-item" element
-    itemToRemove.remove();
-  });
-});
 </script>
-
-
 
 
 <style>
@@ -182,4 +238,23 @@ setInterval(() => {
 
 
 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
 
+$(document).ready(function() {
+  const formAction = $("#main-sortable").data("sortlink"); // Get the form action URL
+
+  $("#main-sortable").sortable({
+    placeholder: "sortable-placeholder", // Add a placeholder class for styling
+    update: function() {
+      const sortableElement = document.getElementById("main-sortable");
+      const ids = $(sortableElement).sortable('serialize');
+      console.log(ids);
+      console.log(formAction)
+      $.post(formAction, ids, function(res) {
+        console.log(res);
+      });
+    }
+  });
+  });
+</script>

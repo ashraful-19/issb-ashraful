@@ -89,9 +89,8 @@ const getCourse = async (req, res) => {
          
           const courseId = req.params.id;
           const course = await MilitaryCourse.findOne({course_id: courseId}).sort({ course_id: -1 }).exec();
-          const courseSyllabus = await MilitaryCourse.find({course_id: courseId}).sort({ course_id: -1 }).exec();
-          console.log(courseSyllabus)
-          res.render('admin/update-course',{courseId,course,courseSyllabus});
+         
+          res.render('admin/update-course',{courseId,course});
           }
           catch (error) {
          console.log(error.message);
@@ -230,6 +229,8 @@ const getCourse = async (req, res) => {
             //     console.log(error.message);
             //   }
             // };
+          
+          
             const postUpdateCourseSyllabus = async (req, res) => {
               try {
                 const courseId = req.params.id;
@@ -265,6 +266,34 @@ const getCourse = async (req, res) => {
             
             
 
+            const updateCourseSyllabusOrder = async (req, res) => {
+              try {
+                const courseId = req.params.id;
+                const syllabusIds = req.body['id'];
+            
+                // Fetch the course based on the courseId
+                const course = await MilitaryCourse.findOne({ course_id: courseId });
+            
+                // Update the order of syllabus items based on the provided ids
+                for (let i = 0; i < syllabusIds.length; i++) {
+                  const id = syllabusIds[i];
+                  const syllabus = course.course_syllabus.find(s => s._id.toString() === id);
+                  if (syllabus) {
+                    syllabus.order = i + 1; // Set the order based on the loop index
+                  }
+                }
+            
+                // Save the updated document to the database
+                await course.save();
+            
+                res.status(200).json({ success: true, message: "Course syllabus order updated successfully" });
+              } catch (error) {
+                console.error(error);
+                res.status(500).json({ success: false, message: "Failed to update course syllabus order" });
+              }
+            };
+            
+            
             const deleteCourseSyllabusItemDetails = async (req, res) => {
               try {
                 const courseId = req.params.id;
@@ -301,6 +330,7 @@ module.exports = {
   getCreateCourse,
   postCreateCourse,
   getUpdateCourse,
+  updateCourseSyllabusOrder,
   postUpdateCourseSyllabusList,
   getUpdateCourseSyllabus,
   postUpdateCourseSyllabus,

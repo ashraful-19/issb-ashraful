@@ -1,17 +1,73 @@
 <%- include('../partials/header.ejs') %>
+<style>
+    .blog-card {
+      width: 90%;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+	    align-items: center;
+		margin: 20px auto;
+    }
 
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .blog-card-content {
+      padding: 10px 15px 15px 15px;
+      position: relative;
+    }
+
+    .blog-card-heading {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    p.blog-card-text + p {
+      color: #555!important;
+      margin-bottom: 15px;
+    }
+
+    .see-more-button {
+      display: inline-block;
+      padding: 5px 20px;
+      background-color: #0a1c30;
+      color: #fff!important;
+      border: none;
+	  font-size: 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .see-more-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
   
 
 	<section class="top-nav">
 		<div><h4><%= title %></h4></div>
 	 
-	 <img src="https://th.bing.com/th/id/R.23ca2f3fbf7e19a1e85cd9d556d5ffaf?rik=uoFjTlg8g%2bIkqw&pid=ImgRaw&r=0" id="top-nav-icon-issb">
+	 <img src="https://candidatelogin.issb-bd.org/asset/img/logonew.png" id="top-nav-icon-issb">
 	</section>
 
 
 
 <br><br><br>
-	<section class="content">
+	
 		
 	<div class="content_items">
 		<% content.forEach(function(data) { %>
@@ -36,20 +92,50 @@
 		  </div>
 		  <% }) %>
 	</div>
-
-
-
-
-
-<div id="floatingMenu">
-	<ul><li><a href=""><i class="fa-regular fa-circle-play"></i>First Option jodi</a></li><li><a href=""><i class="fa-regular fa-circle-play"></i>Second Option</a></li>
-	<li><a href=""><i class="fa-regular fa-circle-play"></i>Third Option</a></li></ul>
-</div>
-
-    <div id="menuicon">
-        <i class="fa-solid fa-bars"></i>
-    </div>
-
+	<% content.forEach(function(data) { %>
+	
+	<div class="blog-card">
+		<%- data.question %>
+		<div class="blog-card-content">
+			<% data.option.forEach(function(option) { %>
+				
+		  <h2 class="blog-card-heading"><%- option %></h2>
+		  <% }) %>
+		  <p class="blog-card-text"><%- data.explanation %></p>
+		  <a href="/issb/textcontent/details?type=<%= type %>&id=<%= data._id %>" class="see-more-button">See More</a>
+		</div>
+	  </div>
+	  <% }) %>
+	<div id="floatingMenu">
+		<ul>
+			<li><a href=""><i class="fa-regular fa-circle-play"></i>First Option jodi</a></li>
+			<li><a href=""><i class="fa-regular fa-circle-play"></i>Second Option</a></li>
+			<li><a href=""><i class="fa-regular fa-circle-play"></i>Third Option</a></li>
+		</ul>
+	</div>
+	
+	<div id="menuicon">
+		<i class="fa-solid fa-fire-flame-curved"></i>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+		$("#menuicon").click(function() {
+			$("#floatingMenu").fadeToggle(100);
+			event.stopPropagation(); // Prevent click event from propagating to document
+		});
+	
+		// Click event on document to hide the menu when clicked outside
+		$(document).click(function(event) {
+			if (!$(event.target).closest("#floatingMenu, #menuicon").length) {
+				$("#floatingMenu").fadeOut(100);
+			}
+		});
+	});
+	</script>
+	
 	<!-- hide andshow  -->
 	
 	<div id="eye-open-close">
@@ -59,36 +145,28 @@
 
 	<div class="pagination">
 		<% if (currentPage > 1) { %>
-		  <p><a href="/issb/textcontent?type=essay_writing&text_type=bangla&page=<%= currentPage - 1 %>">Prev</a></p>
+		  <p><a href="/issb/textcontent?type=<%= type %>&text_type=<%= text_type %>&page=<%= currentPage - 1 %>">Prev</a></p>
 		<% } %>
 	  
 		<% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
 		  <% if (i === currentPage) { %>
 		  <p class="pagination-active" ><span><%= i %></span></p>
 		  <% } else { %>
-		  <p><a href="/issb/textcontent?type=essay_writing&text_type=bangla&page=<%= i %>"><%= i %></a></p>
+		  <p><a href="/issb/textcontent?type=<%= type %>&text_type=<%= text_type %>&page=<%= i %>"><%= i %></a></p>
 		  <% } %>
 		<% } %>
 	  
 		<% if (currentPage < totalPages) { %>
-		<p><a href="/issb/textcontent?type=essay_writing&text_type=bangla&page=<%= currentPage + 1 %>">Next</a></p>
+		<p><a href="/issb/textcontent?type=<%= type %>&text_type=<%= text_type %>&page=<%= currentPage + 1 %>">Next</a></p>
 		<% } %>
 	  </div>
-
+<br><br><br>
  <!-- bottom nagivatoin section  -->
 
  <%- include('../partials/bottom-nav.ejs') %>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <script>
-	$(document).ready(function(){
-	  $("#menuicon").click(function(){
-		$("#floatingMenu").fadeToggle(100);
-		
-	  });
-	 
-	});</script>
-  <script src="./script.js"></script>
+ 
  
 </html>
 <script>
