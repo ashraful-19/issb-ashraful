@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const db = require('./config/db');   //this is for db connecting not need here just to see in console
 const flash = require('connect-flash');
+const multer = require('multer');
 
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -24,7 +25,7 @@ const authRoute = require('./routes/authRoutes');
 const homeRoute = require('./routes/homeRoutes');
 const paymentRoute = require('./routes/paymentRoutes');
 const homeListRoute = require('./routes/homeListRoutes');
-const iqRoute = require('./routes/iqRoutes');
+const iqRoute = require('./routes/examRoutes');
 
 app.use(
   session({
@@ -96,14 +97,35 @@ app.use('/iq', iqRoute);
 //   res.send('You entered the wrong password.');
 // });
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/images'); // Replace with your upload directory
+  },
+  filename: function (req, file, cb) {
+    // Generate a random filename
+    const randomName = Math.random().toString(36).substring(7);
+    const ext = file.originalname.split('.').pop();
+    const newFilename = `${randomName}.${ext}`;
+    
+    cb(null, newFilename);
+  },
+});
 
+const upload = multer({ storage: storage }).single('image'); // 'image' should match your field name
 
+app.post("/upload", upload, (req, res, next) => {
+  const file = req.file;
+  console.log(file);
+  if (!file) {
+    const error = new Error("Please upload a file");
+    error.httpStatusCode = 400;
+    return next(error);
+  }
 
-
-
-
-
-
+  const uploadedFilePath = `/images/${req.file.filename}`;
+  console.log(`Uploaded file path: http://localhost:3000${uploadedFilePath}`);
+  res.json({ link: uploadedFilePath });
+});
 
 app.listen(PORT, () => {
   console.log(`App is running on ${PORT}`);
