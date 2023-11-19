@@ -12,6 +12,15 @@ const getIndex = async (req, res) => {
   }};
 
 
+const getTermsAndConditions = async (req, res) => {
+  try {
+    res.render('issb/terms&conditions');
+    } 
+    catch (error) {
+   console.log(error.message);
+  }};
+
+
 const getDoubts = async (req, res) => {
   try {
 
@@ -121,6 +130,7 @@ module.exports = {
   getDashboard,
   getCourseDetails,
   getCourseLecture,
+  getTermsAndConditions,
 };
 
 
