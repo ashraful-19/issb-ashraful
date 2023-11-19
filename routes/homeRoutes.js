@@ -5,6 +5,7 @@ const router = express.Router();
 const { checkAuthenticated, checkLoggedIn } = require('../config/auth');
 const { checkPayment,checkAccess } = require("../middlewares/updateUser");
 
+router.get('/terms&conditions', homeController.getTermsAndConditions);
 router.get('/', homeController.getIndex);
 router.get('/doubts',checkAuthenticated, homeController.getDoubts);
 router.get('/course', homeController.getCourses);
