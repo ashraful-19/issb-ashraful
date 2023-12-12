@@ -6,86 +6,63 @@ const {User} = require("../models/userModel");
 const getLessonVideo = async (req, res) => {
   try {
     const type = req.query.type;
-    let data = await VideoContent.find({type: type}, null, { sort: { order: 1 } });
-    console.log(data);
 
 
-    res.render('issb/lessonvideo',{content:data});
+    res.render('issb/lessonvideo',{content: type});
     } 
     catch (error) {
    console.log(error.message);
   }};
 
-const getPracticePpdt = async (req, res) => {
-  try {
-    const page = parseInt(req.query.page) || 1; // current page, default to 1
-    const perPage = 4; // number of users per page
-    const type = req.query.type;
-    const text_type = req.query.text_type || "";
-
-    const count = await Question.countDocuments({exam_type:"ISSB" , subject:type ,version: text_type}); // Count total documents
-    const totalPages = Math.ceil(count / perPage); // Calculate total pages
-console.log(page,perPage,type,text_type,count,totalPages)
-    const data = await Question.find({exam_type:"ISSB" , subject:type ,version: text_type})
-      .sort({ order: 1 }) // Sort by order
-      .skip((page - 1) * perPage) // Skip documents
-      .limit(perPage); // Limit number of documents per page
-console.log(data)
-    res.render('issb/practiceppdt', {
-      content: data,
-      title: type,
-      currentPage: page,
-      totalPages: totalPages,
-      type: type,
-      text_type: text_type
-    });  
-  } 
-    catch (error) {
-   console.log(error.message);
-  }};
-
-  const getPictureStory = async (req, res) => {
+  const getPracticePpdt = async (req, res) => {
     try {
-      const type = req.query.type;
-      let data = await Ppdtorstory.find({type: type}, null, { sort: { order: 1 } });
-      console.log(data);
-      res.render('issb/picture_story',{content:data,title: 'Picture Story'});
-      } 
-      catch (error) {
-     console.log(error.message);
-    }};
-
-
-    const getTextContent = async (req, res) => {
-      try {
-        const page = parseInt(req.query.page) || 1; // current page, default to 1
-        const perPage = 4; // number of users per page
-        const type = req.query.type;
-        const text_type = req.query.text_type || "";
-    
-        const count = await Question.countDocuments({exam_type:"ISSB" , subject:type ,version: text_type}); // Count total documents
-        const totalPages = Math.ceil(count / perPage); // Calculate total pages
-    console.log(page,perPage,type,text_type,count,totalPages)
-        const data = await Question.find({exam_type:"ISSB" , subject:type ,version: text_type})
-          .sort({ order: 1 }) // Sort by order
-          .skip((page - 1) * perPage) // Skip documents
-          .limit(perPage); // Limit number of documents per page
-    console.log(data)
-        res.render('issb/text_content', {
-          content: data,
-          title: type,
-          currentPage: page,
-          totalPages: totalPages,
-          type: type,
-          text_type: text_type
-        });
-      } catch (error) {
-        console.log(error.message);
+      const page = parseInt(req.query.page) || 1; // current page, default to 1
+      const perPage = 10; // number of users per page
+      const type = req.query.type; // ppdt
+      const text_type = req.query.text_type; // bangla or english or both
+  
+      const query = { exam_type: "ISSB", subject: type };
+  
+      // Add the condition for text_type only if it's provided and not an empty string
+      if (text_type !== undefined && text_type !== '') {
+        query.version = text_type;
       }
-    };
-    
-
-    const getTextContentDetails = async (req, res) => {
+  
+      const count = await Question.countDocuments(query); // Count total documents
+      const totalPages = Math.ceil(count / perPage); // Calculate total pages
+  
+      console.log(page, perPage, type, text_type, count, totalPages);
+  
+      const data = await Question.find(query)
+        .sort({ order: 1 }) // Sort by order
+        .skip((page - 1) * perPage) // Skip documents
+        .limit(perPage); // Limit number of documents per page
+  
+      console.log(data);
+  
+      // Dynamically determine the render link based on the 'type' variable
+      let renderLink;
+      if (type === 'Picture Story' || type === 'PPDT' || type === 'Incomplete Story') {
+        renderLink = 'issb/practiceppdt';
+      } else {
+        renderLink = 'issb/card_content';
+      }
+  
+      // Render the page using the dynamically determined link
+      res.render(renderLink, {
+        content: data,
+        title: type,
+        currentPage: page,
+        totalPages: totalPages,
+        type: type,
+        text_type: text_type || '' // Provide a default value if text_type is undefined
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+   
+    const getCardContentDetails = async (req, res) => {
       try {
 
         const type = req.query.type;
@@ -94,7 +71,7 @@ console.log(data)
     
         const data = await Question.findOne({exam_type:"ISSB" , _id:id })
         console.log(data)
-        res.render('issb/text_content_details', {
+        res.render('issb/card_content_details', {
           content: data,
           title: type,
         });
@@ -338,9 +315,7 @@ console.log(data)
 module.exports = {
   getLessonVideo,
   getPracticePpdt,
-  getPictureStory,
-  getTextContent,
-  getTextContentDetails,
+  getCardContentDetails,
   getIqList,
   getVerbalIqExam,
   postDoubt,
