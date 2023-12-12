@@ -6,9 +6,7 @@ const { checkAuthenticated, checkLoggedIn } = require('../config/auth');
 
 router.get('/lessonvideo', homeListController.getLessonVideo);
 router.get('/practiceppdt', homeListController.getPracticePpdt);
-router.get('/picture-story', homeListController.getPictureStory);
-router.get('/textcontent', homeListController.getTextContent);
-router.get('/textcontent/:id', homeListController.getTextContentDetails);
+router.get('/card_content/details', homeListController.getCardContentDetails);
 router.get('/iqlist', homeListController.getIqList);
 router.get('/verbal/:id/exam',checkAuthenticated, homeListController.getVerbalIqExam);
 router.post('/verbal/:id/result',checkAuthenticated, homeListController.postVerbalIqExamResult);
