@@ -71,10 +71,11 @@ margin-top:10px;
 
 
 <script>
-  // JSON data
-  const contentData = {
+
+
+const contentData = {
   "IQ": [
-    {
+  {
       "type": "video",
       "title": "Intro to IQ Video",
       "link": "https://player.vimeo.com/video/855932385"
@@ -89,9 +90,10 @@ margin-top:10px;
       "title": "IQ Guide PDF",
       "link": "https://www.example.com/iq_guide.pdf"
     }
+    // Add more items for IQ if needed
   ],
   "PPDT": [
-    {
+  {
       "type": "video",
       "title": "PPDT Basics",
       "link": "https://www.youtube.com/embed/iXDbt2EHOGw"
@@ -120,10 +122,37 @@ margin-top:10px;
       "title": "PPDT Tips PDF",
       "link": "https://www.example.com/ppdt_tips.pdf"
     }
-
+    // Add more items for PPDT if needed
   ],
-  "GD": [
-    {
+  "Essay Writing": [
+    // Add items for Essay Writing
+  ],
+  "Incomplete Story": [
+    // Add items for Incomplete Story
+  ],
+  "Picture Story": [
+    // Add items for Picture Story
+  ],
+  "Incomplete Sentences": [
+    // Add items for Incomplete Sentences
+  ],
+  "WAT": [
+    // Add items for WAT
+  ],
+  "Memorable Bitter": [
+    // Add items for Memorable Bitter
+  ],
+  "Self Criticism": [
+    // Add items for Self Criticism
+  ],
+  "Self Assessment": [
+    // Add items for Self Assessment
+  ],
+  "Biodata": [
+    // Add items for Biodata
+  ],
+  "Group Discussion": [
+  {
       "type": "video",
       "title": "Group Discussion Tips",
       "link": "https://www.youtube.com/embed/hp9eUYicGMw"
@@ -171,8 +200,48 @@ margin-top:10px;
       "title": "Effective Communication in GD",
       "link": "https://www.youtube.com/gd_communication"
     }
+    // Add more items for GD if needed
+  ],
+  "PGT": [
+    // Add items for PGT
+  ],
+  "HGT": [
+    // Add items for HGT
+  ],
+  "Extempore Speech": [
+    // Add items for Extempore Speech
+  ],
+  "PAT": [
+    // Add items for PAT
+  ],
+  "Medical": [
+    // Add items for Medical
+  ],
+  "DP Viva": [
+    // Add items for DP Viva
+  ],
+  "Planning Exercise": [
+    // Add items for Planning Exercise
+  ],
+  "GTO Viva": [
+    // Add items for GTO Viva
+  ],
+  "Psychometrics Test": [
+    // Add items for Psychometrics Test
+  ],
+  "Command Task": [
+    // Add items for CT
+  ],
+  "Mutual Assessment": [
+    // Add items for CT
+  ],
+  "Medical": [
+    // Add items for CT
   ]
+
 };
+
+
 
 
 
@@ -218,7 +287,7 @@ margin-top:10px;
   }
 
   // Call renderContent with the desired type (e.g., "IQ")
-  renderContent('PPDT');
+  renderContent('<%= content %>');
 
 
 
@@ -260,7 +329,7 @@ margin-top:10px;
 }
 
 // Example usage:
-renderFirstVideo('PPDT');
+renderFirstVideo('<%= content %>');
 
 </script>
 
