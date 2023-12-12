@@ -1,1078 +1,126 @@
-<%- include('../partials/header.ejs') %>
-<style>
-	.con {
-  position: relative;
-  bottom: -10px;
-  height: auto;
-  border: none;
- background-color: f4f4f461;
-  
-}
-.accordion-content {
-max-height: 100%;
-position:relative;
- top:-5px;
-transition: max-height 0.3s ease-in-out;
-background-color: #f4f4f461;
-display: flex;
-flex-direction: column;
+<%- include('partials/header.ejs') %>
 
- border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+    <section class="videofix">
+		<iframe
+		  src="https://player.vimeo.com/video/735513454?h=41bbcdd9a7?h=938b474e63&title=0&byline=0&portrait=0"
+		  style="
+		  	clear:both;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 27vh;
+			margin: 0;
+			padding: 0;
+			z-index: 54;
+			display: flex;
+			align-items: flex-start;
+			flex-wrap: nowrap;
+			background-color: rgb(255, 255, 255);
+		  "
+		  id="videolink"
+		  frameborder="0"
+		  allow="autoplay; fullscreen; picture-in-picture"
+		  allowfullscreen
+		></iframe>
+	  </section>
+	  <br><br><br><br><br><br><br><br><br><br>
+	 
+<section class="content">
+    <div class="lecture" onclick="changeVideo('https://player.vimeo.com/video/244926210')">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান  পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান  </p> 
+	</div>
+	<div class="lecture" onclick="changeVideo('https://player.vimeo.com/video/28292263')">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div>
+    <div class="lecture" onclick="changeVideo('https://player.vimeo.com/video/244926210')">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান  পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান  </p> 
+	</div>
+    <div class="lecture" onclick="changeVideo('https://player.vimeo.com/video/244926210')">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান  পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান  </p> 
+	</div>
+	<div class="lecture" onclick="changeVideo('https://player.vimeo.com/video/28292263')">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div>
+	<div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div>
+	<div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div><div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div><div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div><div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div><div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div><div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div><div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div><div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div><div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div>
+	<div class="lecture" onclick="changeVideo('https://player.vimeo.com/video/138557845?h=a9357ef612')">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p>
+	</div>   <div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div>   <div class="lecture">
+		<i class="fa-regular fa-circle-play"></i>
+		<p class="lecName">পিপিডিটি নিয়ে যত ভয় সব কিছুর সমাধান</p> 
+	</div>
 
-
-}
-.accordion-content a{
-  
-  width: 100%;
-  font-size: 14px;
-  color: #737373;
-  border:none!important;
-  padding: 15px 20px!important;
-  width:98%;
-  margin: 0px auto 0px!important;
-}
-.accordion-content a:hover{
-  background:#ededed;
-  cursor: pointer;
-}
-
-.accordion-content a:last-child{
-margin-bottom:10px;
-}
-.accordion-content a:first-child{
-margin-top:10px;
-}
-
-
-.accordion img{
-  width: 22px;
-  margin-right: 10px;
-}
-.video-active:hover:focus{
-  background-color: black;
-  color:white;
-}
-</style>
-
-  <div class="video-main-box" style="z-index: 12;">
-    <div class="video-container-lesson">
-        <iframe id="video-iframe" width="100%" height="100%" src="https://player.vimeo.com/video/855932385?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;" allowfullscreen></iframe>
-    </div>
+</section>
+<div id="floatingMenu">
+	<ul><li><a href=""><i class="fa-regular fa-circle-play"></i>First Option jodi</a></li><li><a href=""><i class="fa-regular fa-circle-play"></i>Second Option</a></li>
+	<li><a href=""><i class="fa-regular fa-circle-play"></i>Third Option</a></li></ul>
 </div>
 
-  <section class="con">
-        <div class="accordion-content" id="content-container">
-        </div>
-</section>
-
-
-<br><br><br><br>
-
-
-<script>
-  // JSON data
-  const contentData = {
-  "IQ": [
-    {
-      "type": "video",
-      "title": "Intro to IQ Video",
-      "link": "https://player.vimeo.com/video/855932385?autoplay=1"
-    },
-    {
-      "type": "video",
-      "title": "Advanced IQ Video",
-      "link": "https://www.youtube.com/iq_advanced"
-    },
-    {
-      "type": "pdf",
-      "title": "IQ Guide PDF",
-      "link": "https://www.example.com/iq_guide.pdf"
-    }
-  ],
-  "PPDT": [
-    {
-      "type": "video",
-      "title": "PPDT Basics",
-      "link": "https://www.youtube.com/ppdt_basics"
-    },
-    {
-      "type": "video",
-      "title": "PPDT Strategies",
-      "link": "https://www.youtube.com/ppdt_strategies"
-    },
-    {
-      "type": "pdf",
-      "title": "PPDT Tips PDF",
-      "link": "https://www.example.com/ppdt_tips.pdf"
-    }
-  ],
-  "GD": [
-    {
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    }
-  ]
-};
-
-
-function renderFirstVideo(category) {
-  // Check if the category exists in contentData
-  if (contentData.hasOwnProperty(category)) {
-    const videos = contentData[category].filter(item => item.type === "video");
-    
-    // Check if there are any videos in the category
-    if (videos.length > 0) {
-      const firstVideoLink = videos[0].link;
-      // Assuming you have an HTML element with id "videoID" for embedding the video
-      const videoElement = document.getElementById("video-iframe");
-      if (videoElement) {
-        videoElement.src = firstVideoLink;
-      } else {
-        console.error("Element with id 'videoID' not found.");
-      }
-    } else {
-      console.error("No videos found in the specified category.");
-    }
-  } else {
-    console.error("Category not found in contentData.");
-  }
-}
-
-// Example usage:
-renderFirstVideo('IQ');
-
-
-  // Function to generate HTML based on content type
-  function generateContentHTML(contentList) {
-    return contentList.map(item => {
-      let iconClass = '';
-      let linkClass = '';
-
-      if (item.type === 'video') {
-        iconClass = 'fa-solid fa-play';
-        linkClass = 'video';
-      } else if (item.type === 'pdf') {
-        iconClass = 'fa-regular fa-file-lines';
-        linkClass = 'pdf';
-      } else if (item.type === 'exam') {
-        iconClass = 'fa-solid fa-file-lines';
-        linkClass = 'exam';
-      }
-
-      return `
-        <a href="${item.link}" class="${linkClass}">
-          <i class="${iconClass}"></i>&nbsp;&nbsp;&nbsp;${item.title}
-        </a>
-      `;
-    }).join('');
-  }
-
-  // Function to render content based on type
-  function renderContent(type) {
-    const contentContainer = document.getElementById('content-container');
-    const contentList = contentData[type];
-
-    if (contentList) {
-      const contentHTML = generateContentHTML(contentList);
-      contentContainer.innerHTML = contentHTML;
-    } else {
-      contentContainer.innerHTML = 'No content available for this type.';
-    }
-  }
-
-  // Call renderContent with the desired type (e.g., "IQ")
-  renderContent('GD');
-
-</script>
+    <div id="menuicon">
+        <i class="fa-solid fa-bars-staggered"></i>
+    </div>
 
 
 
 
  <!-- bottom nagivatoin section  -->
-
- <%- include('../partials/bottom-nav.ejs') %>
-
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+ <%- include('partials/bottom-nav.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
-const videoIframe = document.querySelector('#video-iframe');
-const con = document.querySelector('.con');
-
-function setMarginTop() {
-  con.style.marginTop = videoIframe.offsetHeight + 'px';
-}
-
-setMarginTop(); // initial setting
-
-window.addEventListener('resize', setMarginTop);
-
-
-</script>
-
-
-
-
-<script>
-  const videoLinks = document.querySelectorAll('.video');
-  const videoIframe1 = document.getElementById('video-iframe');
-  let activeVideoLink = null;
-
-  videoLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-      event.preventDefault();
-
-      // Remove the active class from the previously clicked link
-      if (activeVideoLink) {
-        activeVideoLink.classList.remove('video-active');
-      }
-
-      // Add the active class to the clicked link
-      this.classList.add('video-active');
-      activeVideoLink = this;
-
-      const videoUrl = this.getAttribute('href');
-      // Update the iframe source to the video URL
-      videoIframe1.src = videoUrl+'?autoplay=1';
-    });
-  });
-</script>
-
-
-
-
-
-
+  $(document).ready(function(){
+	$("#menuicon").click(function(){
+	  $("#floatingMenu").fadeToggle(100);
+	  
+	});
+   
+  });</script>
+  <script>
+	  
+	  function changeVideo(a) {
+	  console.log(a);
+	  let imgDiv = document.getElementById("videolink");
+	  imgDiv.src = a; // replace the image on button click.
+	  }
+	  </script>
+	  
+<script src="/js/script.js"></script>
