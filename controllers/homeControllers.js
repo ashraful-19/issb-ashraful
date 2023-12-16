@@ -19,6 +19,13 @@ const getTermsAndConditions = async (req, res) => {
     catch (error) {
    console.log(error.message);
   }};
+const getPrivacyAndPolicy = async (req, res) => {
+  try {
+    res.render('issb/privacy&policy');
+    } 
+    catch (error) {
+   console.log(error.message);
+  }};
 
 
 const getDoubts = async (req, res) => {
@@ -131,6 +138,7 @@ module.exports = {
   getCourseDetails,
   getCourseLecture,
   getTermsAndConditions,
+  getPrivacyAndPolicy,
 };
 
 
