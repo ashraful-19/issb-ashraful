@@ -90,62 +90,72 @@ button {
 
 </style>
 <section class="rightside">
+  <h1>Exam Group Settings</h1>
+
+  <% if (content.length > 0) { %>
+    <div class="exam-group">
+      <% content.forEach((exam, index) => { %>
+        <a href="/iq/create/<%= exam.exam_code %>/settings"> <%= index + 1 %>) <%= exam.exam_name %></a><span>#<%= exam.exam_code %></span><br>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p>No exams found for the provided exam codes.</p>
+  <% } %>
+  
+
+
+
+
     <h1>Verbal Model Test Dashboard</h1>
     <br>
-    <div class="clone-exam">
-      <form action="/admin/quiz/<%= content.exam_code %>/clone" method="post">
-        <button type="submit">Clone Exam</button>
-        <a href="/"><button>Result</button></a>
-      </form>
-    </div>
-
+  
+    
   <div class="create-show">
-    <form action="/iq/create/<%= content.exam_code %>/settings" method="POST" class="setting_inputs" id="setting_form">
-      <label for="exam_name">Exam Name:</label>
-      <input class="setting_input" type="text" name="exam_name"  value="<%= content.exam_name %>">
+    <form action="" method="POST" class="setting_inputs" id="setting_form">
       <label for="Instruction">Instruction:</label> 
-      <textarea class="setting_input edit-froala" name="instruction"><%= content.instruction %></textarea>
+      <textarea class="setting_input edit-froala" name="instruction"></textarea>
       <div>
-         <div><input type="checkbox" name="randomize"   <% if (content.randomize) { %>checked<% } %>> <span>Randomize the order of the questions during the test</span></div>
-         <div><input type="checkbox" name="negative_marking"  <% if (content.negative_marking) { %>checked<% } %>> <span> Penalize incorrect answers (negative marking)</span></div>
-         <div><input type="checkbox" name="custom_message"  <% if (content.custom_message) { %>checked<% } %>> <span>Show a custom message if the student passed or failed</span></div>
+         <div><input type="checkbox" name="randomize" > <span>Randomize the order of the questions during the test</span></div>
+         <div><input type="checkbox" name="negative_marking" > <span> Penalize incorrect answers (negative marking)</span></div>
+         <div><input type="checkbox" name="custom_message"  > <span>Show a custom message if the student passed or failed</span></div>
          <div>
             <h4>What is the passing score 1?</h4>
-            <input type="number" min="0" max="100" name="passing_score1" value="<%= content.passing_score1 %>">%
+            <input type="number" min="0" max="100" name="passing_score1" value="">
             <h4>Pass Message</h4>
-            <textarea name="message_on_pass1"  class="edit-froala" ><%= content.message_on_pass1 %></textarea>
+            <textarea name="message_on_pass1"  class="edit-froala" ></textarea>
             <h4>What is the passing score 2?</h4>
-            <input type="number" min="0" max="100" name="passing_score2" value="<%= content.passing_score2 %>">%
+            <input type="number" min="0" max="100" name="passing_score2" value="">
             <h4>Pass Message</h4>
-            <textarea name="message_on_pass2"   class="edit-froala"><%= content.message_on_pass2 %></textarea>
+            <textarea name="message_on_pass2"   class="edit-froala"></textarea>
             <h4>What is the failing score?</h4>
-            <input type="number" min="0" max="100" name="failing_score" value="<%= content.failing_score %>">%
+            <input type="number" min="0" max="100" name="failing_score" value="">
             <h4>Fail Message</h4>
-            <textarea name="message_on_fail" id=""  class="edit-froala"><%= content.message_on_fail %></textarea>
+            <textarea name="message_on_fail" id=""  class="edit-froala"> </textarea>
          </div>
          <h4>At the end of the test, display the user's:</h4>
-         <div><input type="checkbox" name="show_result" <% if (content.show_result) { %>checked<% } %>> <span>Result</span></div>
-         <div><input type="checkbox" name="show_merit"  <% if (content.show_merit) { %>checked<% } %>> <span> Merit list</span></div>
-         <div><input type="checkbox" name="practice" <% if (content.
-          practice) { %>checked<% } %>> <span> Practice</span></div>
-         <div><input type="checkbox" name="show_explanation"  <% if (content.show_explanation) { %>checked<% } %>> <span> Display the explanation</span></div>
+         <div><input type="checkbox" name="show_result"> <span>Result</span></div>
+         <div><input type="checkbox" name="show_merit"> <span> Merit</span></div>
+         <div><input type="checkbox" name="practice"> <span> Practice</span></div>
+         <div><input type="checkbox" name="show_explanation"> <span> Display the explanation</span></div>
          <h4>How much time do test takers have to complete the test?</h4>
-         <div><input type="number" min="0" max="200" name="time" value="0"><span>minutes</span></div>
+         <div><input type="number" min="0" max="200" name="time" value="0"> <span>minutes</span></div>
          <h4>How many times can someone take your test?</h4>
+         <div><span>Unlimited</span></div>
          <div><input type="number" min="1" max="100" name="attempt" value="1"> <span>times</span></div>
+         
+         
          <h4>Conclution Text</h4>
-         <textarea name="conclusion_text"  class="edit-froala"><%= content.conclusion_text %></textarea>
+         <textarea name="conclusion_text"  class="edit-froala"></textarea>
       </div>
       <h1>Publishing the Test</h1>
-      <div>
-        <input type="radio" name="active_status" value="closed" <%= content.active_status === 'closed' ? 'checked' : '' %>>
-        <span>Closed</span>
-      </div>
-      <div>
-        <input type="radio" name="active_status" value="open" <%= content.active_status === 'open' ? 'checked' : '' %>>
-        <span>Open</span>
-      </div>      
-      <div><input type="checkbox" name="is_anyone" <% if (content.is_anyone) { %>checked<% } %>> <span>Anyone</span></div>
+    
+      <div><input type="radio" name="active_status" value="closed"> <span>Closed</span></div>
+      <div><input type="radio"name="active_status" value="open"> <span>Open</span></div>
+  
+
+      <div><input type="checkbox" name="is_anyone"><span>Anyone</span></div>
+
+  
 
       <h1>Selected Course</h1>
       <% for (const course of courseList) { %>
@@ -154,30 +164,14 @@ button {
             type="checkbox" 
             name="course_added" 
             value="<%= course.course_id %>"
-            <% if (content.course_added.includes(course.course_id)) { %>checked<% } %>
+
           >
           <%= course.course_name %>
         </label>
       <% } %>
-      
-
 
       <input class="setting_input" type="submit" value="Update">
    </form>
-
-
-    
-
-
-    <h1>Export Options</h1> 
-    <div class="export">
-      <div><input type="radio" name="" id=""> <span>View/print in your browser</span></div>
-      <div><input type="radio" name="" id=""><span>Download as Word doc</span></div>
-      <div> <input type="checkbox" name="" id=""> <span>Show Answer</span></div>
-      <div><input type="checkbox" name="" id=""> <span>Show Explanation</span></div>
-      <button>View/Print/Download</button>
-      <div>  <span>Other Formats:</span> <span>CSV</span></div>
-    </div>
   </div>
   </section>
 </body>

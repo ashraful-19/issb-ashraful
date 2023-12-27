@@ -92,7 +92,18 @@
       <input type="text" id="course_fee" name="course_fee" value="<%= course.course_fee %>">
     </div>
     <div>
-
+      <div>
+        <label for="course_class">Course Class</label>
+        <input type="text" id="course_class" name="course_class" value="<%= course.course_class %>">
+    </div>
+    <div>
+      <label for="course_exam">Course Exam</label>
+      <input type="text" id="course_exam" name="course_exam" value="<%= course.course_exam %>">
+  </div>
+  <div>
+      <label for="course_note">Course Note</label>
+      <input type="text" id="course_note" name="course_note" value="<%= course.course_note %>">
+  </div>
     <div>
       <label for="course_description">Course Description</label>
       <textarea id="course_description" name="course_description"><%= course.course_description %></textarea>
@@ -127,8 +138,12 @@
     // Iterate through the sorted syllabus array
     sortedSyllabus.forEach(function(syllabus) { 
     %>
+ 
     <div class="syllabus_item" style="background-color: blue;" id="id_<%= syllabus._id %>">
+      <%= syllabus.order %>
       <input type="text" hidden name="id[]" value="<%= syllabus._id %>">
+      <label>Subject Name</label>
+      <input name="course_content_type[]" value="<%= syllabus.course_content_type %>">
       <label>Course Syllabus Icon</label>
       <input name="course_content_icon_url[]" value="<%= syllabus.course_content_icon_url %>">
       <label>Course Syllabus</label>
@@ -247,10 +262,12 @@ addMoreButton.addEventListener("click", function() {
   newSyllabusItem.classList.add("syllabus_item");
   newSyllabusItem.innerHTML = `
     <input type="text" hidden name="id">
+    <label>Subject Name</label>
+    <input name="course_content_type[]" >
     <label>Course Syllabus Icon</label>
-    <input id="course_syllabus" name="course_content_icon_url[]">
+    <input name="course_content_icon_url[]">
     <label>Course Syllabus</label>
-    <input id="course_syllabus" name="course_content_title[]">
+    <input  name="course_content_title[]">
     <div class="remove_item">Remove</div>
   `;
 

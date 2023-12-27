@@ -1,6 +1,8 @@
 <%- include('../partials/admin_sidenav.ejs') %>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/froala/css/froala_editor.css">
@@ -96,10 +98,9 @@
    
 <section class="rightside">
    <div class="right-question-section">
-      
-         <h1>Add Question Here</h1>
-
-         <form action="/iq/create/verbal/<%= data.exam_code %>/edit" method="post" class="options-form">
+        <h1>Questions</h1>
+        <h3 class="selection-hide"><i class="fas fa-eye-slash"></i> Hide Types</h3>
+        <form action="/iq/create/verbal/<%= data.exam_code %>/update" method="post" class="options-form">
           <div id="choice">
              <div class="selection">
                 <label for="exam_type">Exam Type:</label>
@@ -137,34 +138,34 @@
              </div>
              <div class="addquestion">
               <div class="ques-exp">
-                 <textarea name="question" placeholder="write question here..." rows="1" class="edit">Question</textarea>
+                 <textarea name="question" rows="1" class="edit-froala">Question</textarea>
               </div>
               <div class="options-container">
                  <div class="options">
                      <input type="radio" name="answer" value="1">
-                     <textarea name="option[]" placeholder="Choice 1" rows="1" class="edit">Choice 1</textarea>
+                     <textarea name="option[]"  rows="1" class="edit-froala">Choice 1</textarea>
                      <button type="button" class="remove-option">Remove</button>
                  </div>
                  <div class="options">
                      <input type="radio" name="answer" value="2">
-                     <textarea name="option[]" placeholder="Choice 2" rows="1" class="edit">Choice 2</textarea>
+                     <textarea name="option[]"  rows="1" class="edit-froala">Choice 2</textarea>
                      <button type="button" class="remove-option">Remove</button>
                  </div>
                  <div class="options">
                      <input type="radio" name="answer" value="3">
-                     <textarea name="option[]" placeholder="Choice 3" rows="1" class="edit">Choice 3</textarea>
+                     <textarea name="option[]"  rows="1" class="edit-froala">Choice 3</textarea>
                      <button type="button" class="remove-option">Remove</button>
                  </div>
                  <div class="options">
                      <input type="radio" name="answer" value="4">
-                     <textarea name="option[]" placeholder="Choice 4" rows="1" class="edit">Choice 4</textarea>
+                     <textarea name="option[]"  rows="1" class="edit-froala">Choice 4</textarea>
 
                      <button type="button" class="remove-option">Remove</button>
                  </div>
               </div>
               <button type="button" class="add-option">Add Option</button>
               <div class="ques-exp">
-                 <textarea name="explanation" placeholder="write explanation here..." rows="1" class="edit"></textarea>
+                 <textarea name="explanation"  rows="1" class="edit-froala"></textarea>
               </div>
            </div>
           </div>
@@ -188,155 +189,163 @@
              <input type="submit" value="Save" class="button">
           </div>
         
-       </form>   
+        </form>   
 
        <div id="edit">Your content here</div>
-
        <h1>Edit Question Here</h1>
 
-
-   <div id="main-sortable">
-    <% let serial = 1; %>
-   <% content.forEach(function(question) { %>
-   <form class="block-shadow ajaxForm options-form"  action="/iq/create/verbal/<%= data.exam_code %>/update?id=<%= question.id %>" method="post"  id="id_<%= question._id %>">
- order: <%= question.order %>
-<input type="text" hidden name="order" value="<%= question.order %>">
-<h2><%= serial %></h2>
-    <div class="field-section">
-        <div class="selection selection1" data-selectedFromDatabase='{
-            "examType": "<%= question.exam_type %>",
-            "subject": "<%= question.subject %>",
-            "chapter": "<%= question.chapter %>",
-            "topic": "<%= question.topic %>",
-            "board": "<%= question.board %>",
-            "year": "<%= question.year %>",
-            "version": "<%= question.version %>"
-            }'>
-            <label for="exam_type">Exam Type:</label>
-            <select name="exam_type" class="exam_type">
-               <option value="">Select Exam Type</option>
-               <option value="HSC">HSC</option>
-               <option value="SSC">SSC</option>
-               <option value="ADMISSION">ADMISSION</option>
-               <option value="ISSB">ISSB</option>
-            </select>
-            <label for="subject">Subject:</label>
-            <select name="subject" class="subject">
-               <option value="">Select Subject</option>
-            </select>
-            <label for="chapter">Chapter:</label>
-            <select name="chapter" class="chapter">
-               <option value="">Select Chapter</option>
-            </select>
-            <label for="topic">Topic:</label>
-            <select name="topic" class="topic">
-               <option value="">Select Topic</option>
-            </select>
-            <label for="board">Board:</label>
-            <select name="board" class="board">
-               <option value="">Select Board</option>
-            </select>
-            <label for="year">Year:</label>
-            <select name="year" class="year">
-               <option value="">Select Year</option>
-            </select>
-            <label for="version">Version:</label>
-            <select name="version" class="version">
-               <option value="">Select Version</option>
-            </select>
-         </div>
-      <div class="addquestion">
-       
-      <div class="ques-exp">
-         <textarea placeholder="Question" name="question" class="edit"><%= question.question %></textarea>
-      </div>
-      <div class="options-container">
-      <% let counter = 1; %>
-      <% question.option.forEach((option) => { %>
+       <div id="sortable-list">
+        <% let serial = 1; %>
+        <% content.forEach(function(question) { %>
+        <form class="block-shadow ajaxForm options-form" action="/iq/create/verbal/<%= data.exam_code %>/update?id=<%= question.id %>" method="post" data-id="<%= question._id %>">
+            <i class="fas fa-arrows-alt sortable-icon"></i>
+            order: <%= question.order %>
+            <input type="text" hidden name="order" value="<%= question.order %>">
+            <h2><%= serial %></h2>
+            <div class="field-section">
+                <div class="selection selection1" data-selectedFromDatabase='{
+                      "examType": "<%= question.exam_type %>",
+                      "subject": "<%= question.subject %>",
+                      "chapter": "<%= question.chapter %>",
+                      "topic": "<%= question.topic %>",
+                      "board": "<%= question.board %>",
+                      "year": "<%= question.year %>",
+                      "version": "<%= question.version %>"
+                      }'>
+                    <label for="exam_type">Exam Type:</label>
+                    <select name="exam_type" class="exam_type">
+                        <option value="">Select Exam Type</option>
+                        <option value="HSC">HSC</option>
+                        <option value="SSC">SSC</option>
+                        <option value="ADMISSION">ADMISSION</option>
+                        <option value="ISSB">ISSB</option>
+                    </select>
+                    <label for="subject">Subject:</label>
+                    <select name="subject" class="subject">
+                        <option value="">Select Subject</option>
+                    </select>
+                    <label for="chapter">Chapter:</label>
+                    <select name="chapter" class="chapter">
+                        <option value="">Select Chapter</option>
+                    </select>
+                    <label for="topic">Topic:</label>
+                    <select name="topic" class="topic">
+                        <option value="">Select Topic</option>
+                    </select>
+                    <label for="board">Board:</label>
+                    <select name="board" class="board">
+                        <option value="">Select Board</option>
+                    </select>
+                    <label for="year">Year:</label>
+                    <select name="year" class="year">
+                        <option value="">Select Year</option>
+                    </select>
+                    <label for="version">Version:</label>
+                    <select name="version" class="version">
+                        <option value="">Select Version</option>
+                    </select>
+                </div>
+                <div class="addquestion">
+    
+                  <div class="ques-exp">
+                      <textarea name="question" class="edit-froala"><%= question.question %></textarea>
+                  </div>
+                  <div class="options-container">
+                      <% let counter = 1; %>
+                      <% question.option.forEach((option) => { %>
       
-        <div class="options">
-         <input type="radio" name="answer" value="<%= counter %>" <%= question.answer === String(counter) ? 'checked' : '' %>>
-         <textarea placeholder="Choice <%= counter %>" name="option[]" rows="1" class="edit"><%= option %></textarea>
-         <button type="button" class="remove-option">Remove</button>
-
-      </div>
-      <% counter++; %>
-      <% }) %>
-</div>      
-      <button type="button" class="add-option">Add Option</button>
-
-      <div class="ques-exp">
-         <textarea placeholder="Explanation" name="explanation" rows="1" class="edit"><%= question.explanation %></textarea>
-      </div>
+                      <div class="options">
+                          <input type="radio" name="answer" value="<%= counter %>" <%= question.answer === String(counter) ? 'checked' : '' %>>
+                          <textarea name="option[]" rows="1" class="edit-froala"><%= option %></textarea>
+                          <button type="button" class="remove-option">Remove</button>
+      
+                      </div>
+                      <% counter++; %>
+                      <% }) %>
+                  </div>
+                  <button type="button" class="add-option">Add Option</button>
+      
+                  <div class="ques-exp">
+                      <textarea name="explanation" rows="1" class="edit-froala"><%= question.explanation %></textarea>
+                  </div>
+              </div>
+            </div>
+    
+    
+           
+    
+    
+            <select class="change-field" name="field_type">
+                <option value="choice" <% if (question.field_type === 'choice') { %> selected <% } %>>Choice</option>
+                <option value="textblock" <% if (question.field_type === 'textblock') { %> selected <% } %>>Textblock</option>
+                <option value="short_answer" <% if (question.field_type === 'short_answer') { %> selected <% } %>>Short Answer</option>
+            </select>
+    
+            <div class="buttons">
+                <div class="button insert-question"> <a href="/iq/create/verbal/<%= data.exam_code %>/edit"> Insert Question</a></div>
+                <button class="button delete-button"><a href="/iq/create/verbal/<%= data.exam_code %>/question?delete=<%= question.id %>">Delete</a></button>
+            </div>
+            <div class="message"></div>
+        </form>
+    
+        <% serial++; %>
+        <% }) %>
+    
+    
     </div>
-    </div>  
-   <select class="change" name="field_type">
-    <option value="choice">Choice</option>
-    <option value="textblock">Textblock</option>
-    <option value="short_answer">Short Answer</option>
- </select>
-      <div class="buttons">
-        <div class="button insert-question"> <a href="/iq/create/verbal/<%= data.exam_code %>/edit"> Insert Question</a></div>
-         <button class="button delete-button"><a href="/iq/create/verbal/<%= data.exam_code %>/question?delete=<%= question.id %>">Delete</a></button>
-      </div>
-      <div class="message"></div>
-   </form>
-
-   <% serial++; %>
-   <% }) %>
-   
-
-  </div>  
+  </div>
 </section>
-</body>
-</html>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function() {
-      // Remove option
-      $(document).on("click", ".remove-option", function() {
-          const optionsContainer = $(this).closest(".addquestion").find(".options-container");
-          $(this).parent().remove();
-          renumberOptions(optionsContainer);
-      });
-
-      // Add option
-      $(document).on("click", ".add-option", function() {
-          const optionsContainer = $(this).closest(".addquestion").find(".options-container");
-          const lastOption = optionsContainer.find(".options").last();
-          const highestValue = parseInt(lastOption.find('input[type="radio"]').val());
-          const newValue = highestValue + 1;
-
-          const newOption = `
-          <div class="options">
-              <input type="radio" name="answer" value="${newValue}">
-              <textarea placeholder="Choice ${newValue}" name="option[]" rows="1" class="edit"></textarea>
-              <button type="button" class="remove-option">Remove</button>
-          </div>`;
-          
-          lastOption.after(newOption);
-      });
-
-      function renumberOptions(optionsContainer) {
-          const options = optionsContainer.find(".options");
-          options.each(function(index) {
-              const inputRadio = $(this).find('input[type="radio"]');
-              const textarea = $(this).find('textarea');
-              const newValue = index + 1;
-              console.log(index);
-              
-              inputRadio.val(newValue);
-              textarea.attr("placeholder", "Choice " + newValue);
-              textarea.attr("class","edit")
-          });
-      }
+$(document).ready(function () {
+  // Remove option
+  $(document).on("click", ".remove-option", function () {
+    const optionsContainer = $(this).closest(".addquestion").find(".options-container");
+    $(this).parent().remove();
+    renumberOptions(optionsContainer);
   });
+
+  // Add option
+  $(document).on("click", ".add-option", function () {
+    const optionsContainer = $(this).closest(".addquestion").find(".options-container");
+    const lastOption = optionsContainer.find(".options").last();
+    const highestValue = parseInt(lastOption.find('input[type="radio"]').val());
+    const newValue = highestValue + 1;
+
+    const newOption = `
+      <div class="options">
+          <input type="radio" name="answer" value="${newValue}">
+          <textarea name="option[]" rows="1" class="edit-froala"></textarea>
+          <button type="button" class="remove-option">Remove</button>
+      </div>`;
+
+    lastOption.after(newOption);
+
+    // Initialize Froala Editor on the new textarea
+    optionsContainer.find('.options textarea.edit-froala').last().froalaEditor();
+  });
+
+  function renumberOptions(optionsContainer) {
+    const options = optionsContainer.find(".options");
+    options.each(function (index) {
+      const inputRadio = $(this).find('input[type="radio"]');
+      const textarea = $(this).find('textarea');
+      const newValue = index + 1;
+
+      inputRadio.val(newValue);
+      textarea.attr("placeholder", "Choice " + newValue);
+    });
+  }
+});
+
 </script>
 
 
 <script>
 $(document).on('change', '.ajaxForm', function() {
+  console.log('sometigng changes')
    var form = $(this);
    var url = form.attr("action");
    var formData = form.serialize();
@@ -357,7 +366,7 @@ $(document).on('change', '.ajaxForm', function() {
 
 function showMessage(form, message) {
    var messageDiv = form.find(".message");
-   messageDiv.text(message);
+   messageDiv.innerHTML(message);
    // You can also add code here to style the message div or handle its visibility
 }
    
@@ -526,9 +535,9 @@ function showMessage(form, message) {
           "Biodata": ["Biodata"],
         },
       },
-      "GD": {
+      "Group Discussion": {
         topics: {
-          "Group Discussion": ["GD"],
+          "Group Discussion": ["Group Discussion"],
         },
       },
       "PGT": {
@@ -988,80 +997,133 @@ $(document).ready(function() {
     }
   });
 
-      $('.edit').each(function () {
-        const editor = new FroalaEditor(this, {
-          pastePlain: true, // Paste as plain text
-          pasteDeniedTags: ['style', 'script'], // Deny specific tags on paste
-          toolbarInline: true,
-          toolbarVisibleWithoutSelection: true,
-          toolbarButtons: [
-  ['bold', 'italic', 'underline', 'subscript', 'superscript'],
-  ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'],
-  ['paragraphStyle', 'align', 'formatOL', 'formatUL'],
-  ['insertLink', 'insertImage','insertMath', 'insertVideo', 'insertFile', 'insertTable', 'insertHR'],
-  ['emoticons', 'specialCharacters', 'insertCode', 'insertFormula'],
-  ['html']
-],
-          imageUploadParam: 'image', // Match this with your Multer field name
-          imageUploadURL: '/upload', // Your server-side upload route
-          events: {
-            'image.beforeUpload': function (images) {
-              // Called before image upload
-              console.log('Before image upload:', images);
-            },
-            'image.uploaded': function (response) {
-              // Called after image is uploaded
-              console.log('Image uploaded:', response);
   
-              // Replace the blob link with the actual image URL
-              const img = $('img[src^="blob:"]');
-              img.each(function () {
-                $(this).attr('src', response.link);
-              }); 
-              
-            },
-            'click': function (e) {
+  $('.edit-froala').each(function () {
+  let isTextSelected = false; // Initialize the flag
+
+  const editor = new FroalaEditor(this, {
+    placeholderText: '',
+    pastePlain: true,
+    pasteDeniedTags: ['style', 'script'],
+    toolbarInline: true,
+    toolbarVisibleWithoutSelection: true,
+    toolbarButtons: [
+      ['bold', 'italic', 'underline', 'subscript', 'superscript'],
+      ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'],
+      ['paragraphStyle', 'align', 'formatOL', 'formatUL'],
+      ['insertLink', 'insertImage', 'insertMath', 'insertVideo', 'insertFile', 'insertTable', 'insertHR'],
+      ['emoticons', 'specialCharacters', 'insertCode', 'insertFormula'],
+      ['html']
+    ],
+    pastePlain: true,
+    'paste.afterCleanup': function (e, editor, clipboard_html) {
+      var plainText = yourCustomCleanupFunction(clipboard_html);
+      editor.html.set(plainText);
+      e.preventDefault();
+    },
+    pastePlainOptions: {
+      cleanSpaces: true,
+      forcePlainText: true
+    },
+    pasteAllowedStyleProps: [],
+    pasteDeniedStyleProps: [],
+    imageUploadParam: 'image',
+    imageUploadURL: '/upload',
+    events: {
+      'image.beforeUpload': function (images) {
+        console.log('Before image upload:', images);
+      },
+      'image.uploaded': function (response) {
+        console.log('Image uploaded:', response);
+        const img = $('img[src^="blob:"]');
+        img.each(function () {
+          $(this).attr('src', response.link);
+        });
+      },
+      'click': function (e) {
         const target = e.target;
+
         if ($(target).hasClass('mathjax-equation')) {
           const equationContent = $(target).text();
-          console.log(equationContent)
+          console.log(equationContent);
           showMathPreview(equationContent);
         } else {
           clearMathPreview();
         }
       },
-            'contentChanged': function () {
-            var losestForm = $(this.$oel[0]).closest('form');
+      'focus': function (e) {
+  // Check if e and e.target are defined
+  if (!e || !e.target) {
+    return;
+  }
 
-            // Prevent the default form submission
-            closestForm.on('submit', function (event) {
-              event.preventDefault();
+  const target = e.target;
 
-              var form = $(this);
-              var formValues = form.serialize();
+  if ($(target).hasClass('mathjax-equation')) {
+    const equationContent = $(target).text();
+    console.log(equationContent);
+    showMathPreview(equationContent);
+  } else {
+    clearMathPreview();
+  }
 
-              $.ajax({
-                type: 'POST',
-                url: form.attr('action'),
-                data: formValues,
-                success: function(response) {
-                  showMessage(form, 'Form submitted successfully through AJAX!');
-                  console.log('Form submitted successfully through AJAX');
-                  // You can add code here to update the form or other UI elements based on the response
-                },
-                error: function(error) {
-                  console.log('Form submission error:', error);
-                }
-              });
-            });
+  const editorElement = editor.el;
 
-            // Manually trigger the form submission
-            closestForm.submit();
-          }
-        }
-      });
-    });
+  // Toggle text selection based on the flag
+  if (isTextSelected) {
+    isTextSelected = false;
+  } else {
+    if (document.body.createTextRange) {
+      const range = document.body.createTextRange();
+      range.moveToElementText(editorElement);
+      range.select();
+    } else if (window.getSelection) {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(editorElement);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+
+    isTextSelected = true;
+  }
+},
+      'blur': function () {
+        console.log('hello blur')
+        const closestForm = $(this.$oel[0]).closest('form');
+
+        closestForm.on('submit', function (event) {
+          event.preventDefault();
+
+          const form = $(this);
+          const formValues = form.serialize();
+
+          $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: formValues,
+            success: function(response) {
+              showMessage(form, 'Form submitted successfully through AJAX!');
+              console.log('Form submitted successfully through AJAX!');
+            },
+            error: function(error) {
+              console.log('Form submission error:', error);
+            }
+          });
+        });
+
+        closestForm.submit();
+      }
+    }
+  })
   });
+});
+
+
+
+
+
 
   function showMathPreview(equation) {
   const mathPreviewDiv = $('#mathPreview');
@@ -1087,42 +1149,23 @@ function clearMathPreview() {
 </script>
 
 <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-<script>
+<style>
+  .clone-form {
+    display: none;
+    position: relative;
+    top: 0px; /* Adjust the distance based on your preference */
+  }
+</style>
+
+
+<
+
   
-  $(".insert-question").click(function(event) {
-  event.preventDefault();
-
-  const form = $(this).closest(".ajaxForm");
-
-  $.ajax({
-    url: '/iq/create/verbal/<%= data.exam_code %>/edit', // URL to handle question creation
-    type: "POST",
-    data: form.serialize(), // Serialize form data
-    success: function(response) {
-      console.log('successfully added new question');
-      
-      // Reattach sortable functionality
-      $("#main-sortable").sortable({
-  update: function () { 
-       const sortableElement = document.getElementById("main-sortable");
-       const ids = $(sortableElement).sortable('serialize'); 
-       console.log(ids);
-       $.post('/iq/create/verbal/<%= data.exam_code %>/sort', ids, function(res) {
-           console.log(res);
-       });
-   }
-   });
-
-      // Replace the content of the body element with the new HTML from the response
-      location.reload();
-    }
-  });
-});
 
 
 
-
-</script>  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
   
 $("#main-sortable").sortable({
@@ -1137,3 +1180,114 @@ $("#main-sortable").sortable({
    });
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Get all elements with the class 'fr-element' and 'fr-view'
+  const frElementViewElements = document.querySelectorAll('.fr-element.fr-view');
+
+  // Add click event listener to each 'fr-element fr-view' element
+  frElementViewElements.forEach(function (frElementViewElement) {
+    frElementViewElement.addEventListener('click', function () {
+      // Select all text within the clicked 'fr-element fr-view' element
+      selectText(this);
+    });
+  });
+
+  // Function to select all text within an element
+  function selectText(element) {
+    if (document.selection) {
+      // For IE
+      const range = document.body.createTextRange();
+      range.moveToElementText(element);
+      range.select();
+    } else if (window.getSelection) {
+      // For modern browsers
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
+});
+
+
+</script>
+
+<style>
+  .highlight{
+    background-color: rgba(136, 255, 186, 0.2);
+  }
+</style>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sortable = new Sortable(document.getElementById('sortable-list'), {
+      swap: true, // Enable swap plugin
+	swapClass: '', // The class applied to the hovered swap item
+  ghostClass: 'highlight',
+  handle: ".sortable-icon",
+	animation: 150,
+      onEnd: function (evt) {
+        const item = evt.item;
+        const sortedItems = sortable.toArray();
+
+        console.log(sortedItems);
+
+        // Assuming you have a valid URL for your post request
+        $.post('/iq/create/verbal/<%= data.exam_code %>/sort', { sortedItems }, function(res) {
+          console.log(res);
+        });
+      }
+    });
+  });
+
+
+  
+</script>
+
+
+
+<script>
+  $(document).on("click", ".insert-question", function(event) {
+    event.preventDefault();
+
+    const form = $(this).closest(".ajaxForm");
+
+    // Clone the closest form and insert it after the current form with animation
+    const clonedForm = form.clone();
+    clonedForm.insertAfter(form);
+
+    // Show the cloned form with a slide-down animation
+    clonedForm.addClass("clone-form").slideDown(400);
+
+    // Manually set the selected state for each <select> element in the cloned form
+    form.find('select').each(function(index, select) {
+      const clonedSelect = clonedForm.find('select').eq(index);
+      const selectedValue = $(select).val();
+      clonedSelect.val(selectedValue);
+    });
+
+    // Ajax call to handle question creation
+    $.ajax({
+      url: '/iq/create/verbal/<%= data.exam_code %>/update', // URL to handle question creation
+      type: "POST",
+      data: form.serialize(), // Serialize form data
+      success: function(response) {
+        console.log(response); // {success: true, questionId: '658117063fdd02b53a7a7c9b'}
+
+        // Set the question ID to the cloned form
+        clonedForm.attr('data-id', response.questionId);
+
+      }
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $('.selection-hide').click(function() {
+      $('.selection1').slideToggle();
+    });
+  });
+</script>

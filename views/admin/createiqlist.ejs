@@ -9,13 +9,37 @@
     </div>
     <br><br>
     
+<input type="checkbox" name="selectIds[]" id="">
+    <div class="pagination">
+      <% if (currentPage > 1) { %>
+        <p><a href="/iq/create/verbal?page=<%= currentPage - 1 %>">Prev</a></p>
+      <% } %>
+      
+      <% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
+        <% if (i === currentPage) { %>
+        <p class="pagination-active" ><span><%= i %></span></p>
+        <% } else { %>
+        <p><a href="/iq/create/verbal?page=<%= i %>"><%= i %></a></p>
+        <% } %>
+      <% } %>
+      
+      <% if (currentPage < totalPages) { %>
+      <p><a href="/iq/create/verbal?page=<%= currentPage + 1 %>">Next</a></p>
+      <% } %>
+      </div>
+      <br><br><br>
+    
+
+
   <h1>Question Panel</h1>
     <br>
+    <input type="checkbox" id="selectAll">
+
   <div class="create-show">
     <% content.forEach(item => { %>
       <div class="model-item">
-        <input type="checkbox" name="" id="">
-          <div class="upper">
+        <input type="checkbox" class="single-checkbox" value="<%= item.exam_code %>">
+        <div class="upper">
             <a href="/iq/create/<%= item.exam_code %>/settings"><h3><%= item.exam_name %></h3></a>
             <div class="active-delete">
               <% if (item.add_iq === 'true') { %>
@@ -37,7 +61,102 @@
       </div>
       <% }) %>
   </div>
+
+
+  
+  <div class="pagination">
+    <% if (currentPage > 1) { %>
+      <p><a href="/iq/create/verbal?page=<%= currentPage - 1 %>">Prev</a></p>
+    <% } %>
+    
+    <% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
+      <% if (i === currentPage) { %>
+      <p class="pagination-active" ><span><%= i %></span></p>
+      <% } else { %>
+      <p><a href="/iq/create/verbal?page=<%= i %>"><%= i %></a></p>
+      <% } %>
+    <% } %>
+    
+    <% if (currentPage < totalPages) { %>
+    <p><a href="/iq/create/verbal?page=<%= currentPage + 1 %>">Next</a></p>
+    <% } %>
+    </div>
+    <br><br><br>
+
+    <style>
+      #selected-exam {
+        display: flex;
+        gap: 10px;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        position: fixed;
+        bottom: 0px;
+      }
+    
+      #selected-exam span {
+        padding: 8px 15px;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+    
+      #selected-exam span:hover {
+        background-color: #45a049;
+      }
+    
+      #selected-exam span.clear {
+        background-color: #e74c3c;
+      }
+    
+      #selected-exam span.clear:hover {
+        background-color: #c0392b;
+      }
+    
+      #selected-exam span.archive {
+        background-color: #3498db;
+      }
+    
+      #selected-exam span.archive:hover {
+        background-color: #2980b9;
+      }
+    
+      #selected-exam span.common-settings {
+        background-color: #e67e22;
+      }
+    
+      #selected-exam span.common-settings:hover {
+        background-color: #d35400;
+      }
+    
+      #selected-exam span.delete {
+        background-color: #9b59b6;
+      }
+    
+      #selected-exam span.delete:hover {
+        background-color: #8e44ad;
+      }
+    
+      #selected-exam span.clear-result {
+        background-color: #f39c12;
+      }
+    
+      #selected-exam span.clear-result:hover {
+        background-color: #d35400;
+      }
+    </style>
+    
+
   </section>
+
+
+  
 </div>
 </body>
 </html>
@@ -60,4 +179,89 @@ links.forEach(link => {
   });
 });
 
+</script>
+
+
+
+<style>
+  #selected-exam {
+    display: none; /* Initially hide the selected-exam */
+  }
+</style>
+
+<div id="selected-exam">
+  <span class="count-exam">0</span>
+  <span class="clear-exam" onclick="clearSelection()">Clear</span>
+  <a href="#" class="common-settings" onclick="updateLink()">Common Settings</a>
+</div>
+<script>
+  // JavaScript code to handle checkbox interactions
+
+  // Get all single checkboxes inside the group
+  const checkboxes = document.querySelectorAll('.single-checkbox');
+
+  // Get the "Select All" checkbox
+  const selectAllCheckbox = document.getElementById('selectAll');
+
+  // Add a click event listener to the "Select All" checkbox
+  selectAllCheckbox.addEventListener('click', function () {
+      // Toggle the checked property of all checkboxes based on the "Select All" checkbox
+      checkboxes.forEach(checkbox => checkbox.checked = !checkbox.checked);
+      // Call the function to display selected ObjectId values
+      displaySelectedValues();
+  });
+
+  // Add a click event listener to each single checkbox
+  checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('click', function () {
+          // Call the function to display selected ObjectId values
+          displaySelectedValues();
+      });
+  });
+
+  // Function to display selected ObjectId values
+  function displaySelectedValues() {
+      // Get an array of selected ObjectId values
+      const selectedValues = Array.from(checkboxes)
+          .filter(checkbox => checkbox.checked)
+          .map(checkbox => `quizid=${checkbox.value}`)
+          .join('&');
+
+      // Display the selected ObjectId values in the console
+      console.log('ObjectId =', selectedValues);
+
+      // Set the count of selected checkboxes to the "count-exam" span
+      document.querySelector('.count-exam').textContent = document.querySelectorAll('.single-checkbox:checked').length;
+
+      // Show/hide the selected-exam based on whether checkboxes are checked
+      document.getElementById('selected-exam').style.display = document.querySelectorAll('.single-checkbox:checked').length > 0 ? 'block' : 'none';
+  }
+
+  // Function to update the link
+  function updateLink() {
+      // Get an array of selected ObjectId values
+      const selectedValues = Array.from(checkboxes)
+          .filter(checkbox => checkbox.checked)
+          .map(checkbox => `quizid=${checkbox.value}`)
+          .join('&');
+          console.log(selectedValues)
+
+      // Generate the updated link
+      const updatedLink = `/iq/create/settings/group?${selectedValues}`;
+
+      // Set the updated link for the "common-settings" class
+      document.querySelector('.common-settings').href = updatedLink;
+
+      // Display the updated link in the console
+      console.log('Updated Link:', updatedLink);
+  }
+
+  // Function to clear the selection
+  function clearSelection() {
+      // Uncheck all checkboxes
+      checkboxes.forEach(checkbox => checkbox.checked = false);
+
+      // Call the function to display selected ObjectId values (to update count)
+      displaySelectedValues();
+  }
 </script>

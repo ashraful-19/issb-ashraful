@@ -1,5 +1,7 @@
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <%- include('../partials/admin_sidenav.ejs') %>
 <style>
   .syllabus-details {
@@ -55,67 +57,63 @@
   .remove-items a:hover {
     text-decoration: underline;
   }
+
+  .added-item{
+    display: flex;
+  }
 </style>
 
-<h1>Course Syllabus</h1>
-<div class="syllabus-details" id="main-sortable"  data-sortlink="/admin/course/order/<%= courseId %>">
+
+<div class="syllabus-details">
  
-  <% 
-  // Sort the course syllabus array by the "order" field
-  const sortedSyllabus = course.course_syllabus.sort((a, b) => a.order - b.order);
-  
-  // Iterate through the sorted syllabus array
-  sortedSyllabus.forEach(function(syllabus) { 
-  %>
-  <form action="/admin/course/update-syllabus/<%= courseId %>" method="post" id="id_<%= syllabus._id %>">
+  <h1><%= course.course_name %></h1>
+
+  <% for (const syllabusItem of course.course_syllabus) { %>
+
+  <form action="/admin/course/update-syllabus/<%= courseId %>" method="post"  class="auto-submit-form">
     <div class="syllabus-container">
       <div class="syllabus-item" >
-        <input type="text" hidden name="id" value="<%= syllabus._id %>">
-        <label><%= syllabus.course_content_icon_url %></label>
-        <p class="syllabus-title"><%= syllabus.course_content_title %></p>
+        <input type="text" hidden name="id" value="<%= syllabusItem._id %>">
+        <p>Chapter: <%= syllabusItem.course_content_title %></p>
+
       </div>
       <div class="add-items-container">
         <div class="add-more">Add More</div>
-        <div class="add-items">
-                   
-          <% 
-          // Sort the course content details array by the "order" field
-          const sortedContentDetails = syllabus.course_content_details.sort((a, b) => a.order - b.order);
-          
-          // Iterate through the sorted content details array
-          sortedContentDetails.forEach(function(content) { 
-          %>
-
-
-
-          <div class="added-item">
+        <% 
+        const detailsArray = syllabusItem.course_content_details ? JSON.parse(syllabusItem.course_content_details) : [];%>
+        
+       
+        <div class="add-items sortable-parent"  >
+          <% for (const detail of detailsArray) { %>
+          <div  class="added-item sortable-child">
             <label for="">Type</label><br>
-            <select name="type[]" data-selected="<%= content.type %>">
+            <select name="type[]" data-selected="<%= detail.type %>">
               <option value="video">Video</option>
               <option value="pdf">PDF</option>
               <option value="exam">Exam</option>
             </select><br>
             <label for="">Link</label><br>
-            <input type="text" name="link[]" value="<%= content.link %>"><br>
+            <input type="text" name="link[]" value="<%= detail.link %>"><br>
             <label for="">Title</label><br>
-            <input type="text" name="title[]" value="<%= content.title %>">
+            <input type="text" name="title[]" value="<%= detail.title %>">
             <div class="remove-items">
-              <a href="/admin/course/<%= courseId %>/syllabus/<%= syllabus._id %>/details/<%= content._id %>">Remove</a>
+              <span>Remove</span>
             </div>
           </div>
-          <% }) %>
+          <% } %>
         </div>
+     
       </div>
-      <div>
-        <button type="submit">Save</button>
-      </div>
+      
     </div>
   </form>
-  <% }) %>
+  <% } %>
+  
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <script>
   $(document).ready(function() {
     // Add a click event listener to the "Add More" button
@@ -132,9 +130,9 @@
         '<option value="exam">Exam</option>' +
         '</select><br>' +
         '<label for="">Link</label><br>' +
-        '<input type="text" name="link[]"><br>' +
+        '<input type="text" name="link[]" value=""><br>' +
         '<label for="">Title</label><br>' +
-        '<input type="text" name="title[]">' +
+        '<input type="text" name="title[]" value="">' +
         '<div class="remove-items">Remove</div>' +
         '</div>');
 
@@ -142,12 +140,71 @@
       addItems.append(newItem);
     });
 
-    // Add a click event listener to the "Remove" button in "added-item"
-    $(document).on('click', '.remove-items', function() {
-      $(this).parent().remove();
-    });
   });
 </script>
+<script>
+  $(document).ready(function() {
+    // Event delegation for blur on inputs within elements with the auto-submit-form class
+    $(document).on('blur', '.auto-submit-form input', function() {
+      submitForm($(this));
+    });
+
+    // Event delegation for change on select within elements with the auto-submit-form class
+    $(document).on('change', '.auto-submit-form select', function() {
+      submitForm($(this));
+    });
+
+    // Event delegation for clicks on elements with the class remove-items
+    $(document).on('click', '.remove-items', function() {
+      // Find the closest form element to the clicked remove-items
+      const closestForm = $(this).closest('form');
+
+      // Fade out the closest parent element of the clicked remove-items
+      $(this).parent().fadeOut(500, function() {
+        // After fade out, remove the element and submit the closest form
+        $(this).remove();
+        submitForm(closestForm);
+      });
+    });
+
+    // Event delegation for clicks on elements with the class add-more
+    $(document).on('click', '.add-more', function() {
+      // Find the closest form element to the clicked add-more
+      const closestForm = $(this).closest('form');
+
+      // Your logic for adding more elements goes here
+
+      // After adding more elements, submit the closest form
+      submitForm(closestForm);
+    });
+
+    // Function to handle form submission
+    function submitForm(element) {
+      // Find the closest form element to the changed input, clicked remove-items, or clicked add-more
+      const closestForm = element.closest('form');
+
+      // Serialize the form data
+      const formData = closestForm.serialize();
+
+      // Get the form action URL
+      const formAction = closestForm.attr('action');
+
+      // Send an AJAX request to submit the form data
+      $.ajax({
+        type: 'POST',
+        url: formAction,
+        data: formData,
+        success: function(response) {
+          console.log('Form submitted successfully');
+        },
+        error: function(error) {
+          console.error('Error submitting form:', error);
+        }
+      });
+    }
+  });
+</script>
+
 
 
 <style>
@@ -234,27 +291,40 @@ setInterval(() => {
 
 
 </script>
-
-
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+  $(document).ready(function() {
+    // Initialize sortable for all elements with the class 'sortable-parent' within forms with the class 'auto-submit-form'
+    $('.sortable-parent').sortable({
+      connectWith: ".sortable-parent", // Allow sorting across different parents
+      items: ".sortable-child",
+      update: function(event, ui) {
+        // Handle the sortable update here
+        submitSortableOrder(ui.item.closest('form'));
+      }
+    });
 
-$(document).ready(function() {
-  const formAction = $("#main-sortable").data("sortlink"); // Get the form action URL
+    // Function to handle sortable order submission
+    function submitSortableOrder(form) {
+      // Serialize the form data
+      const formData = form.serialize();
 
-  $("#main-sortable").sortable({
-    placeholder: "sortable-placeholder", // Add a placeholder class for styling
-    update: function() {
-      const sortableElement = document.getElementById("main-sortable");
-      const ids = $(sortableElement).sortable('serialize');
-      console.log(ids);
-      console.log(formAction)
-      $.post(formAction, ids, function(res) {
-        console.log(res);
+      // Get the form action URL
+      const formAction = form.attr('action');
+
+      // Send an AJAX request to submit the form data
+      $.ajax({
+        type: 'POST',
+        url: formAction,
+        data: formData,
+        success: function(response) {
+          console.log('Sortable order submitted successfully');
+        },
+        error: function(error) {
+          console.error('Error submitting sortable order:', error);
+        }
       });
     }
-  });
   });
 </script>
