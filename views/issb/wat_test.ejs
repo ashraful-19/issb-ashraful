@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 100px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Word Game</h1>
+    <div id="wordDisplay"></div>
+    <div id="countdownDisplay"></div>
+    <script src="game.js"></script>
+</body>
+</html>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    
+  const wordString = "<%= data[0].words %>";
+  const words = wordString.split(',');
+
+console.log(words);
+
+    const wordDisplay = document.getElementById("wordDisplay");
+    const countdownDisplay = document.getElementById("countdownDisplay");
+    
+    let currentIndex = 0;
+    let countdown = 10;
+
+    function displayWord() {
+        wordDisplay.innerHTML = words[currentIndex];
+        currentIndex++;
+
+        if (currentIndex === words.length) {
+            currentIndex = 0; // Reset to the first word after displaying all
+        }
+
+        countdown = 10;
+        updateCountdown();
+        const countdownInterval = setInterval(function() {
+            countdown--;
+            updateCountdown();
+
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                playBeep();
+                setTimeout(displayWord, 1000); // Wait for 1 second before displaying the next word
+            }
+        }, 1000);
+    }
+
+    function updateCountdown() {
+        countdownDisplay.innerHTML = `Next word in: ${countdown} seconds`;
+    }
+    function playBeep() {
+        const beep = new Audio('https://www.soundjay.com/buttons/sounds/button-1.mp3');
+        beep.play();
+    }
+    // Set up the initial display
+    displayWord();
+});
+
+
+
+</script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Toggle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #fullscreenButton {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<button id="fullscreenButton">Toggle Fullscreen</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var fullscreenButton = document.getElementById('fullscreenButton');
+        
+        fullscreenButton.addEventListener('click', function () {
+            toggleFullscreen();
+        });
+
+        function toggleFullscreen() {
+            if (document.fullscreenElement) {
+                exitFullscreen();
+            } else {
+                enterFullscreen();
+            }
+        }
+
+        function enterFullscreen() {
+            var element = document.documentElement;
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+        }
+
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+
+        // Handle orientation change when in fullscreen mode on mobile
+        document.addEventListener('fullscreenchange', function () {
+            if (isMobile() && document.fullscreenElement) {
+                handleOrientationChange();
+            }
+        });
+
+        function handleOrientationChange() {
+            if (window.orientation === 90 || window.orientation === -90) {
+                // Landscape mode
+                alert('Landscape mode!');
+                // You can perform additional actions here
+            }
+        }
+
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+    });
+</script>
+
+</body>
+</html>

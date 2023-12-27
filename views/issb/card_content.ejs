@@ -1,3 +1,4 @@
+
 <%- include('../partials/header.ejs') %>
 <style>
 	
@@ -6,7 +7,64 @@
   height: auto;
 }
 </style>
-	<section class="top-nav">
+<style>
+    .blog-card {
+      width: 90%;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+	    align-items: center;
+		margin: 20px auto;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .blog-card-content {
+      padding: 10px 15px 15px 15px;
+      position: relative;
+    }
+
+    .blog-card-heading {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+
+    .see-more-button {
+      display: inline-block;
+      padding: 5px 20px;
+	  margin-top: 10px;
+      background-color: #0a1c30;
+      color: #fff!important;
+      border: none;
+	  font-size: 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .see-more-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  
+
+
+<section class="top-nav">
 		<div><h4><%= title %></h4></div>
 	 
 	 <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
@@ -16,34 +74,51 @@
 
 <br><br><br>
 
-<section class="ppdt">
-	<% content.forEach(function(data) { %>
-	  <div class="ppdt_items">
-		<div class="ppdt_practice">
-		  <div class="blur" style="padding: 10px; filter: blur(8px); transition: 0.2s; width: 100%"  class="ppdtimg"><%- data.question %></div>
-		</div>
-		<div class="ppdtcontrols">
-		  <div class="start start-timer"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start</div>
-		  <div class="start"><i class="fa-solid fa-stopwatch"></i>&nbsp;&nbsp; <span class="time">30 sec</span></div>
-		  <div class="start ideaIcon"><i class="fa-regular fa-lightbulb"></i>&nbsp;&nbsp;Idea</div>
-		</div>
-		<div class="ppdtIdea">
-			<% data.option.forEach(function(option) { %>
 
-				<%- option %>
-		  <% }) %>
+		
+<% content.forEach(function(data) { %>
+
+<div class="blog-card">
+	<%- data.question %>
+	<div class="blog-card-content">
+		<% data.option.forEach(function(option) { %>
+			
+	  <h2 class="blog-card-heading"><%- option %></h2>
+	  <% }) %>
+	  <div class="main-card">
+	  <%- data.explanation %>
+	</div>
+	  <a href="/issb/card_content/details?type=<%= type %>&id=<%= data._id %>" class="see-more-button">See More</a>
+	</div>
+  </div>
+  <% }) %>
 
 
-		</div>
-	  </div>
-	<% }) %>
-  </section>
+
 
 <br><br><br>
 
 				
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var mainCard = document.querySelector('.main-card');
+		var children = mainCard.children;
 
-
+		// Show the first child, hide the rest
+		for (var i = 0; i < children.length; i++) {
+			if (i === 0) {
+				children[i].style.display = 'block'; // Show the first child
+			} else {
+				children[i].style.display = 'none'; // Hide other children
+			}
+		}
+	});
+</script>
+<style>
+	.main-card > p:not(:first-child) {
+		display: none;
+	}
+</style>
 
 
 
@@ -107,46 +182,3 @@
 	});
   </script>
 
-
-  
-  
-  <script>$(document).ready(function() {
-	$(".start-timer").on("click", function() {
-	  var parent = $(this).closest(".ppdt_items");
-	  var countdown = parent.find(".time");
-	  var timeLeft = 30;
-	  var blur = parent.find(".blur");
-  
-	  if ($(this).text().includes("Start")) {
-		$(this).html('<i class="fa-regular fa-circle-pause"></i>&nbsp;&nbsp;Stop');
-		blur.css('filter', 'none');
-		var countdownInterval = setInterval(function() {
-		  timeLeft--;
-		  countdown.text(timeLeft + " sec");
-  
-		  if (timeLeft <= 0) {
-			clearInterval(countdownInterval);
-			countdown.text("00 sec");
-			parent.find(".start-timer").html('<i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start');
-			blur.css('filter', 'blur(8px)');
-		  }
-		}, 1000);
-  
-		parent.data("countdownInterval", countdownInterval);
-	  } else {
-		clearInterval(parent.data("countdownInterval"));
-		countdown.text("30 sec");
-		$(this).html('<i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start');
-		blur.css('filter', 'blur(8px)');
-	  }
-	});
-  });
-  
-	$(document).ready(function() {
-  $('.ideaIcon').click(function() {
-    $(this).closest('.ppdt_items').find('.ppdtIdea').slideToggle();
-  });
-});
-  </script>
-  
-  

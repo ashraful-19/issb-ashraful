@@ -12,9 +12,9 @@
 
 div.accordion {
 width: 100%;
-box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
 border:none;
  border-bottom:1px solid #f6f6f600;
+ border: 1px solid rgb(244, 244, 244) ;
 outline: none;
 text-align: left;
 padding: 10px 15px;
@@ -26,7 +26,7 @@ display: flex;
 justify-content: flex-start;
 flex-direction: row;
 align-items: center;
-border-radius:10px;
+border-radius:5px;
 
 }
 
@@ -79,7 +79,11 @@ margin: 8px;
   width: 22px;
   margin-right: 10px;
 }
-
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
 </style>
 <section class="top-nav">
 
@@ -109,7 +113,7 @@ margin: 8px;
 
     <div class="course-video">
         <div class="course-video-container-svg">
-          <iframe id="videosvg" width="100%" height="100%" src="<%= course.course_ads %>?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe id="videosvg" width="100%" height="100%" src="<%= course.course_ads %>?autoplay=0" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div class="image-container-svg">
           <img class="course-slideimg" src="<%= course.thumbnail %>">
@@ -122,47 +126,19 @@ margin: 8px;
       </div>
       <div class="course-video">
         <h3><%= course.course_name %></h3>
-        <!-- <% course.course_syllabus.forEach(function(course_content) { %>
-         <%= course_content.course_content_details %>
-        <% }) %> -->
-
-        <!-- <% course.course_syllabus.forEach(function(course_syllabus_item) { %>
-           <%= course_syllabus_item.course_content_icon_url %> -->
-          <!-- <%= course_syllabus_item.course_content_title %> -->
-         
-
-          <!-- <% course_syllabus_item.course_content_details.forEach(function(course_content_details_item) { %> -->
-            <!-- <%= course_syllabus_item.course_content_icon_url %>
-            <%= course_syllabus_item.course_content_title %> -->
-            <!-- <%= course_content_details_item %> -->
-           
-  
-  
-            
-           <!-- <% }) %> -->
-        
-         <!-- <% }) %> --> 
-        <!-- <%- course.course_description %> -->
-        <!-- <div class="course-description course-content">
-          আপনার কাঙ্ক্ষিত IELTS Band Score অর্জন করুন Reading, Writing, Listening ও Speaking tests-এর সম্পূর্ণ গাইডলাইনের সাহায্যে। ১৫টি মক টেস্ট প্রশ্ন সল্‌ভ করে যাচাই করুন আপনার প্রস্তুতি।
-        </div>  
-        <br>
+       
         <div class="course-lectures">
           <ul>
-            <li><i class="fas fa-video"></i> List item 1</li>
-            <li><i class="fas fa-file-pdf"></i> List item 2</li>
-            <li><i class="fas fa-pen"></i> List item 3</li>
-            <li><i class="fas fa-clipboard-check"></i> List item 4</li>
-            <li><i class="fas fa-desktop"></i> List item 5</li>
+            <li><i class="fas fa-video"></i> 50 Live Class</li>
+            <li><i class="fas fa-file-pdf"></i> 453 Enrolled</li>
+            <li><i class="fas fa-pen"></i> 50 Exams</li>
+            <li><i class="fas fa-clipboard-check"></i>10 Slides</li>
+            <li><i class="fas fa-desktop"></i>Problem Solving</li>
           </ul>
                   
         </div>
         <style>
-          ul, ol {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
+ 
 
         </style>
         <br>
@@ -189,36 +165,7 @@ margin: 8px;
               </div>
             </div>
           </div>   
-          <div class="instructor-container">
-            <div class="instructor-details">
-              <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGh1bWFufGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt=" Picture" class="instructor-img">
-              <div class="instructor-info">
-                <p class="instructor-name">Md Ashraful Islam</p>
-                <p class="instructor-phone">CALCUTTA UNIVERSITY, DU, BUET (10+ YEARS EXP)</p>
-                <p class="instructor-email">IQ TEST</p>
-              </div>
-            </div>
-          </div>        
-          <div class="instructor-container">
-            <div class="instructor-details">
-              <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGh1bWFufGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt=" Picture" class="instructor-img">
-              <div class="instructor-info">
-                <p class="instructor-name">Md Ashraful Islam</p>
-                <p class="instructor-phone">CALCUTTA UNIVERSITY, DU, BUET (10+ YEARS EXP)</p>
-                <p class="instructor-email">IQ TEST</p>
-              </div>
-            </div>
-          </div>   
-          <div class="instructor-container">
-            <div class="instructor-details">
-              <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGh1bWFufGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt=" Picture" class="instructor-img">
-              <div class="instructor-info">
-                <p class="instructor-name">Md Ashraful Islam</p>
-                <p class="instructor-phone">CALCUTTA UNIVERSITY, DU, BUET (10+ YEARS EXP)</p>
-                <p class="instructor-email">IQ TEST</p>
-              </div>
-            </div>
-          </div>   
+
         </div>
         <div class="bar"></div>
         <div class="learnings course-content">
@@ -230,103 +177,40 @@ margin: 8px;
           <h4>কোর্স সম্পর্কে বিস্তারিত</h4>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore earum dicta molestiae voluptate officiis quas illo animi placeat, qui praesentium quod assumenda, rem sapiente repellat omnis ratione delectus quibusdam ab! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet sapiente aliquam pariatur nihil excepturi! Atque vero mollitia blanditiis eligendi vitae similique. Error, amet et dolorem voluptate assumenda facere facilis temporibus!</p>
         </div>
-        <div class="bar"></div> -->
+        <div class="bar"></div>
+
         <div class="lecture-details course-content">
           <h4>লেকচার ডিটেইলস</h4>
           <section class="course-content-list">
-
-            <% course.course_syllabus.forEach(function(course_syllabus_item) { %>
-              <!-- <%= course_syllabus_item.course_content_icon_url %> -->
-              <div class="tabcontent hide-show" style="margin: 8px 0px;">
-              <div class="accordion" style="padding: 15px 10px;"> 
-                <img src="<%= course_syllabus_item.course_content_icon_url %>" alt="">
-                <span> <%= course_syllabus_item.course_content_title %> </span>
-                <i class="fa-solid fa-angle-down angle-right"></i>
-            </div>
-              <div class="accordion-content">
-                <% course_syllabus_item.course_content_details.forEach(function(course_content_details_item) { %>
-                  <% if (course_content_details_item.type === 'video') { %>
-                    <p data-link="<%= course_content_details_item.link %>" class="video"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;<%= course_content_details_item.title %></p>
-                  <% } else if (course_content_details_item.type === 'pdf') { %>
-                    <p data-link="<%= course_content_details_item.link %>"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;<%= course_content_details_item.title %></p>
-                  <% } else { %>
-                    <p data-link="<%= course_content_details_item.link %>"><i class="fa-regular fa-rectangle-list"></i>&nbsp;&nbsp;<%= course_content_details_item.title %></p>
-                  <% } %>
-                <% }) %>
-                
-              </div>
-            </div>
-             <% }) %>
-
-
-              <!-- <div class="tabcontent hide-show" style="margin: 8px 0px;">
-                  <div class="accordion" style="padding: 15px 10px;"> 
-                      <img src="https://help.sonatype.com/docs/files/331022/34537965/3/1564671303604/NexusIQServer_Icon.png" alt="">
-                      <span>   Intelligence Test </span>
-                      <i class="fa-solid fa-angle-down angle-right"></i>
-                  </div>
-                  <div class="accordion-content">
-                     <a href="/issb/lessonvideo?type=iq"><i class="fa-regular fa-circle-play"></i></i>&nbsp;&nbsp;Lesson Video</a>
-                 <a href="/issb/iqlist"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;</i>Verbal Test</a>
-                     <a href="/issb/iqlist"><i class="fa-solid fa-indent"></i></i>&nbsp;&nbsp;Non Verbal Test</a>
-                  </div>
-              </div>
-              
-            
+            <% for (const syllabusItem of course.course_syllabus) { %>
               <div class="tabcontent hide-show" style="margin: 8px 0px;">
                 <div class="accordion" style="padding: 15px 10px;"> 
-                    <img src="https://help.sonatype.com/docs/files/331022/34537965/3/1564671303604/NexusIQServer_Icon.png" alt="">
-                    <span>   Intelligence Test </span>
-                    <i class="fa-solid fa-angle-down angle-right"></i>
+                  <img src="<%= syllabusItem.course_content_icon_url %>" alt="">
+
+                  <span><%= syllabusItem.course_content_title %></span>
+                  <i class="fa-solid fa-angle-down angle-right"></i>
                 </div>
                 <div class="accordion-content">
-                   <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
-               <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
-                   <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
-                </div>
-            </div>
+                  <% const detailsArray = syllabusItem.course_content_details ? JSON.parse(syllabusItem.course_content_details) : []; %>
             
-            <div class="tabcontent hide-show" style="margin: 8px 0px;">
-              <div class="accordion" style="padding: 15px 10px;"> 
-                  <img src="https://help.sonatype.com/docs/files/331022/34537965/3/1564671303604/NexusIQServer_Icon.png" alt="">
-                  <span>   Intelligence Test </span>
-                  <i class="fa-solid fa-angle-down angle-right"></i>
+                  <% for (const detail of detailsArray) { %>
+                    <% if (detail.type === 'video') { %>
+                      <p data-link="<%= detail.link %>" class="video"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;<%= detail.title %></p>
+                    <% } else if (detail.type === 'pdf') { %>
+                      <p data-link="<%= detail.link %>"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;<%= detail.title %></p>
+                    <% } else { %>
+                      <p data-link="<%= detail.link %>"><i class="fa-regular fa-rectangle-list"></i>&nbsp;&nbsp;<%= detail.title %></p>
+                    <% } %>
+                  <% } %>
+                </div>
               </div>
-              <div class="accordion-content">
-                 <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
-             <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
-                 <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
-              </div>
-          </div>
-          
-          <div class="tabcontent hide-show" style="margin: 8px 0px;">
-            <div class="accordion" style="padding: 15px 10px;"> 
-                <img src="https://help.sonatype.com/docs/files/331022/34537965/3/1564671303604/NexusIQServer_Icon.png" alt="">
-                <span>   Intelligence Test </span>
-                <i class="fa-solid fa-angle-down angle-right"></i>
-            </div>
-            <div class="accordion-content">
-               <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
-           <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
-               <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
-            </div>
-        </div>
-        
-        <div class="tabcontent hide-show" style="margin: 8px 0px;">
-          <div class="accordion" style="padding: 15px 10px;"> 
-              <img src="https://help.sonatype.com/docs/files/331022/34537965/3/1564671303604/NexusIQServer_Icon.png" alt="">
-              <span>   Intelligence Test </span>
-              <i class="fa-solid fa-angle-down angle-right"></i>
-          </div>
-          <div class="accordion-content">
-             <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
-         <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
-             <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
-          </div>
-      </div> -->
-      <button id="show-more">Show More<i class="fa-solid fa-angle-down angle-right"></i></button>
+            <% } %>
+            
+ 
+      <button class="show-more">Show More<i class="fa-solid fa-angle-down angle-right"></i></button>
       
-</section> 
+    </section> 
+    </div>
 <div class="bar"></div>         
        
         <div class="payment-process course-content">
@@ -334,74 +218,101 @@ margin: 8px;
           কিভাবে পেমেন্ট করবেন তা বিস্তারিত জানতে এই ভিডিওটি দেখুন
         </div>
         <div class="bar"></div>
+        
+        
+        
         <div class="general-asking course-content">
           <h4>সাধারণ জিজ্ঞাসা</h4>
-          <section class="askings">
-        
-            <div class="tabcontent" style="margin: 8px 0px;">
+          <section class="course-content-list">
+            <div class="tabcontent hide-show" style="margin: 8px 0px;">
                 <div class="accordion" style="padding: 15px 10px;"> 
+                  <img src="https://cdn.iconscout.com/icon/free/png-256/free-success-632-1177828.png?f=webp" alt="">
+                
                     <span>   Intelligence Test </span>
                     <i class="fa-solid fa-angle-down angle-right"></i>
                 </div>
                 <div class="accordion-content">
-                   <a href="/issb/lessonvideo?type=iq"><i class="fa-regular fa-circle-play"></i></i>&nbsp;&nbsp;Lesson Video</a>
-               <a href="/issb/iqlist"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;</i>Verbal Test</a>
-                   <a href="/issb/iqlist"><i class="fa-solid fa-indent"></i></i>&nbsp;&nbsp;Non Verbal Test</a>
+                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, iusto? Quas beatae delectus veniam rerum omnis at accusantium repellat officiis cupiditate. Porro est provident, quasi dolores dicta neque consequuntur! Et laudantium provident inventore deleniti similique est incidunt in tempore molestiae commodi harum cumque beatae praesentium, cupiditate aperiam non placeat sed error iusto quas adipisci ipsam pariatur laborum quasi! Perspiciatis soluta dicta debitis, eum iure incidunt ipsam aliquid, officiis ratione laudantium aperiam molestias eveniet fugit rerum harum. Vel delectus explicabo, esse velit exercitationem optio ipsum ratione beatae facilis illum in rerum aspernatur impedit necessitatibus ut dolore porro? Animi minus saepe amet!</p>
                 </div>
             </div>
             
           
             <div class="tabcontent" style="margin: 8px 0px;">
-              <div class="accordion" style="padding: 15px 10px;">
-                  <span>   Intelligence Test </span>
+              <div class="accordion hide-show" style="padding: 15px 10px;">
+                  <span>   যদি পিপিডিতে হেরে জাই তাহলে কি করবো </span>
                   <i class="fa-solid fa-angle-down angle-right"></i>
               </div>
               <div class="accordion-content">
-                 <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
-             <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
-                 <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
+                 
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, iusto? Quas beatae delectus veniam rerum omnis at accusantium repellat officiis cupiditate. Porro est provident, quasi dolores dicta neque consequuntur! Et laudantium provident inventore deleniti similique est incidunt in tempore molestiae commodi harum cumque beatae praesentium, cupiditate aperiam non placeat sed error iusto quas adipisci ipsam pariatur laborum quasi! Perspiciatis soluta dicta debitis, eum iure incidunt ipsam aliquid, officiis ratione laudantium aperiam molestias eveniet fugit rerum harum. Vel delectus explicabo, esse velit exercitationem optio ipsum ratione beatae facilis illum in rerum aspernatur impedit necessitatibus ut dolore porro? Animi minus saepe amet! </p>
               </div>
           </div>
           
-          <div class="tabcontent" style="margin: 8px 0px;">
+          <div class="tabcontent hide-show" style="margin: 8px 0px;">
             <div class="accordion" style="padding: 15px 10px;"> 
                 <span>   Intelligence Test </span>
                 <i class="fa-solid fa-angle-down angle-right"></i>
             </div>
             <div class="accordion-content">
-               <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
-           <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
-               <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
+       
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, iusto? Quas beatae delectus veniam rerum omnis at accusantium repellat officiis cupiditate. Porro est provident, quasi dolores dicta neque consequuntur! Et laudantium provident inventore deleniti similique est incidunt in tempore molestiae commodi harum cumque beatae praesentium, cupiditate aperiam non placeat sed error iusto quas adipisci ipsam pariatur laborum quasi! Perspiciatis soluta dicta debitis, eum iure incidunt ipsam aliquid, officiis ratione laudantium aperiam molestias eveniet fugit rerum harum. Vel delectus explicabo, esse velit exercitationem optio ipsum ratione beatae facilis illum in rerum aspernatur impedit necessitatibus ut dolore porro? Animi minus saepe amet! </p>
             </div>
         </div>
         
-        <div class="tabcontent" style="margin: 8px 0px;">
+        <div class="tabcontent hide-show" style="margin: 8px 0px;">
           <div class="accordion" style="padding: 15px 10px;">
               <span>   Intelligence Test </span>
               <i class="fa-solid fa-angle-down angle-right"></i>
           </div>
           <div class="accordion-content">
-             <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
-         <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
-             <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
+             
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, iusto? Quas beatae delectus veniam rerum omnis at accusantium repellat officiis cupiditate. Porro est provident, quasi dolores dicta neque consequuntur! Et laudantium provident inventore deleniti similique est incidunt in tempore molestiae commodi harum cumque beatae praesentium, cupiditate aperiam non placeat sed error iusto quas adipisci ipsam pariatur laborum quasi! Perspiciatis soluta dicta debitis, eum iure incidunt ipsam aliquid, officiis ratione laudantium aperiam molestias eveniet fugit rerum harum. Vel delectus explicabo, esse velit exercitationem optio ipsum ratione beatae facilis illum in rerum aspernatur impedit necessitatibus ut dolore porro? Animi minus saepe amet! </p>
           </div>
       </div>
-      
-      <div class="tabcontent" style="margin: 8px 0px;">
+       
+      <div class="tabcontent hide-show" style="margin: 8px 0px;">
         <div class="accordion" style="padding: 15px 10px;"> 
             <span>   Intelligence Test </span>
             <i class="fa-solid fa-angle-down angle-right"></i>
         </div>
         <div class="accordion-content">
-           <a href="/issb/lessonvideo?type=iq"><i class="fas fa-video"></i>&nbsp;&nbsp;Lesson Video</a>
-       <a href="/issb/iqlist"><i class="fas fa-microphone">&nbsp;&nbsp;</i>Verbal Test</a>
-           <a href="/issb/iqlist"><i class="fas fa-handshake"></i>&nbsp;&nbsp;Non Verbal Test</a>
+          
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Explicabo, iusto? Quas beatae delectus veniam rerum omnis at accusantium repellat officiis cupiditate. Porro est provident, quasi dolores dicta neque consequuntur! Et laudantium provident inventore deleniti similique est incidunt in tempore molestiae commodi harum cumque beatae praesentium, cupiditate aperiam non placeat sed error iusto quas adipisci ipsam pariatur laborum quasi! Perspiciatis soluta dicta debitis, eum iure incidunt ipsam aliquid, officiis ratione laudantium aperiam molestias eveniet fugit rerum harum. Vel delectus explicabo, esse velit exercitationem optio ipsum ratione beatae facilis illum in rerum aspernatur impedit necessitatibus ut dolore porro? Animi minus saepe amet! </p>
         </div>
     </div>
-    <button id="show-more-question">Show More<i class="fa-solid fa-angle-down angle-right"></i></button>
-    
+    <button class="show-more">Show More<i class="fa-solid fa-angle-down angle-right"></i></button>
+  </section> 
+</div>
 
-</section>
+    <div class="lecture-details course-content">
+      <h4>Details</h4>
+      <section class="course-content-list">
+    
+          <div class="tabcontent hide-show" style="margin: 8px 0px;">
+            <div class="accordion" style="padding: 15px 10px;"> 
+              <img src="" alt="">
+
+              <span>This is the next part</span>
+              <i class="fa-solid fa-angle-down angle-right"></i>
+            </div>
+            <div class="accordion-content">
+              
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque impedit incidunt excepturi illum in? Quaerat quae vitae molestias exercitationem veniam? Ab inventore vitae dolore excepturi quis, explicabo impedit beatae totam sapiente, animi exercitationem, nisi doloribus nam cupiditate doloremque dicta. At esse et minima dolores tenetur adipisci, iste ipsum consequatur sint!</p>
+              
+            
+            </div>
+          </div>
+     
+        
+  <button class="show-more">Show More<i class="fa-solid fa-angle-down angle-right"></i></button>
+  
+</section> 
+</div>
+
+
+
+
+
 <style>
 .modal-iframe {
   display: none;
@@ -421,34 +332,27 @@ margin: 8px;
 </style>
 <div class="modal-section">
 	<div class="modal-iframe">
-        <iframe id="video-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/ub9Zk-akQbQ?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;" allowfullscreen></iframe>
+        <iframe id="video-iframe" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;" allowfullscreen></iframe>
   </div>
 </div>
-
+<br><br><br>
 
 <div class="bottom-pay">
-  <span>$2500</span> <span> <a href="/payment?course_id=<%= course.course_id %>">কোর্সটি কিনুন</a></span>
+  <span>$<%= course.course_fee %></span> <span> <a href="/payment?course_id=<%= course.course_id %>">কোর্সটি কিনুন</a></span>
 </div>
 
-<div class="modal-section">
-	<div class="modal-poster">
-    <img src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg" width="100%" alt="">
-    <p>কোর্সটি কিনে নিলে সব গুলো প্রিমিয়াম ফিচার ব্যাবহারের সুযোগ পাবেন।</p>
-    <br>
-	<a href="/course-details/3" class="buy-btn">Payment Now</a>
-  <br>
-</div>	
-</div>
+
 
 <script src="/js/script.js"></script>
 <!-- Jquery Cnd minified -->
   <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
+
+
+
+
 <script>
 
-
-
-	
 
 
 const playBtn = document.getElementById('play-btn');
@@ -515,27 +419,6 @@ for (var i = 0; i < accordions.length; i++) {
 
 
 
-const subs = document.querySelectorAll('.hide-show');
-  const button = document.getElementById('show-more');
-  const maxVisible = 3;
-
-  // hide all subs except the first 3
-  for (let i = maxVisible; i < subs.length; i++) {
-    subs[i].style.display = 'none';
-  }
-
-  // toggle subs and button text on click
-  button.addEventListener('click', function() {
-    for (let i = maxVisible; i < subs.length; i++) {
-      subs[i].style.display = subs[i].style.display === 'none' ? 'block' : 'none';
-    }
-    button.textContent = button.textContent === 'Hide Content' ? 'Show content' : 'Hide Content';
-  });
-
-  // hide the button if there are 3 or fewer subs
-  if (subs.length <= maxVisible) {
-    button.style.display = 'none';
-  }
 
 
 $(document).ready(function() {
@@ -571,24 +454,52 @@ for (let i = 1; i < accordionContents.length; i++) {
 }
 
 
-</script>
-
-
-
-<script>
   	
 let modal = $('.modal-iframe');
-$('.accordion-content p:not(.locked)').click(function() {
-  let link = $(this).data('link');
-  $('.modal-iframe iframe').attr('src', link)
-  $('.modal-iframe').fadeToggle(0);
+
+$('.accordion-content p:not(.locked)').each(function() {
+  $(this).click(function() {
+    let link = $(this).data('link');
+    $('.modal-iframe iframe').attr('src', link+"?autoplay=1");
+    $('.modal-iframe').fadeIn(0);
+    console.log('this is modal open ');
+  });
 });
 
 $(document).mousedown(function(event) {
   if (!$(event.target).closest(".modal-iframe").length && !$(event.target).is('.accordion-content p:not(.locked)')) {
     $('.modal-iframe').fadeOut(100);
-  $('.modal-iframe iframe').attr('src', " ")
+    $('.modal-iframe iframe').attr('src', "");
   }
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const sections = document.querySelectorAll('.course-content-list');
+console.log(sections)
+  sections.forEach(section => {
+    const subs = section.querySelectorAll('.hide-show');
+    const button = section.querySelector('.show-more');
+    const maxVisible = 2;
+
+    // hide all subs except the first one
+    for (let i = maxVisible; i < subs.length; i++) {
+      subs[i].style.display = 'none';
+    }
+
+    // toggle subs and button text on click
+    button.addEventListener('click', function() {
+      for (let i = maxVisible; i < subs.length; i++) {
+        subs[i].style.display = subs[i].style.display === 'none' ? 'block' : 'none';
+      }
+      button.textContent = button.textContent === 'Show More' ? 'Show Less' : 'Show More';
+    });
+
+    // hide the button if there is 1 or fewer subs
+    if (subs.length <= maxVisible) {
+      button.style.display = 'none';
+    }
+  });
 });
 
 </script>

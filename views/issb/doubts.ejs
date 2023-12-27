@@ -6,96 +6,129 @@
     <div><h4>Doubts</h4></div>
  <img src="https://th.bing.com/th/id/R.23ca2f3fbf7e19a1e85cd9d556d5ffaf?rik=uoFjTlg8g%2bIkqw&pid=ImgRaw&r=0" id="top-nav-icon-issb">
 </section><br><br><br>
+<style>
+
+
+</style>
+
+
+
+<div  id="slide-menu">
+  <div class="item-menu active-doubts" data-category="ALL">ALL</div>
+  <div class="item-menu" data-category="SSC">SSC</div>
+  <div class="item-menu" data-category="HSC">HSC</div>
+  <div class="item-menu" data-category="ADMISSION">ADMISSION</div>
+  <div class="item-menu" data-category="ISSB">ISSB</div>
+  <div class="item-menu" data-category="BCS">BCS</div>
+</div>
 
 <section class="questions-box">
-    <% let counter = 1 %>
-    <form action="/issb/verbal/<%= data.exam_code %>/result" method="post" id="form-id">
-        <% data.forEach(function(doubt) { %>
-        <div class="qcontainer" id="question<%= counter %>">
-           <p>
-              <span><b><%= counter %>)&nbsp;</b></span>
-              <b><%= doubt.question %></b>
-           </p>
-           <% if (doubt.question_image && doubt.question_image !== "") { %>
-           <img class="q-image" src="<%= doubt.question_image %>" alt="">
-           <% } else { %>
-           
-           <% } %>
-           <label class="options" for="option1<%= counter %>">  
-            <input
-            type="radio"
-            name="<%= doubt._id %>"
-            value="1"
-            id="option1<%= counter %>"  
-            <%= doubt.answer === '1' ? 'checked' : 'disabled' %>         
-          />
-          <label><%= doubt.choice1 %></label>
-          </label>
-          <label class="options" for="option2<%= counter %>">
-          <input
-            type="radio"
-            id="option2<%= counter %>"
-            name="<%= doubt._id %>"
-            value="2"
-            <%= doubt.answer === '2' ? 'checked' : 'disabled' %>
-          />
-          <label><%= doubt.choice2 %></label>
-         </label>
-         <label class="options" for="option3<%= counter %>">
-          
-          <input
-            type="radio"
-            id="option3<%= counter %>"
-            name="<%= doubt._id %>"
-            value="3"
-            <%= doubt.answer === '3' ? 'checked' : 'disabled' %>
-          />
-          <label><%= doubt.choice3 %></label>
-         </label>
-          <label class="options"  for="option4<%= counter %>">
-          
-          <input
-            type="radio"
-            id="option4<%= counter %>"
-            name="<%= doubt._id %>"
-            value="4"
-            <%= doubt.answer === '4' ? 'checked' : 'disabled' %>
-          />
-          <label><%= doubt.choice4 %></label>
-         </label>
+  <% let counter = 1 %>
+  <% data.forEach(function(exam) { %>
+    <div class="qcontainer" data-category="<%= exam.exam_type %>" id="question<%= counter %>">
+         <p>
+            <span><b><%= counter %>)&nbsp;</b></span>
+            <b><%- exam.question %></b>
+         </p>
+         <% let optionCounter = 1; %>
+         
+         <% exam.option.forEach((option, index) => { %>
+         <div class="options">
+             <input
+                 type="radio"
+                 id="option<%= optionCounter %><%= counter %>"
+                 name="<%= exam._id %>"
+                 value="<%= index + 1 %>"
+                 <%= exam.your_answer === String(index + 1) ? 'checked' : 'disabled' %>
+             />
+             <label for="option<%= optionCounter %><%= counter %>"><%- option %></label>
+         </div>
+         <% optionCounter++; %>
+         <% }) %>
+         
+      
+        <div class="explainer">
+<% if (data.show_explanation) { %>
+          <div class="explain">
+             <p>Explanation</p>
+          </div>
+          <% } %>
 
-           <div class="explainer">
-              <div class="explain">
-                 <p>Explanation</p>
-              </div>
-              <div class="doubts-types"><%= doubt.question_type %></div>
-              <p class="doubts-date"><%= doubt.createdAt.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric'}) %></p>
-              <a class="love" href="/issb/verbal/<%= doubt.exam_code %>?id=<%= doubt._id %>">
-                <p><%= doubt.doubts_count %></p>
-                <i class="fa-solid fa-heart"></i>
-             </a>
-              
-           </div>
-           <div class="explain-toggle-hide">
-              <p><%= doubt.explanation %></p>
-              <% if (doubt.explanation_image && doubt.explanation_image !== "") { %>
-                <img class="e-image" src="<%= doubt.explanation_image %>" alt="">
-                <% } else { %>
-                
-                <% } %>
-           </div>
-          
+          <a class="love" href="/issb/verbal/<%= data.exam_code %>?id=<%= exam._id %>">
+            <p><%= exam.doubts_count %></p>
+            <i class="<%= exam.doubt == 0 ? 'fa-regular fa-heart' : 'fa-solid fa-heart' %>"></i>
+         </a>
+       </div>
+
+       <% if (data.show_explanation) { %>
+        <div class="explain-toggle-show">
+          <p><%- exam.explanation %></p>
         </div>
-        <% counter++ %>
-        <% }) %>
-
-     </form>
-            
+      <% } %>
+    </div>
+    <% counter++ %>
+  <% }) %>
  
-            
-      <br />
-          
 </section>
+
+<div id="no-data-found"> 
+  <img width="200px" src="https://static.vecteezy.com/system/resources/previews/016/349/592/original/data-information-word-not-found-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg" alt="">
+  <h2>No Doubts found!</h2>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const itemMenus = document.querySelectorAll('.item-menu');
+    const questionContainers = document.querySelectorAll('.qcontainer');
+    const noDataFound = document.getElementById('no-data-found');
+
+    itemMenus.forEach(itemMenu => {
+      itemMenu.addEventListener('click', function () {
+        const selectedCategory = this.dataset.category;
+
+        itemMenus.forEach(item => item.classList.remove('active-doubts'));
+        this.classList.add('active-doubts');
+
+        let found = false;
+
+        questionContainers.forEach(container => {
+          const containerCategory = container.dataset.category;
+
+          if (selectedCategory === 'ALL' || selectedCategory === containerCategory) {
+            container.style.display = 'block';
+            found = true;
+          } else {
+            container.style.display = 'none';
+          }
+        });
+
+        noDataFound.style.display = found ? 'none' : 'block';
+      });
+    });
+  });
+</script>
+
+
+<div class="pagination">
+  <% if (currentPage > 1) { %>
+    <p><a href="/doubts?page=<%= currentPage - 1 %>">Prev</a></p>
+  <% } %>
+  
+  <% for (let i = Math.max(currentPage - 5, 1); i <= Math.min(currentPage + 5, totalPages); i++) { %>
+    <% if (i === currentPage) { %>
+    <p class="pagination-active" ><span><%= i %></span></p>
+    <% } else { %>
+    <p><a href="/doubts?page=<%= i %>"><%= i %></a></p>
+    <% } %>
+  <% } %>
+  
+  <% if (currentPage < totalPages) { %>
+  <p><a href="/doubts?page=<%= currentPage + 1 %>">Next</a></p>
+  <% } %>
+  </div>
+  <br><br><br>
+
+
 
 <div id="floatingMenu">
     <div class="">

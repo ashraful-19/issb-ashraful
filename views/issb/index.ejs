@@ -11,24 +11,24 @@
 	<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
  </div>
 <div>
-	<a id="militarian"	href="/"><img height="50px" src="https://testmoz.com/ugc/2023-04-12/5321b2c1-c99b-453e-8aab-9d2666b5adcc-image.png" alt=""></a>
+	<a id="militarian"	href="/"><img height="55px" style="margin:10px 0px 0px 0px;"  src="https://testmoz.com/ugc/2023-12-17/9ea6383b-44ba-475b-bdc5-0fa2dc94a599-Mission-School-01.png" alt=""></a>
 </div>
 </section>
+
 <div id="menulist" >
-	<a href="/">Home</a>
-	<a href="about.html">About</a>
-	<a href="contact.html">Contact</a>
-	<a href="terms&conditions">Terms & conditions</a>
-	<a href="privacy&policy">Privacy & Policy</a>
+	<a href="/"><i class="fa-solid fa-house"></i> Home</a>
+	<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+	<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+	<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+	<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
     <% if (req.user) { %>
-        <a href="/auth/logout">Logout</a>
+        <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
       <% } else { %>
-        <a href="/auth/login">Login</a>
+        <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
       <% } %>
       
 </div>
 
-<style></style>
 <br><br>
 
  <section class="top-section">
@@ -57,6 +57,7 @@
 		</div> -->
        
 </section>
+
 
 
  <!-- Main body accoding section -->
@@ -155,8 +156,8 @@
         </div>
         <div class="accordion-content">
 			<a href="/issb/lessonvideo?type=Incomplete Sentences">Lesson Video</a>
-			<a href="/issb/textcontent?type=Incomplete Sentences&text_type=Bangla">Bangla</a>
-			<a href="/issb/textcontent?type=Incomplete Sentences&text_type=English">English</a>
+			<a href="/issb/practice_list?type=Incomplete Sentences&text_type=Bangla">Bangla</a>
+			<a href="/issb/practice_list?type=Incomplete Sentences&text_type=English">English</a>
 		 </div>
     </div>   
     <div class="tabcontent">
@@ -166,8 +167,8 @@
         </div>
         <div class="accordion-content">
 			<a href="/issb/lessonvideo?type=WAT">Lesson Video</a>
-           <a href="/nonverbal">Practice WAT</a>
-        </div>
+           <a href="/issb/practice_list?type=WAT&text_type=English">WAT Test</a>
+		</div>
     </div>  
     <div class="tabcontent">
         <div class="accordion"> 
@@ -335,6 +336,76 @@
     </div>  
 </section>
 
+<style>
+    .user-review {
+       display: flex;
+       flex-direction: column;
+       align-items: normal;
+       padding: 20px;
+       background: white;
+       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+   
+       border-radius: 10px;
+       margin: 10px;
+   }
+   
+       .user-avatar {
+           display: flex;
+           flex-direction: row;
+           justify-content: space-between;
+           margin-bottom: 20px;
+   
+       }
+   
+       .user-avatar img {
+           width: 80px;
+           height: 80px;
+           border-radius: 50%;
+           margin-right: 10px;
+       }
+   
+       .user-avatar svg {
+           width: 50px;
+           height: 50px;
+           fill: #077430;
+           margin-left: 10px;
+       }
+   
+       .user-details-review {
+           flex-grow: 1;
+       }
+   
+       .user-details-review h3 {
+           font-size: 1.2rem;
+           margin-bottom: 5px;
+       }
+   
+       .user-details-review b {
+           display: block;
+           font-size: 1rem;
+           color: #555;
+           margin-bottom: 10px;
+       }
+   
+       .user-details-review p {
+           font-size: 1rem;
+           color: #333;
+           line-height: 1.5;
+       }
+   </style>
+   
+   
+   <div class="user-review">
+       <div class="user-avatar">
+           <img src="https://www.technowize.com/wp-content/uploads/2016/06/Google-AI-worries-Elon-Musk-e1464870341953.jpg" alt="User Image">
+           <svg height="200px" user review width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#077430;} </style> <g> <path class="st0" d="M119.472,66.59C53.489,66.59,0,120.094,0,186.1c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.135,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.829-6.389 c82.925-90.7,115.385-197.448,115.385-251.8C238.989,120.094,185.501,66.59,119.472,66.59z"></path> <path class="st0" d="M392.482,66.59c-65.983,0-119.472,53.505-119.472,119.51c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.136,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.828-6.389 C479.539,347.2,512,240.452,512,186.1C512,120.094,458.511,66.59,392.482,66.59z"></path> </g> </g></svg>
+       </div>
+       <div class="user-details-review">
+           <h3>Md Khaledur Islam</h3>
+           <b>92 BMA LC</b>
+           <p>I appreciate Mission Academy for supporting me in the journey of Getting greencard, Hope you will find this as a game changer for your ISSB MISSION</p>
+       </div>
+   </div>
 <script>
     // Store the scroll position when leaving the page
 window.addEventListener('beforeunload', function() {
@@ -359,69 +430,80 @@ window.addEventListener('load', function() {
 
  <%- include('../partials/bottom-nav.ejs') %>
 
-<style>
-        .footer {
-            background-color: #333;
-            color: #fff;
-            padding: 20px 0;
-            text-align: center;
-        }
-        .footer p {
-            font-size: 16px;
-            margin: 8px 0;
-        }
-        .footer a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 20px;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        .footer .footer-links {
-            margin-top: 20px;
-        }
-        .footer .footer-links a {
-            font-size: 16px;
-        }
-        .footer .footer-social {
-            margin-top: 20px;
-        }
-        .footer .footer-social a {
-            font-size: 18px;
-        }
-        .footer .footer-specials {
-            margin-top: 20px;
-        }
-        .footer .footer-specials a {
-            font-size: 14px;
-        }
-        .footer .copyright {
-            margin-top: 20px;
-            font-size: 12px;
-        }
-    </style>
+
+ <style>
+    .footer {
+        background-color: #333;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+    }
+    .footer p {
+        font-size: 16px;
+        margin: 8px 0;
+    }
+    .footer a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 20px;
+    }
+    .footer a:hover {
+        text-decoration: underline;
+    }
+    .footer .footer-links {
+        margin-top: 20px;
+    }
+    .footer .footer-links a {
+        font-size: 14px;
+    }
+    .footer .footer-social {
+        margin-top: 20px;
+    }
+    .footer .footer-social a {
+        font-size: 18px;
+    }
+    .footer .footer-specials {
+        margin-top: 20px;
+    }
+    .footer .footer-specials a {
+        font-size: 14px;
+    }
+    .footer .copyright {
+        margin-top: 20px;
+        font-size: 12px;
+    }
+</style>
 <br>
 <div class="footer">
-        <p>Mission Academy</p>
-        <p><i class="fas fa-phone"></i> +8801772512057</p>
-        <p><i class="fas fa-envelope"></i> ashrafulashik0177@gmail.com</p>
-        <p><i class="fas fa-map-marker-alt"></i> Mirpur 12, Dhaka, Bangladesh</p>
-        <div class="footer-links">
-          
-            <a href="/privacy&policy">Privacy Policy</a>
-            <a href="/terms&conditions">Terms & Conditions</a
-        
-        </div>
-        <div class="footer-social">
-            <a href="https://www.facebook.com/mission.academy23"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="https://www.youtube.com/@codewriter6742"><i class="fab fa-youtube"></i> Youtube</a>
-          </div>
-        <div class="copyright">
-            &copy; 2023 Made by Md Ashraful Islam
-        </div>
+    <p>Mission Academy</p>
+    <p><i class="fas fa-phone"></i> +8801772512057</p>
+    <p><i class="fas fa-envelope"></i> ashrafulashik0177@gmail.com</p>
+    <p><i class="fas fa-map-marker-alt"></i> Mirpur 12, Dhaka, Bangladesh</p>
+
+    <div class="footer-links">
+        <a href="https://www.facebook.com/mission.academy23">Contact</a>
+        <a href="/privacy&policy">Privacy Policy</a>
+        <a href="/terms&conditions">Terms & Conditions</a>
+        <a href="/terms&conditions">About us</a>
+
+
     </div>
-<br><br><br>
+
+    <div class="footer-social">
+        <a href="https://www.facebook.com/mission.academy23"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="https://www.youtube.com/@codewriter6742"><i class="fab fa-youtube"></i> Youtube</a>
+    </div>
+
+    
+
+    <div class="copyright">
+        &copy; 2023 Made by Md Ashraful Islam
+    </div>
+</div>
+
+
+<br>
+
 
 <script src="/js/script.js"></script>
 <!-- Jquery Cnd minified -->

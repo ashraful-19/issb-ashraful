@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Test Questions and Solutions</title>
+</head>
+<body>
+
+    <h1><%= title %></h1>
+    <% data.forEach(item => { %>
+        <div>
+            <h3>Problem</h3>
+            <ul>
+                <% item.Problem.forEach(problem => { %>
+                    <li><%= problem %></li>
+                <% }) %>
+            </ul>
+            <h3>Solution</h3>
+            <ul>
+                <% item.Solve.forEach(solution => { %>
+                    <li><%= solution %></li>
+                <% }) %>
+            </ul>
+        </div>
+    <% }) %>
+
+
+</body>
+</html>
