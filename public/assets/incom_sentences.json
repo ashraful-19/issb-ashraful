@@ -1,0 +1,43 @@
+{
+  "Bangla": {
+    "Model Test 04": [
+      {
+        "Problem": ["এটি আমার সমস্যা।", "এটি দ্বিতীয় সমস্যা।"],
+        "Solve": ["এটি আমার সমাধান।", "এটি দ্বিতীয় সমাধান।"]
+      }
+    ],
+    "Model Test 05": [
+      {
+        "Problem": ["আমার এটি সমস্যা।", "এটি আমার দ্বিতীয় সমস্যা।"],
+        "Solve": ["আমার এটি সমাধান।", "এটি আমার দ্বিতীয় সমাধান।"]
+      }
+    ],
+    "Model Test 06": [
+      {
+        "Problem": ["এটি হোলো আমার সমস্যা।", "এটি হোলো আমার দ্বিতীয় সমস্যা।"],
+        "Solve": ["এটি হোলো আমার সমাধান।", "এটি হোলো আমার দ্বিতীয় সমাধান।"]
+      }
+    ]
+  },
+
+  "English": {
+    "Model Test 03": [
+      {
+        "Problem": ["This is a unique problem.", "This is the second unique problem."],
+        "Solve": ["This is a unique solution.", "This is the second unique solution."]
+      }
+    ],
+    "Model Test 05": [
+      {
+        "Problem": ["Another unique problem.", "This is a different unique problem."],
+        "Solve": ["Another unique solution.", "This is a different unique solution."]
+      }
+    ],
+    "Model Test 06": [
+      {
+        "Problem": ["A special problem.", "A distinctive unique problem."],
+        "Solve": ["A special solution.", "A distinctive unique solution."]
+      }
+    ]
+  }
+}
