@@ -1290,4 +1290,32 @@ document.addEventListener('DOMContentLoaded', function () {
       $('.selection1').slideToggle();
     });
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Get all anchor tags on the page
+var anchorTags = document.querySelectorAll('a');
+
+// Loop through each anchor tag
+anchorTags.forEach(function(anchor) {
+    // Check if the anchor's innerHTML contains the specified text
+    if (anchor.innerHTML.includes('Unlicensed copy of the Froala Editor. Use it legally by purchasing a license.')) {
+        // Remove the entire anchor tag
+        anchor.parentNode.removeChild(anchor);
+    }
+});
+
 </script>
