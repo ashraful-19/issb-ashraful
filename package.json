@@ -9,7 +9,7 @@
   },
   "author": "Md Ashraful Islam",
   "license": "ISC",
-  engines": {
+  "engines": {
     "node": ">=16.20.1"
   },
   "dependencies": {
