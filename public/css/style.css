@@ -327,7 +327,7 @@ div.explasec div:nth-child(2) {
   align-items: center;
   box-shadow: rgb(33 35 38 / 10%) 0px 10px 10px -10px;
   position: fixed;
-  padding: 25px;
+  padding: 20px;
   top: 0px;
   width: 100%;
   height: 60px;
@@ -366,15 +366,22 @@ div.explasec div:nth-child(2) {
 
    #menulist a{
     display: flex;
-    flex-direction: column;
+    flex-direction: inline-flex;
+    align-items: center;
     margin:10px;
-    padding: 8px 30px 8px 30px;
+    padding: 8px 20px 8px 20px;
    }
    #menulist a:hover{
     background-color: #7263ff;
      color:white;
      border-radius: 5px;
    }
+
+  
+  #menulist i {
+    margin-right: 15px; /* Adjust the margin as needed */
+  }
+  
 
 /* top AREA DESIGN CSS */
 .slideimg {
@@ -601,24 +608,7 @@ color: rgb(36, 36, 36) !important;
 
 
 
-div.accordion {
-width: 100%;
-background: #ffffff!important;
-border: 1px solid #e6e6e6ad;
-outline: none;
-text-align: left;
-padding: 15px 10px;
-font-size: 14px;
-color: #444;
-cursor: pointer;
-box-shadow: rgb(255 255 255) 0px 3px 5px;
-transition: background-color 0.2s linear;
-display: flex;
-justify-content: flex-start;
-flex-direction: row;
-align-items: center;
-border-radius: 10px;
-}
+div.accordion {width: 100%;background: #ffffff!important;border: 1px solid #e6e6e6ad; outline: none;text-align: left;padding: 15px 10px;font-size: 14px;color: #444;cursor: pointer;transition: background-color 0.2s linear;display: flex;justify-content: flex-start;flex-direction: row;align-items: center;border-radius: 10px;}
 
 
 
@@ -629,15 +619,12 @@ max-height: 0;
 overflow: hidden;
 position:relative;
  top:-5px;
-border radius bottom
 transition: max-height 0.3s ease-in-out;
 background-color: #fcfcfc;
 display: flex;
 flex-direction: column;
  border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-
-
 
 }
 .accordion-content a{
@@ -827,7 +814,7 @@ justify-content: center;
 align-items: center;
  bottom: 80px;
  right: 20px;
- font-size: 20px;
+ font-size: 25px;
  border-radius: 70%;
   background:white;
  border: 1px solid rgb(255, 255, 255);
@@ -835,8 +822,8 @@ align-items: center;
  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
  cursor: pointer;
 }
-#menuicon:active {
-  background:#000000c4;
+#menuicon:hover {
+  background:#4d035cc4;
    color:white;
    }
 
@@ -893,6 +880,7 @@ align-items: center;
 
 #militarian{
   color: black!important; 
+  
 }
 
 
@@ -1086,15 +1074,46 @@ font-size: 15px;
 
 
 /* --------doubts Page------------- */
+#slide-menu {
+  display: flex;
+  overflow-x: auto;
+  padding: 5px; /* Adjust padding as needed */
+ background: #fafafa;
+}
+
+.item-menu {
+  flex: 0 0 auto;
+  padding: 5px 10px; /* Adjust padding as needed */
+  margin-right: 5px; /* Adjust margin as needed */
+  border-radius: 7px; /* Adjust border-radius for round corners */
+  background-color: #000c14; /* Adjust background color as needed */
+  color: #fff; /* Adjust text color as needed */
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.item-menu:last-child {
+  margin-right: 0;
+}
+
+.active-doubts{
+  color: black;
+  background-color: #e7e7e7;
+}
+
+#no-data-found {
+  display: none;
+  margin: 0px auto;
+}
+
 
 .doubts-item{
-  
   padding: 10px 15px;
-  
-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   border-radius: 8px;
   margin:10px 10px;
 }
+
 .explain-toggle-hide{
   display: none;
 }
@@ -1529,10 +1548,7 @@ color:#1b479a;
   gap: 5px;
  padding: 3px 5px;
 }
-.options:hover{
-  background:#E8F5E9;
-  border-radius:5px;
-}
+
 .option-color{
   background:#E8F5E9;
   border-radius:5px;
@@ -1782,7 +1798,7 @@ color:#1b479a;
 
 
 /* common css */
-input[type="radio"] {
+/* input[type="radio"] {
   appearance: none;
   -webkit-appearance: none;
   background-color: white;
@@ -1794,11 +1810,11 @@ input[type="radio"] {
 
 input[type="radio"]:checked {
   background-color: rgb(0, 0, 0);
-}
+}*/
 
 .correct-incorrect{
   width: 20px;
-}
+} 
 
 
 
@@ -1935,7 +1951,7 @@ input[type="radio"]:checked {
   margin: 4px auto;
   font-size: 14px;
   color: #636363;
-
+  
   
 }
 .accordion-content p:hover{
@@ -1978,7 +1994,7 @@ margin-top:20px;
   margin-left: auto;
   transition: transform 0.3s ease;
  
-}
+} 
 .rotate {
   transform: rotate(-180deg);
 }
@@ -2006,16 +2022,17 @@ margin-top:20px;
  font-weight: bold;
 }
 .bottom-pay span:last-child {
-  background-color: #673AB7;
-  color: #fff;
+  background-color: #137148!important;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
-
+.bottom-pay span:last-child a{
+  color: white;
+}
 .bottom-pay span:last-child:hover {
-  background-color: #0062cc;
+  background-color: #3300cc!important;
 }
 
 
@@ -2077,7 +2094,7 @@ padding: 5px 0px 10px 0px;
 }
 
 
-#show-more {
+.show-more {
   background: #ffffff;
   padding: 5px 25px;
   margin: 0 auto;
