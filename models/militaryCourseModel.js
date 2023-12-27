@@ -20,31 +20,32 @@ const MilitaryCourseSchema = new mongoose.Schema({
       type: Number,
     },
     course_syllabus: [{
+              course_content_type: {
+                type: String,
+          },
             course_content_icon_url: {
               type: String,
             },
             course_content_title: {
               type: String,
             },
-            course_content_details: [{
-                type: {
-                  type: String,
-                  
-                },
-                title: {
-                  type: String,
-                  
-                },
-                link: {
-                  type: String,
-                }
-              }
-            ],
+            course_content_details:{
+              type: String,
+            },
             order: {
               type: Number,
               default: 0,
             }
           }],
+          course_class: {
+            type: String,
+          },
+          course_exam: {
+            type: String,
+          },
+          course_notes: {
+            type: String,
+          },
     is_active: {
       type: Boolean,
     },
@@ -99,3 +100,6 @@ module.exports = {
   MilitaryCourse,
   // MilitaryCourseSyllabus
 };
+
+
+

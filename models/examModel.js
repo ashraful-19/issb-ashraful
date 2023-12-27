@@ -40,11 +40,11 @@ const examSettingSchema = new mongoose.Schema({
   message_on_fail: {
     type: String,
   },
-  show_score: {
+  show_result: {
     type: Boolean,
     default: false,
   },
-  show_right_wrong: {
+  show_merit: {
     type: Boolean,
     default: false,
   },
@@ -64,34 +64,18 @@ const examSettingSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
     },
-    unlimited_attempt: {
-      type: Boolean,
-      default: false,
-    },
-
   attempt: {
     type: Number,
     default: 0,
-  },
-  published: {
-    type: Boolean,
-    default: false,
   },
   active_status: {
     type: String,
     default: "closed",
   },
-  startDateTime: {
-    type: Date,
-  },
-  endDateTime: {
-    type: Date,
-  },
-is_live: {
+  is_anyone: {
       type: Boolean,
       default: false,
-    },
-    
+    },  
   course_added: {
     type: [String], // Assuming an array of course names or IDs
   },
@@ -102,14 +86,16 @@ is_live: {
     type: Number,
     default: 0,
   },
-  unlimited_time: {
-    type: Boolean,
-    default: false,
-  },
   questions: {
     type: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Question', // Referencing the Question model
+    }],
+  },
+  user_result: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'UserResult', // Referencing the Question model
     }],
   },
   createdAt: {
@@ -197,8 +183,11 @@ const questionResponseSchema = new mongoose.Schema({
 
 // Define schema for user exam results
 const userResultSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  phone: { type: String, required: true },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // Assuming there's a 'User' model to reference
+    required: true, // Make sure user field is required
+  },
   startTime: { type: Date, required: true },
   endTime: { type: Date },
   marks: { type: Number, required: true },
