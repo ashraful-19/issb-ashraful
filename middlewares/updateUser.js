@@ -2,6 +2,7 @@
 const {Otp,User} = require("../models/userModel");
 
 const {Payment} = require("../models/paymentModel");
+const { ExamSetting,Question } = require('../models/examModel');
 // const updateUser = async (req, res) => {
 //     try {
 //       const phone = req.user.phone;
@@ -94,9 +95,122 @@ const updateUser = async (req, res,next) => {
         }
       };
 
+      const authenticateExamAccess = async (req, res, next) => {
+        try {
+            const examCode = req.params.id;
+            const userPhoneNumber = req.user.phone;
+           
+            // Step 01: Check Exam Link Status
+            const examDetails = await ExamSetting.findOne({ exam_code: examCode });
+    
+            if (!examDetails || examDetails.active_status === 'closed') {
+                // Exam link is closed or not found
+                console.log('Step 01: Exam link is closed or not found.');
+                return res.redirect(`/admin/auth-quiz/${ examCode }`);
+            }
+    
+            // Step 02: Check Free Access
+            if (examDetails.is_anyone && examDetails.active_status === 'open') {
+                // Exam is open
+                console.log('Step 02: Exam is open.....');
+                return next();
+            }
+    
+            // Step 03: Check Purchased Courses
+            const userPurchasedCourses = await Payment.find({ user: req.user._id });
+            const purchasedCourseIds = userPurchasedCourses.map(course => course.course_id);
+    
+            if (purchasedCourseIds.length === 0) {
+                // No purchased courses; suggest available exams
+                const availableExams = await ExamSetting.find({ exam_added: { $in: purchasedCourseIds } });
+    
+                console.log('Step 03: No purchased courses match.');
+                return res.redirect('/admin/auth-quiz', { examCode });
+            }
+    
+            const isCoursePurchased = purchasedCourseIds.some(courseId => examDetails.course_added.includes(courseId));
+    
+            if (isCoursePurchased && examDetails.active_status === 'open') {
+                // Exam is open
+                console.log('Step 03: Exam is open.');
+                return next();
+            } else {
+                // No purchased courses match; suggest available exams
+                const availableExams = await ExamSetting.find({ exam_added: { $in: purchasedCourseIds } });
+    
+                console.log('Step 03: No purchased courses match.');
+                return res.redirect(`/admin/auth-quiz/${ examCode }`);
+            }
+    
+        } catch (error) {
+            // Handle errors
+            console.error("Error in authentication:", error);
+            res.status(500).send("Internal Server Error");
+        }
+    };
+    
+
+    const authenticatePracticeAccess = async (req, res, next) => {
+      try {
+          const examCode = req.params.id;
+          const userPhoneNumber = req.user.phone;
+         
+          // Step 01: Check Exam Link Status
+          const examDetails = await ExamSetting.findOne({ exam_code: examCode });
+  
+          if (!examDetails || examDetails.active_status === 'closed') {
+              // Exam link is closed or not found
+              console.log('Step 01: Exam link is closed or not found.');
+              return res.redirect(`/admin/auth-quiz/${ examCode }`);
+          }
+  
+          // Step 02: Check Free Access
+          if (examDetails.is_anyone && examDetails.active_status === 'open' && examDetails.practice ) {
+              // Exam is open
+              console.log('Step 02: Exam is open for practice.....');
+              return next();
+          }
+  
+          // Step 03: Check Purchased Courses
+          const userPurchasedCourses = await Payment.find({ user: req.user._id });
+          const purchasedCourseIds = userPurchasedCourses.map(course => course.course_id);
+  
+          if (purchasedCourseIds.length === 0) {
+              // No purchased courses; suggest available exams
+              const availableExams = await ExamSetting.find({ exam_added: { $in: purchasedCourseIds } });
+  
+              console.log('Step 03: No purchased courses match.');
+              return res.redirect('/admin/auth-quiz', { examCode });
+          }
+  
+          const isCoursePurchased = purchasedCourseIds.some(courseId => examDetails.course_added.includes(courseId));
+  
+          if (isCoursePurchased && examDetails.active_status === 'open' && examDetails.practice) {
+              // Exam is open
+              console.log('Step 03: Exam is open for practice ');
+              return next();
+          } else {
+              // No purchased courses match; suggest available exams
+              const availableExams = await ExamSetting.find({ exam_added: { $in: purchasedCourseIds } });
+  
+              console.log('Step 03: No purchased courses match.');
+              return res.redirect(`/admin/auth-quiz/${ examCode }`);
+          }
+  
+      } catch (error) {
+          // Handle errors
+          console.error("Error in authentication:", error);
+          res.status(500).send("Internal Server Error");
+      }
+  };
+  
+  
+    
       
     module.exports={
         updateUser,
         checkPayment,
         checkAccess,
+        authenticateExamAccess,
+        authenticatePracticeAccess
     }
