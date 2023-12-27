@@ -120,7 +120,7 @@ const getLogin = async (req, res) => {
                 
               })
               .catch(error => {
-                console.error('Error sending SMS:', error);
+                // console.error('Error sending SMS:', error);
               });
               
               // const value = `

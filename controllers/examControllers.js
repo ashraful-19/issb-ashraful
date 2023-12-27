@@ -1,20 +1,25 @@
 const express = require ("express");
 const { ExamSetting, Question } = require('../models/examModel');
+const {MilitaryCourse} = require('../models/militaryCourseModel');
+
 const ejs = require('ejs');
 const {  ConnectionClosedEvent } = require("mongodb");
 
 
 
-
-
-// IQ list show kore jei page okhner 
 const getExamList = async (req, res) => {
   try {
-   
-   
+    const page = parseInt(req.query.page) || 1; // current page, default to 1
+    const perPage = 5; // number of exams per page
+
     let data = await ExamSetting.find({}, null, { sort: { exam_code: -1 } });
-    
-    data = data.map(({ _id,exam_type,exam_code,exam_name,status,add_iq,createdAt,questions }) => ({
+    const count = data.length; // Count total exams
+
+    const totalPages = Math.ceil(count / perPage); // Calculate total pages
+
+    console.log(page, perPage, count, totalPages);
+
+    data = data.map(({ _id, exam_type, exam_code, exam_name, status, add_iq, createdAt, questions }) => ({
       _id,
       exam_type,
       exam_code,
@@ -25,11 +30,19 @@ const getExamList = async (req, res) => {
       questions_length: questions ? questions.length : 0
     }));
     console.log(data);
-    res.render('admin/createiqlist', { content: data,title: "verbal" });
 
-   } catch (error) {
-   console.log(error.message);
-  }};
+    const ExamsOnPage = data.slice((page - 1) * perPage, page * perPage);
+
+    res.render('admin/createiqlist', { content: ExamsOnPage, title: "verbal", currentPage: page,
+    totalPages: totalPages, });
+
+  } catch (error) {
+    console.log(error.message);
+    // Handle the error appropriately, perhaps by sending an error response
+    res.status(500).send('Internal Server Error');
+  }
+};
+
 
   const createExam = async (req, res) => {
     try {
@@ -74,14 +87,115 @@ const getExamList = async (req, res) => {
     try {
       const examCode = req.params.id;
       console.log(examCode)
-      const data = await ExamSetting.findOne({exam_code:examCode});
-      console.log(data);
-      res.render('admin/iq_settings', { content: data })
+      const examSettings = await ExamSetting.findOne({exam_code:examCode});
+      console.log(examSettings);
+      const courseList = await MilitaryCourse.find({}, { course_name: 1, course_id: 1 });
+      console.log(courseList)
+      res.render('admin/iq_settings', { content: examSettings, courseList })
     } catch (error) {
       console.error(error);
       res.status(500).send('An error occurred');
     }
   };
+
+  const examGroupSettings = async (req, res) => {
+    try {
+      const examCodes = req.query.quizid; // Exam codes array e.g., ['128', '126', '124', '122', '120']
+      const courseList = await MilitaryCourse.find({}, { course_name: 1, course_id: 1 });
+      console.log(courseList)
+      // Convert the array of strings to an array of integers
+      const examCodeIntegers = examCodes.map(code => parseInt(code, 10));
+  console.log(examCodeIntegers)
+      // Find exams in ExamSetting where the exam_code is in the array
+      const data = await ExamSetting.find({ exam_code: { $in: examCodeIntegers } })
+        .select('exam_name exam_code') // Select only exam_name and exam_code fields
+        .exec();
+  
+      console.log(data);
+      res.render('admin/iq_settings_group', { content: data, courseList });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('An error occurred');
+    }
+  };
+  
+
+
+
+  const examGroupSettingsUpdate = async (req, res) => {
+    try {
+      const {
+        instruction,
+        conclusion_text,
+        time,
+        attempt,
+        randomize,
+        negative_marking,
+        custom_message,
+        show_result,
+        show_merit,
+        practice,
+        show_explanation,
+        active_status,
+        course_added,
+       
+        is_anyone,
+        passing_score1,
+        passing_score2,
+        failing_score,
+        message_on_pass1,
+        message_on_pass2,
+        message_on_fail,
+      } = req.body;
+  
+      console.log(req.body);
+  
+      const examCodes = req.query.quizid; // Exam codes array e.g., ['128', '126', '124', '122', '120']
+  
+      // Convert the array of strings to an array of integers
+      const examCodeIntegers = examCodes.map(code => parseInt(code, 10));
+  
+      // Construct the update object with only non-empty values
+      const updateObject = {
+        ...(instruction && { instruction }),
+        ...(conclusion_text && { conclusion_text }),
+        ...(time !== undefined && { time }),
+        attempt: attempt === 'unlimited' ? null : parseInt(attempt, 10),
+        randomize: randomize === 'on',
+        negative_marking: negative_marking === 'on',
+        custom_message: custom_message === 'on',
+        show_result: show_result === 'on',
+        show_merit: show_merit === 'on',
+        practice: practice === 'on',
+        show_explanation: show_explanation === 'on',
+        ...(active_status && { active_status }),
+        ...(course_added && { course_added }),
+        is_anyone: is_anyone === 'on',
+        ...(passing_score1 && { passing_score1 }),
+        ...(passing_score2 && { passing_score2 }),
+        ...(failing_score && { failing_score }),
+        ...(message_on_pass1 && { message_on_pass1 }),
+        ...(message_on_pass2 && { message_on_pass2 }),
+        ...(message_on_fail && { message_on_fail }),
+      };
+  
+      // Update multiple documents using updateMany
+      const updateResult = await ExamSetting.updateMany(
+        { exam_code: { $in: examCodeIntegers } }, // Find documents with exam codes in the array
+        {
+          $set: updateObject,
+        }
+      );
+  
+      console.log(`Updated exam settings`);
+      console.log(updateResult);
+      res.redirect(`/iq/create/verbal`);
+    } catch (error) {
+      console.error('Error updating settings:', error.message);
+      res.status(500).json({ success: false, message: 'Failed to update settings' });
+    }
+  };
+  
 
 
   
@@ -93,6 +207,8 @@ const getExamList = async (req, res) => {
       if (!data) {
         return res.status(404).send('Exam IQ not found');
       }
+
+  
   
       await ExamSetting.deleteOne({ exam_code: examCode });
   
@@ -110,21 +226,18 @@ const getExamList = async (req, res) => {
         instruction,
         conclusion_text,
         time,
-        unlimited_attempt,
-        unlimited_time,
         attempt,
         randomize,
         negative_marking,
         custom_message,
-        show_score,
-        show_right_wrong,
+        show_result,
+        show_merit,
         practice,
         show_explanation,
         active_status,
         course_added,
-        startDateTime,
-        endDateTime,
-        is_live,
+   
+        is_anyone,
         passing_score1,
         passing_score2,
         failing_score,
@@ -144,11 +257,11 @@ const getExamList = async (req, res) => {
         randomize: randomize === 'on',
         negative_marking: negative_marking === 'on',
         custom_message: custom_message === 'on',
-        show_score: show_score === 'on',
-        show_right_wrong: show_right_wrong === 'on',
+        show_result: show_result === 'on',
+        show_merit: show_merit === 'on',
         practice: practice === 'on',
         show_explanation: show_explanation === 'on',
-        is_live: is_live === 'on',
+        is_anyone: is_anyone === 'on',
       };
   
       for (const [key, value] of Object.entries(updateFields)) {
@@ -162,12 +275,8 @@ const getExamList = async (req, res) => {
       updateExamSetting.exam_name = exam_name;
       updateExamSetting.instruction = instruction;
       updateExamSetting.conclusion_text = conclusion_text;
-      updateExamSetting.unlimited_attempt = unlimited_attempt === 'on';
-      updateExamSetting.unlimited_time = unlimited_time === 'on';
       updateExamSetting.attempt = attempt === 'unlimited' ? null : parseInt(attempt, 10);
       updateExamSetting.time = !isNaN(parseInt(time)) ? parseInt(time) : 0;
-      updateExamSetting.startDateTime = startDateTime;
-      updateExamSetting.endDateTime = endDateTime;
       updateExamSetting.passing_score1 = passing_score1;
       updateExamSetting.passing_score2 = passing_score2;
       updateExamSetting.failing_score = failing_score;
@@ -186,6 +295,7 @@ const getExamList = async (req, res) => {
     }
   };
   
+
 
 
 
@@ -220,12 +330,13 @@ const getEditQuestions = async (req, res) => {
         // Assuming Question and ExamSetting models are defined
 
         const data = await Question.deleteOne({ exam_code: examCode, _id: deleteId });
+        console.log(data)
         const dataRef = await ExamSetting.findOneAndUpdate(
             { exam_code: examCode },
             { $pull: { questions: deleteId } },
             { new: true }
         ).populate('questions');
-
+        console.log(dataRef)
         res.status(200).json({ data: "Data deleted successfully", updatedData: dataRef });
     } catch (error) {
         console.error(error);
@@ -233,134 +344,96 @@ const getEditQuestions = async (req, res) => {
     }
 };
 
-
-
-const saveQuestion = async (req, res) => {
+const saveOrUpdateQuestion = async (req, res) => {
   try {
-      const {
-          field_type,
-          exam_type,
-          subject,
-          chapter,
-          topic,
-          board,
-          year,
-          version,
-          question,
-          option,
-          answer,
-          explanation,
-      } = req.body;
-      const examCode = req.params.id;
+    const {
+      field_type,
+      exam_type,
+      subject,
+      chapter,
+      topic,
+      board,
+      year,
+      version,
+      question,
+      option,
+      answer,
+      explanation,
+      order,
+    } = req.body;
+console.log('insert,clone , type changes er jnno')
+    console.log(req.body.option, req.body.answer);
+
+    const examCode = req.params.id;
+    const quesId = req.query.id;
+  
+    // Find the highest order value for the given exam_code
+    const highestOrder = await Question.findOne({ exam_code: examCode })
+      .sort({ order: -1 })
+      .select('order');
+
+    // console.log('heigher order id from submit:',highestOrder)
+
+    const newOrder = highestOrder ? highestOrder.order + 1 : 1;
+
+    // Create a new question or find the existing question by ID
+    const existingQuestion = quesId ? await Question.findById(quesId) : null;
+    // console.log('existing question:',existingQuestion)
+
+    const updatedQuestion = existingQuestion || new Question();
+    // console.log('updatedquestion question:',updatedQuestion)
+    // Update the fields of the question
+    updatedQuestion.field_type = field_type;
+    updatedQuestion.exam_code = examCode;
+    updatedQuestion.exam_type = exam_type;
+    updatedQuestion.subject = subject;
+    updatedQuestion.chapter = chapter;
+    updatedQuestion.topic = topic;
+    updatedQuestion.board = board;
+    updatedQuestion.year = year;
+    updatedQuestion.version = version;
+    updatedQuestion.question = question;
+    updatedQuestion.option = option;
+    updatedQuestion.answer = answer;
+    updatedQuestion.explanation = explanation;
+    updatedQuestion.order = order || (existingQuestion ? existingQuestion.order : newOrder);
+
+    // Save the question to the database
+    await updatedQuestion.save();
+
+    // If it's a new question, update examSetting
+    if (!existingQuestion) {
       const examSetting = await ExamSetting.findOne({ exam_code: examCode });
-
-      // Find the highest order value for the given exam_code
-      const highestOrder = await Question.findOne({ exam_code: examCode })
-          .sort({ order: -1 }) // Sort in descending order to get the highest order
-          .select('order'); // Select only the 'order' field
-
-      const newOrder = highestOrder ? highestOrder.order + 1 : 1;
-
-      // Create a new verbal question with the order
-      const newQuestion = new Question({
-          field_type: field_type,  
-          exam_code: examCode,
-          order: newOrder,
-          exam_type: exam_type,
-          subject: subject,
-          chapter: chapter,
-          topic: topic,
-          board: board,
-          year: year,
-          version: version,
-          question: question,
-          option: option,
-          answer: answer,
-          explanation: explanation,
-          order: newOrder,
-      });
-
-      // Save the new question to the database
-      await newQuestion.save();
-
-      examSetting.questions.push(newQuestion);
-
-      // Save the IQ setting with the new question reference
+      examSetting.questions.push(updatedQuestion);
       await examSetting.save();
 
-      // Get all the questions for the exam, including the new question
-      const allQuestions = await Question.find({ exam_code: examCode });
+      // Return the newly added question's ID as part of the response
+      return res.json({ success: true, questionId: updatedQuestion._id });
+    }
 
-      // Render the edit question page with the exam data and all the questions
-      res.redirect(`/iq/create/verbal/${examCode}/edit`);
+    // Get all the questions for the exam, including the new/updated question
+    const allQuestions = await Question.find({ exam_code: examCode });
+    // console.log(allQuestions)
+
+    // Redirect or respond based on your use case
+    res.redirect(`/iq/create/verbal/${examCode}/edit`);
+    // Or you can send a JSON response if you are using AJAX
+    // res.json({ success: true, message: 'Question saved/updated successfully' });
+
   } catch (error) {
-      console.error(error);
-      res.status(500).send('An error occurred');
+    console.error(error);
+    res.status(500).send('An error occurred');
   }
 };
 
 
-  const updateQuestion = async (req, res) => {
-    try {
-      const {
-        field_type,
-        exam_type,
-        subject,
-        chapter,
-        topic,
-        board,
-        year,
-        version,
-        question,
-        option,
-        answer,
-        explanation,
-      } = req.body;
-  
-      const examCode = req.params.id;
-      const ques_id = req.query.id;
-  
-      console.log('dont worry ajaxFrom');
-  
-      // Find the existing question by its ID
-      const existingQuestion = await Question.findById(ques_id);
-      if (!existingQuestion) {
-        return res.status(404).json({ success: false, message: 'Question not found' });
-      }
-  
-      // Update the fields of the existing question
-      existingQuestion.field_type = field_type;
-      existingQuestion.exam_code = examCode;
-      existingQuestion.exam_type = exam_type;
-      existingQuestion.subject = subject;
-      existingQuestion.chapter = chapter;
-      existingQuestion.topic = topic;
-      existingQuestion.board = board;
-      existingQuestion.year = year;
-      existingQuestion.version = version;
-      existingQuestion.question = question;
-      existingQuestion.option = option;
-      existingQuestion.answer = answer;
-      existingQuestion.explanation = explanation;
-  
-      // Save the updated question to the database
-      await existingQuestion.save();
-  
-      res.json({ value: existingQuestion });
-  
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('An error occurred');
-    }
-  };
-  
 
   
   const orderQuestions = async (req, res) => {
     try {
       // Extract examCode from the URL parameter and ids from the request body
       const examCode = req.params.id;
-      const ids = req.body['id'];
+      const ids = req.body.sortedItems;
       console.log(ids, examCode);
   
       // Fetch questions from the database based on the examCode
@@ -394,15 +467,15 @@ const saveQuestion = async (req, res) => {
 
 module.exports = {
   examSettings,
+  examGroupSettings,
+  examGroupSettingsUpdate,
   updateSettings,
   getExamList,  
-  createExam,
-
-  saveQuestion,
+  createExam,  
+  saveOrUpdateQuestion,
   getEditQuestions,
   deleteIq,
   deleteQuestion,
-  updateQuestion,
   orderQuestions,
 };
 

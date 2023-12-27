@@ -2,11 +2,13 @@ const express = require ("express");
 const { ExamSetting,Question,Doubt,UserResult } = require('../models/examModel');
 const { VideoContent,Ppdtorstory,TextContent } = require('../models/subAdminModel');
 const {User} = require("../models/userModel");
+const path = require('path');
+const fs = require('fs/promises');  // Use fs.promises for promise-based file operations
+const moment = require('moment');
 
 const getLessonVideo = async (req, res) => {
   try {
     const type = req.query.type;
-
 
     res.render('issb/lessonvideo',{content: type});
     } 
@@ -81,8 +83,82 @@ const getLessonVideo = async (req, res) => {
     };
     
 
+    const getIncomSen = async (req, res) => {
+      try {
+        const type = req.query.type;
+        const text_type = req.query.text_type;
+        const practice_type = req.query.practice_type;
+        console.log(type, text_type, practice_type);
+    
+        let jsonFileName = 'incom_sentences.json'; // Default JSON file name
+    
+        if (practice_type && practice_type.toUpperCase() === 'WAT') {
+          jsonFileName = 'wat.json'; // Change the JSON file for WAT type
+        }
+    
+        const jsonFilePath = path.join(__dirname, '..', 'public', 'assets', jsonFileName);
+    
+        const jsonData = await fs.readFile(jsonFilePath, 'utf8');
+    
+        // Parse the JSON data
+        let data = JSON.parse(jsonData);
+    
+        if (practice_type === 'Incomplete Sentences') {
+          data = data[text_type][type];
+          console.log(data)
+          res.render('issb/incompleting_sentences', {
+            data: data,
+            title: type,
+          });
+        } else if (practice_type === 'WAT') {
+          data = data[text_type][type];
+          console.log(data)
+          res.render('issb/wat_test', {
+            data: data,
+            title: type,
+          });
+        } else {
+          // Handle other practice types or provide a default behavior
+          res.send('Invalid practice type');
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    
+    const getIncomSenList = async (req, res) => {
+      try {
+        const type = req.query.type;
+        const text_type = req.query.text_type;
+        const practice_type = type;
+        console.log(type, text_type,practice_type);
+    
+        let jsonFileName = 'incom_sentences.json'; // Default JSON file name
+    
+        if (type && type.toUpperCase() === 'WAT') {
+          jsonFileName = 'wat.json'; // Change the JSON file for WAT type
+        }
+    
+        const jsonFilePath = path.join(__dirname, '..', 'public', 'assets', jsonFileName);
+    
+        const jsonData = await fs.readFile(jsonFilePath, 'utf8');
+    
+        // Parse the JSON data
+        const data = JSON.parse(jsonData);
+    
+        console.log(data);
+        res.render('issb/wat&incomsenlist', {
 
-
+          data: data,
+          title: type,
+          text_type,
+          practice_type,
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    
     const getIqList = async (req, res) => {
       try {
        
@@ -114,7 +190,7 @@ const getLessonVideo = async (req, res) => {
           console.log(examCode);
           const data = await ExamSetting.findOne({ exam_code: examCode }).populate({
             path: "questions",
-            options: { sort: { createdAt: -1 } },
+            options: { sort: { order: -1 } },
           });
           let content = data.questions;
           
@@ -137,16 +213,49 @@ const getLessonVideo = async (req, res) => {
           console.log(error.message);
         }
       };
+
+      const getVerbalIqPractice = async (req, res) => {
+        try {
+          const examCode = req.params.id;
+          const userId = req.user._id;
+          console.log(examCode);
+          const data = await ExamSetting.findOne({ exam_code: examCode }).populate({
+            path: "questions",
+            options: { sort: { order: -1 } },
+          });
+          let content = data.questions;
+          
+          const userDoubts = await Doubt.findOne({ user: userId });
+          if(userDoubts){
+          var newContent = content.map((item) => {
+            const hasDoubt = userDoubts.question_ids.some(
+              (doubt) => doubt.equals(item._id)
+            );
+            return { ...item._doc, doubt: hasDoubt ? 1 : 0 };
+          });
+        }else{
+            newContent = content;
+        }
+          console.log(newContent);
+      
+          // Render the page inside the aggregate callback
+          res.render("issb/iq-practice", { content: newContent, data });
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+
+
       const postVerbalIqExamResult = async (req, res) => {
         try {
           const examId = req.params.id;
           const userId = req.user._id;
           const answers = req.body;
-      
+          const timeTaken = req.body["started-time"]
           // Fetch exam data with its questions and answers
           const data = await ExamSetting.findOne({ exam_code: examId }).populate({
             path: "questions",
-            options: { sort: { createdAt: -1 } },
+            options: { sort: { order: -1 } },
           });
       
           const content = data.questions;
@@ -170,11 +279,10 @@ const getLessonVideo = async (req, res) => {
             explanation: question.explanation,
             doubts_count: question.doubts_count,
             createdAt: question.createdAt,
-            your_answer: null, // initialize your_answer to null
+            your_answer: null,
             doubt: question.doubt,
           }));
       
-          // Fetch all answers from the database
           const answerIds = mappedContent.map((q) => q._id);
           const allAnswers = await Question.find(
             { _id: { $in: answerIds } },
@@ -214,39 +322,61 @@ const getLessonVideo = async (req, res) => {
             }
           });
       
+          let right = 0;
+          let wrong = 0;
+          let skipped = 0;
+      
+          for (const key in result) {
+            const value = result[key];
+      
+            if (value === 'right') {
+              right++;
+            } else if (value === 'wrong') {
+              wrong++;
+            } else if (value === 'skip') {
+              skipped++;
+            }
+          }
+      
+          const totalMCQ = right + wrong + skipped;
+      
+      
+          // Calculate negative marking
+          const negativeMarkingPercent = data.negative_marking ? 25 : 0;
+
+          const negativeMarks = wrong * (negativeMarkingPercent / 100);
+          const totalMarks = right - negativeMarks;
+          
+      
+          const finalResult = {
+            right,
+            wrong,
+            totalMCQ,
+            skipped,
+            negativeMarks,
+            totalMarks,
+          };
+      console.log(finalResult)
           const count = Object.values(result).reduce((acc, value) => {
             acc[value]++;
             return acc;
           }, { right: 0, wrong: 0, skip: 0 });
       
-          const totalMarks = count.right; // You may need to calculate the total marks here
-      
-          const userResult = new UserResult({
-            name: req.user.name,
-            phone: req.user.phone,
-            startTime: new Date(),
-            endTime: new Date(),
-            marks: totalMarks,
-            percentage: 100, // Calculate the percentage
-            questions: userResponses,
-          });
-      
-          await userResult.save(); // Save the user result to the database
-      
-          res.render("issb/iqresult", { content: mappedContent, count, data });
+          res.render("issb/iqresult", { content: mappedContent, count, data, result, timeTaken, finalResult });
         } catch (error) {
           console.error(error.message);
           res.status(500).send("Error saving doubt");
         }
       };
       
+   
       
       const postDoubt = async (req, res) => {
   try {
     const examId = req.params.id;
     const questionId = req.query.id;
     const userId = req.user._id;
-
+console.log(questionId)
     // Find the relevant question and user
     const question = await Question.findOne({ _id: questionId });
 
@@ -280,7 +410,7 @@ const getLessonVideo = async (req, res) => {
 
     await question.save();
 
-    res.redirect(`/issb/verbal/${examId}/exam`);
+    // res.redirect(`/issb/verbal/${examId}/exam`);
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Error saving doubt');
@@ -318,10 +448,11 @@ module.exports = {
   getCardContentDetails,
   getIqList,
   getVerbalIqExam,
+  getVerbalIqPractice,
   postDoubt,
   postVerbalIqExamResult,
+  getIncomSen,
+  getIncomSenList,
 };
 
 
-
-  

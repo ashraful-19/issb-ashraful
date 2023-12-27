@@ -11,55 +11,34 @@ const getIndex = async (req, res) => {
    console.log(error.message);
   }};
 
-
-const getTermsAndConditions = async (req, res) => {
-  try {
-    res.render('issb/terms&conditions');
-    } 
-    catch (error) {
-   console.log(error.message);
-  }};
-const getPrivacyAndPolicy = async (req, res) => {
-  try {
-    res.render('issb/privacy&policy');
-    } 
-    catch (error) {
-   console.log(error.message);
-  }};
-
-
-const getDoubts = async (req, res) => {
-  try {
-
+  const getDoubts = async (req, res) => {
+    try {
+      const page = parseInt(req.query.page) || 1; // current page, default to 1
+      const perPage = 5; // number of doubts per page
   
-    const data = await Doubt.findOne({ user: req.user }).populate({
-      path: "question_ids",
-      options: { sort: { createdAt: -1 } },
-    });
-    console.log(data.question_ids);
-  //   let content = data.questions;
-    
-  //   const userDoubts = await Doubt.findOne({ user: userId });
-  //   if(userDoubts){
-  //   var newContent = content.map((item) => {
-  //     const hasDoubt = userDoubts.question_id.some(
-  //       (doubt) => doubt.equals(item._id)
-  //     );
-  //     return { ...item._doc, doubt: hasDoubt ? 1 : 0 };
-  //   });
-  // }else{
-  //     newContent = content;
-  // }
-  //   console.log(newContent);
-
-  //   // Render the page inside the aggregate callback
-  //   res.render("issb/iqexam", { content: newCi ontent, data });
-  //   console.log(problem);
-    res.render('issb/doubts',{data: data.question_ids});
-    } 
-    catch (error) {
-   console.log(error.message);
-  }};
+      const data = await Doubt.findOne({ user: req.user }).populate({
+        path: "question_ids",
+        options: { sort: { createdAt: -1 } },
+      });
+  
+      const count = data.question_ids.length; // Count total doubts
+  
+      const totalPages = Math.ceil(count / perPage); // Calculate total pages
+  
+      console.log(page, perPage, count, totalPages);
+      
+      // Slice the doubts to get the ones for the current page
+      const doubtsOnPage = data.question_ids.slice((page - 1) * perPage, page * perPage);
+  
+      res.render('issb/doubts', {
+        data: doubtsOnPage,
+        currentPage: page,
+        totalPages: totalPages,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const getCourses = async (req, res) => {
   try {
@@ -78,24 +57,39 @@ const getDoubts = async (req, res) => {
       const courseId = req.params.id;
       const course = await MilitaryCourse.findOne({course_id: courseId}).sort({ course_id: -1 }).exec();
       console.log(course)
+      
   
       res.render('issb/course-details',{course});
       } 
       catch (error) {
      console.log(error.message);
     }};
+
+
+
     const getCourseLecture = async (req, res) => {
       try {
-       
         const courseId = req.params.id;
-        const course = await MilitaryCourse.findOne({course_id: courseId}).sort({ course_id: -1 }).exec();
-        console.log(course)
+        const course = await MilitaryCourse.findOne({ course_id: courseId }).sort({ course_id: -1 }).exec();
+        console.log(course);
+        console.log(course.course_syllabus);
     
-        res.render('issb/coursevideo',{course});
-        } 
-        catch (error) {
-       console.log(error.message);
-      }};
+        // Filter out items with non-numeric order values and non-empty course_content_type
+        const validSyllabus = course.course_syllabus.filter(item => !isNaN(item.order) && item.course_content_type.trim() !== '');
+    
+        // Sort the syllabus based on the numeric order
+        const sortedSyllabus = validSyllabus.sort((a, b) => a.order - b.order);
+    
+        // Extract course_content_type from the sorted syllabus
+        const courseTypes = sortedSyllabus.map(item => item.course_content_type);
+    
+        console.log('Content Types:', courseTypes);
+        res.render('issb/course-lecture', { course, courseTypes });
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    
     
   const getDashboard = async (req, res) => {
     try {
@@ -125,6 +119,21 @@ const getDoubts = async (req, res) => {
      console.log(error.message);
     }};
 
+
+    const getTermsAndConditions = async (req, res) => {
+      try {
+        res.render('issb/terms&conditions');
+        } 
+        catch (error) {
+       console.log(error.message);
+      }};
+    const getPrivacyAndPolicy = async (req, res) => {
+      try {
+        res.render('issb/privacy&policy');
+        } 
+        catch (error) {
+       console.log(error.message);
+      }};
 
 
 
