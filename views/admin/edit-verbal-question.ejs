@@ -1319,4 +1319,23 @@ anchorTags.forEach(function(anchor) {
     }
 });
 
+
+
+// Check if the container exists
+if (container) {
+  // Get all <a> tags within the container
+  const anchorTags = container.querySelectorAll('a');
+
+  // Iterate through the anchor tags
+  anchorTags.forEach((aTag) => {
+    const href = aTag.getAttribute('href');
+
+    // Check if the href attribute matches the specified URL
+    if (href === 'https://www.froala.com/wysiwyg-editor?k=u') {
+      // Remove the matching <a> tag
+      aTag.remove();
+    }
+  });
+}
+
 </script>
