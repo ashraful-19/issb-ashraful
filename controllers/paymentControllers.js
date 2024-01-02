@@ -5,146 +5,140 @@ const { v4: uuid } = require("uuid");
 const {MilitaryCourse} = require('../models/militaryCourseModel');
 const {User} = require("../models/userModel");
 const {Payment} = require("../models/paymentModel");
+const { createPayment, executePayment } = require('bkash-payment')
+const app = express();
 
 const flash = require('connect-flash');
+const { restart } = require("nodemon");
+
+const bkashConfig = {
+  base_url : 'https://tokenized.pay.bka.sh/v1.2.0-beta',
+  username: '01839886977',
+  password: '.&$9Bc{KD-i',
+  app_key: 'sEJzTU0Ov1KgoBj8ebUT5lnTtc',
+  app_secret: 'J8qfRS7JbtjFXCh6vG7wawLxGVOT9zk9s0RYYpK2ZsR9UfxRMth3'
+ }
+
+
+
 
 const getPayment = async (req, res) => {
   try {
     const courseId = req.query.course_id;
-    console.log(courseId)
-      res.render('issb/payment',{courseId})
-//     // Send a success response to the client
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send(error.message);
+    const courseObject = await MilitaryCourse.findOne({ course_id: courseId });
+    
+    if (!courseObject) {
+      req.flash('error', 'Course not found');
+      return res.redirect('/');
+    }
+
+    const paymentDetails = {
+      amount: courseObject.course_fee,
+      callbackURL: 'http://localhost:3000/bkash-callback',
+      orderID: 'Order_' + uuid(),
+      reference: courseId,
+    };
+
+    const result = await createPayment(bkashConfig, paymentDetails);
+    console.log(result)
+    res.redirect(result?.bkashURL);
+  } catch (e) {
+    console.log(e);
   }
 };
 
-const getPaymentSuccess = async (req, res) => {
-  try {
-    const userId = req.query.user;
-    const userCourseObject = await Payment.findOne({ user: userId });
-      res.render('issb/payment-success',{userCourseObject})
-//     // Send a success response to the client
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send(error.message);
-  }
-};
 
 
 
 
 
 const postPayment = async (req, res) => {
+   
   try {
-    const courseId = req.query.course_id;
-    const userPhone = req.user.phone;
-    
-    console.log(userPhone);
-    console.log(courseId);
 
-    // Check that payment_phone, payment_method, and transaction_id exist in req.body
-    const { payment_phone, payment_method, transaction_id } = req.body;
+    const { status, paymentID } = req.query;
+    console.log(req.query)
+    let result;
 
-    // Find the user and course objects from the database using their ObjectId
-    const userObject = await User.findOne({ phone: userPhone });
-    const courseObject = await MilitaryCourse.findOne({ course_id: courseId });
+    if (status === 'success') {
+      result = await executePayment(bkashConfig, paymentID);
 
-    // Check that userObject and courseObject exist
-    if (!userObject || !courseObject) {
-      req.flash('error', 'User or course not found');
-      return res.redirect('/payment?course_id=' + courseId);
-    }
+      if (result?.transactionStatus === 'Completed') {
 
-    // Check if there is already a payment document for the user and course
-    const payment = await Payment.findOne({ user: userObject._id, course: courseObject._id });
-    if (!payment) {
-      // If no payment document was found, create a new one with the current course
-      const newPayment = new Payment({
-        user: userObject._id,
-        course: courseObject._id,
-        course_id: courseObject.course_id,
-        paymentPhone: payment_phone,
-        amount: courseObject.course_fee,
-        paymentMethod: payment_method,
-        transactionId: transaction_id,
-        is_active: false
-      });
-      await newPayment.save();
-      req.flash('success', ' Payment has been updated first time');
+        console.log(result?.transactionStatus)
+
+        // Payment success
+        const courseId = result?.payerReference; // Get the courseId from the reference
+        const userPhone = req.user.phone;
+
+        const userObject = await User.findOne({ phone: userPhone });
+        const courseObject = await MilitaryCourse.findOne({ course_id: courseId });
+
+        if (userObject && courseObject) {
+          const payment = new Payment({
+            user: userObject._id,
+            course: courseObject._id,
+            course_id: courseObject.course_id,
+            paymentPhone: result?.payerInfo?.payerPhone || userPhone,
+            amount: result?.amount || 0,
+            paymentMethod: 'bKash',
+            transactionId: paymentID,
+            is_active: true,
+          });
+
+          await payment.save();
+          console.log('payment saved in database');
+          req.flash('success', 'Payment has been successful');
+        } else {
+          req.flash('error', 'User or course not found please contact admin');
+        }
+      }
     } else {
-      // If a payment document was found, update the payment information
-      payment.paymentPhone = payment_phone;
-      payment.transactionId = transaction_id;
-
-      await payment.save();
-      req.flash('success', ' Payment has been again updated');  
+      req.flash('error', 'Payment failed');
     }
-
-    // Send a success response to the client
-
-  console.log(payment);
-    res.redirect('/payment-success?user=' + userObject._id);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send(error.message);
+console.log(result,'payment doneeeee.')
+req.flash('success', 'Payment has been successful');
+    res.redirect('/dashboard'); // Redirect to your desired route
+  } catch (e) {
+    console.log(e);
   }
 };
 
-    
-      const getSuccess = async (req, res) => {
-        try {
-         console.log(req.body);
+
+
+
          
 
-//          const { cus_phone, course_id, amount, paymentDate, validity, paymentMethod, status, transactionId } = req.body;
-//          console.log(course_id)
-//     // Find the user and course objects from the database using their ObjectId
-//     const userObject = await User.findOne({phone: cus_phone});
-//   const courseObject = await MilitaryCourse.findOne({course_id: course_id});
-// console.log(userObject)
-// console.log(courseObject)
-// // Create a new payment object using the retrieved user and course objects
-//     const payment = new Payment({
-//       user: userObject._id,
-//       course: courseObject._id,
-//       amount: courseObject.course_fee,
-//       paymentDate,
-//       validity,
-//       paymentMethod,
-//       status,
-//       transactionId
-//     });
-
-// console.log(payment);
-//     // Save the payment object to the database
-//     await payment.save();
-
-//     res.status(201).send(payment);
-          
-          }
-          catch (error) {
-         console.log(error.message);
-        }};
 
 
-        const getFailed = async (req, res) => {
-          try {
-           console.log(req.body);
-      
-            }
-            catch (error) {
-           console.log(error.message);
-          }};
-  
+
+// app.get("/bkash-callback", async(req, res) => {
+//   try {
+//     const { status, paymentID } = req.query
+//     let result
+//     let response = {
+//       statusCode : '4000',
+//       statusMessage : 'Payment Failed'
+//     }
+//     if(status === 'success')  result =  await executePayment(bkashConfig, paymentID)
+
+//     if(result?.transactionStatus === 'Completed'){
+//       // payment success 
+//       // insert result in your db 
+//     }
+//     if(result) response = {
+//       statusCode : result?.statusCode,
+//       statusMessage : result?.statusMessage
+//     }
+//    res.redirect('your_frontend_route')  // Your frontend route
+//   } catch (e) {
+//     console.log(e)
+//   }
+// })
 
 module.exports = {
   postPayment,
   getPayment,
-  getPaymentSuccess,
-  getSuccess,
-  getFailed,
 };
 
 
