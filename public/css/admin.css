@@ -1,3 +1,14 @@
+a[id="fr-logo"] {
+  display: none !important;
+}
+p[data-f-id="pbf"] {
+  display: none !important;
+}
+a[href*="www.froala.com"] {
+  display: none !important;
+}
+
+
 * {
   padding: 0;
   margin: 0;
