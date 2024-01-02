@@ -34,7 +34,7 @@ const getPayment = async (req, res) => {
 
     const paymentDetails = {
       amount: courseObject.course_fee,
-      callbackURL: 'http://localhost:3000/bkash-callback',
+      callbackURL: 'https://missionacademy.com.bd/bkash-callback',
       orderID: 'Order_' + uuid(),
       reference: courseId,
     };
