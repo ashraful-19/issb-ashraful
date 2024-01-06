@@ -11,7 +11,6 @@ const checkAuthenticated = (req, res, next) => {
   const checkLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
       const returnTo = req.session.returnTo || '/';
-        delete req.session.returnTo;
         res.redirect(returnTo);
       // return res.redirect("/");
     }

@@ -205,12 +205,72 @@ const updateUser = async (req, res,next) => {
   };
   
   
-    
-      
+  const checkCourseAccess = async (req, res, next) => {
+    try {
+      const userId = req.user._id;
+      const courseId = req.params.id;
+  
+      // Fetch payment with the specified user, course, and conditions
+      const payment = await Payment.findOne({
+        user: userId,
+        course_id: courseId,
+        is_active: true,
+        is_banned: false,
+        validityDate: { $gt: new Date() }
+      });
+      console.log(payment)
+      // If payment meets the conditions, proceed to the next middleware or route handler
+      if (payment) {
+        next();
+      } else {
+        // If conditions are not met, respond with an error or redirect to an unauthorized page
+        res.status(403).send('Access Denied');
+      }
+    } catch (error) {
+      console.log(error.message);
+      // Handle the error appropriately, perhaps by sending an error response to the client
+      res.status(500).send('Internal Server Error');
+    }
+  };
+  
+
+  const checkPurchasedCourse = async (req, res, next) => {
+    try {
+      // Check if req.user is defined and has the _id property
+      const userId = req.user && req.user._id;
+      const courseId = req.params.id;
+  
+      console.log('course kinse kina ');
+  
+      // Check if the course is previously purchased
+      const purchasedCourse = await Payment.findOne({
+        user: userId,
+        course_id: courseId,
+        is_active: true,
+        is_banned: false,
+        validityDate: { $gt: new Date() }
+      });
+  
+      // If the course is previously purchased, redirect to the course-lecture page
+      if (purchasedCourse) {
+        res.redirect(`/course-lecture/${courseId}`);
+      } else {
+        // If the course is not purchased, proceed to the next middleware or route
+        next();
+      }
+    } catch (error) {
+      console.log(error.message);
+      // Handle the error appropriately, perhaps by sending an error response to the client
+      res.status(500).send('Internal Server Error');
+    }
+  };
+   
     module.exports={
         updateUser,
         checkPayment,
         checkAccess,
         authenticateExamAccess,
-        authenticatePracticeAccess
+        authenticatePracticeAccess,
+        checkCourseAccess,
+        checkPurchasedCourse,
     }

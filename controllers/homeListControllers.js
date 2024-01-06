@@ -1,20 +1,9 @@
 const express = require ("express");
 const { ExamSetting,Question,Doubt,UserResult } = require('../models/examModel');
-const { VideoContent,Ppdtorstory,TextContent } = require('../models/subAdminModel');
 const {User} = require("../models/userModel");
 const path = require('path');
 const fs = require('fs/promises');  // Use fs.promises for promise-based file operations
-const moment = require('moment');
 
-const getLessonVideo = async (req, res) => {
-  try {
-    const type = req.query.type;
-
-    res.render('issb/lessonvideo',{content: type});
-    } 
-    catch (error) {
-   console.log(error.message);
-  }};
 
   const getPracticePpdt = async (req, res) => {
     try {
@@ -443,7 +432,6 @@ console.log(questionId)
     //     // console.log(content);
     //     res.render('admin/edit-verbal-question', { content: content,data: data })
 module.exports = {
-  getLessonVideo,
   getPracticePpdt,
   getCardContentDetails,
   getIqList,

@@ -46,10 +46,12 @@ const MilitaryCourseSchema = new mongoose.Schema({
           course_notes: {
             type: String,
           },
-    is_active: {
-      type: Boolean,
-    },
-    is_update: {
+    is_active: {                // true hole show hobe course page e
+      type: Boolean, 
+      required: true ,
+      default: false, }
+          ,
+    is_update: {                 //user and paid both eki message dekhbe course is being updating. Link pabe na
       type: Boolean,
     },
     createdAt: {

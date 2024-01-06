@@ -1,25 +1,29 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-// const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
+const flash = require('connect-flash');
 const { User, Otp } = require('../models/userModel');
+
+// Assuming you've already initialized connect-flash in your app
 
 passport.use(
   new LocalStrategy({ usernameField: 'phone', passwordField: 'otp' }, async (phone, otp, done) => {
-    const otpData = await Otp.findOne({ phone: phone }).sort({"expires": 1});
+    const otpData = await Otp.findOne({ phone: phone }).sort({ "expires": 1 });
+
     if (!otpData) {
-      // If no OTP data found for the user's phone number, return a custom error message to indicate authentication failure
-      return done(null, false, { message: 'নতুন করে OTP পাঠান' });
+      const message = 'নতুন করে OTP পাঠান';
+      flash('error', message);
+      return done(null, false, { message });
     }
 
     if (otpData.otp !== otp) {
-      // If the OTP entered by the user does not match the saved OTP, return a custom error message to indicate authentication failure
-      return done(null, false, { message: 'আপনার OTP টি সঠিক নয়!' });
+      const message = 'আপনার OTP টি সঠিক নয়!';
+      flash('error', message);
+      return done(null, false, { message });
     }
 
-    // If OTP matches, find or create user and return the user object to indicate authentication success
     User.findOne({ phone: phone }, (err, user) => {
       if (err) {
+        console.error(err);
         return done(err);
       }
 
@@ -27,18 +31,22 @@ passport.use(
         const newUser = new User({ phone: phone });
         newUser.save((err, savedUser) => {
           if (err) {
+            console.error(err);
             return done(err);
           }
 
-          return done(null, savedUser);
+          const successMessage = 'User created successfully!';
+          flash('success', successMessage);
+          return done(null, savedUser, { message: successMessage });
         });
       } else {
-        return done(null, user);
+        const successMessage = 'User authenticated successfully!';
+        flash('success', successMessage);
+        return done(null, user, { message: successMessage });
       }
     });
   })
 );
-
 
 
 

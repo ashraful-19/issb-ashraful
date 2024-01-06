@@ -34,7 +34,7 @@ const getPayment = async (req, res) => {
 
     const paymentDetails = {
       amount: courseObject.course_fee,
-      callbackURL: 'https://missionacademy.com.bd/bkash-callback',
+      callbackURL: 'http://localhost:3000/bkash-callback',
       orderID: 'Order_' + uuid(),
       reference: courseId,
     };
@@ -63,7 +63,7 @@ const postPayment = async (req, res) => {
     if (status === 'success') {
       result = await executePayment(bkashConfig, paymentID);
 
-      if (result?.transactionStatus === 'Completed') {
+      if (result?.transactionStatus === 'Completed') {   
 
         console.log(result?.transactionStatus)
 
@@ -84,6 +84,7 @@ const postPayment = async (req, res) => {
             paymentMethod: 'bKash',
             transactionId: paymentID,
             is_active: true,
+            is_banned: false,
           });
 
           await payment.save();
@@ -92,9 +93,13 @@ const postPayment = async (req, res) => {
         } else {
           req.flash('error', 'User or course not found please contact admin');
         }
+      }else {
+        console.log(result.statusMessage) //payment failed page....
+
+
       }
     } else {
-      req.flash('error', 'Payment failed');
+      console.log(status) //payment failed page....
     }
 console.log(result,'payment doneeeee.')
 req.flash('success', 'Payment has been successful');

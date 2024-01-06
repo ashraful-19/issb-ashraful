@@ -5,7 +5,6 @@ const router = express.Router();
 const { checkAuthenticated, checkLoggedIn } = require('../config/auth');
 const { checkPayment,checkAccess,authenticateExamAccess,authenticatePracticeAccess } = require("../middlewares/updateUser");
 
-router.get('/lessonvideo', homeListController.getLessonVideo);
 router.get('/practiceppdt', homeListController.getPracticePpdt);
 router.get('/card_content/details', homeListController.getCardContentDetails);
 router.get('/iqlist', homeListController.getIqList);

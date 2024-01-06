@@ -24,7 +24,7 @@ const mongoose = require('mongoose');
     paymentMethod: { type: String, required: true },
     transactionId: { type: String, required: true },
     is_active: { type: Boolean, required: true ,default: false, },
-    ValidityState: { type: String, }
+    is_banned: { type: Boolean ,default: false, },
   });
   
   

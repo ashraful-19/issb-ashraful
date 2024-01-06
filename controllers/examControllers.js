@@ -198,27 +198,32 @@ const getExamList = async (req, res) => {
   
 
 
-  
   const deleteIq = async (req, res) => {
     try {
       const examCode = req.params.id;
-      const data = await ExamSetting.findOne({ exam_code: examCode });
   
-      if (!data) {
+      // Find and delete ExamSetting
+      const examSettingData = await ExamSetting.findOne({ exam_code: examCode });
+  
+      if (!examSettingData) {
         return res.status(404).send('Exam IQ not found');
       }
+  
 
+ // Delete questions associated with the exam code from the Question database
+ await Question.deleteMany({ exam_code: examCode });
   
-  
+
       await ExamSetting.deleteOne({ exam_code: examCode });
   
-      res.redirect(`/iq/create/${data.exam_type}`);
+     
+      res.redirect(`/iq/create/${examSettingData.exam_type}`);
     } catch (error) {
       console.error(error);
       res.status(500).send('An error occurred');
     }
   };
-
+  
   const updateSettings = async (req, res) => {
     try {
       const {

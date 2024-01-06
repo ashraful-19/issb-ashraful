@@ -5,7 +5,7 @@ const {MilitaryCourse} = require('../models/militaryCourseModel');
 const {Payment} = require("../models/paymentModel");
 const getIndex = async (req, res) => {
   try {
-    res.render('issb/index');
+    res.render('issb/index.ejs');
     } 
     catch (error) {
    console.log(error.message);
@@ -21,12 +21,22 @@ const getIndex = async (req, res) => {
         options: { sort: { createdAt: -1 } },
       });
   
+      if (!data || !data.question_ids) {
+        // Handle the case where no doubts are found
+        res.render('issb/doubts', {
+          data: [],
+          currentPage: 1,
+          totalPages: 1,
+        });
+        return;
+      }
+  
       const count = data.question_ids.length; // Count total doubts
   
       const totalPages = Math.ceil(count / perPage); // Calculate total pages
   
       console.log(page, perPage, count, totalPages);
-      
+  
       // Slice the doubts to get the ones for the current page
       const doubtsOnPage = data.question_ids.slice((page - 1) * perPage, page * perPage);
   
@@ -37,15 +47,17 @@ const getIndex = async (req, res) => {
       });
     } catch (error) {
       console.log(error.message);
+      res.status(500).send('Internal Server Error');
     }
   };
+  
 
   const getCourses = async (req, res) => {
   try {
-    const course = await MilitaryCourse.find({}).sort({ course_id: -1 }).exec();
+    const course = await MilitaryCourse.find({is_active: true}).sort({ course_id: -1 }).exec();
       console.log(course)
 
-    res.render('issb/course-list',{course});
+    res.render('issb/course-list.ejs',{course});
     } 
     catch (error) {
    console.log(error.message);
@@ -53,7 +65,7 @@ const getIndex = async (req, res) => {
 
   const getCourseDetails = async (req, res) => {
     try {
-     
+     console.log('ekhne ekta error ache undefied id')
       const courseId = req.params.id;
       const course = await MilitaryCourse.findOne({course_id: courseId}).sort({ course_id: -1 }).exec();
       console.log(course)
@@ -64,6 +76,31 @@ const getIndex = async (req, res) => {
       catch (error) {
      console.log(error.message);
     }};
+
+    const getLessonVideo = async (req, res) => {
+      try {
+        const type = req.query.type;
+        const courseId = 1;
+            const course = await MilitaryCourse.findOne({ course_id: courseId }).sort({ course_id: -1 }).exec();
+            console.log(course);
+            console.log(course.course_syllabus);
+        
+            // Filter out items with non-numeric order values and non-empty course_content_type
+            const validSyllabus = course.course_syllabus.filter(item => !isNaN(item.order) && item.course_content_type.trim() !== '');
+        
+            // Sort the syllabus based on the numeric order
+            const sortedSyllabus = validSyllabus.sort((a, b) => a.order - b.order);
+        
+            // Extract course_content_type from the sorted syllabus
+            const courseTypes = sortedSyllabus.map(item => item.course_content_type);
+        
+            console.log('Content Types:', courseTypes);
+            res.render('issb/lessonvideo', { course, courseTypes, type });
+        } 
+        catch (error) {
+       console.log(error.message);
+      }};
+    
 
 
 
@@ -91,22 +128,27 @@ const getIndex = async (req, res) => {
     };
     
     
-  const getDashboard = async (req, res) => {
-    try {
-      const user = await User.findOne({ phone: req.user.phone }); 
-      const userId = req.user._id;
-      const payment = await Payment.find({ user: userId, is_active: true }).populate({
-        path: 'course',
-        select: 'course_id course_name thumbnail'
-      });
-      
-      console.log(payment);
-      res.render('issb/dashboard',{user: user,payment});
-      } 
-      catch (error) {
-     console.log(error.message);
-    }};
-
+    const getDashboard = async (req, res) => {
+      try {
+        const user = await User.findOne({ phone: req.user.phone });
+        const userId = req.user._id;
+        
+        // Fetch payments with courses, and filter by validityDate > current date
+        const payments = await Payment.find({ user: userId, is_active: true, validityDate: { $gt: new Date() } })
+          .populate({
+            path: 'course',
+            select: 'course_id course_name thumbnail'
+          });
+    
+        console.log(payments);
+        res.render('issb/dashboard', { user, payments });
+      } catch (error) {
+        console.log(error.message);
+        // Handle the error appropriately, perhaps by sending an error response to the client
+        res.status(500).send('Internal Server Error');
+      }
+    };
+    
 
   const getProfile = async (req, res) => {
     try {
@@ -145,6 +187,7 @@ module.exports = {
   getProfile,
   getDashboard,
   getCourseDetails,
+  getLessonVideo,
   getCourseLecture,
   getTermsAndConditions,
   getPrivacyAndPolicy,

@@ -19,13 +19,11 @@ const getCourse = async (req, res) => {
      console.log(error.message);
     }};
     
-    
     const postCreateCourse = async (req, res) => {
       try {
         const courseId = req.query.course_id;
-
-        
-        
+        console.log(req.body);
+    
         if (courseId) {
           // If course id is present in the query parameter, update existing course
           const createCourse = await MilitaryCourse.findOneAndUpdate(
@@ -45,18 +43,23 @@ const getCourse = async (req, res) => {
             { new: true } // Return updated document
           );
           console.log('Course updated:', createCourse);
-
+    
           res.redirect(`/admin/course/update/${courseId}`);
         } else {
           // If course id is not present in the query parameter, create a new course
-          console.log('im here')
-            const lastCourse = await MilitaryCourse.findOne().sort({ course_id: -1 }).exec();
-
-    console.log(lastCourse)
-            const lastCreatedCourse = lastCourse.course_id + 1;
-    console.log(lastCreatedCourse)
+          console.log('im here');
+          const lastCourse = await MilitaryCourse.findOne().sort({ course_id: -1 }).exec();
+    
+          let lastCreatedCourse;
+          if (lastCourse) {
+            lastCreatedCourse = lastCourse.course_id + 1;
+          } else {
+            // If there are no existing courses, start from 1
+            lastCreatedCourse = 1;
+          }
+    
           // Create a new Course record using the last created Course code
-        const  createCourse = new MilitaryCourse({
+          const createCourse = new MilitaryCourse({
             course_id: lastCreatedCourse,
             course_name: req.body.course_name,
             thumbnail: req.body.thumbnail,
@@ -74,15 +77,9 @@ const getCourse = async (req, res) => {
     
           // Save the new Course to the database
           await createCourse.save();
-          console.log('im here save er por')
-        res.redirect(`/admin/course/update/${createCourse.course_id}`);
-    
-          
+          console.log('im here save er por');
+          res.redirect(`/admin/course/update/${createCourse.course_id}`);
         }
-            
-
-    
-    //     // Send a success response to the client
       } catch (error) {
         console.log(error.message);
         res.status(500).send(error.message);
