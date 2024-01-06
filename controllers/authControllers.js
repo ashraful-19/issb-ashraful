@@ -95,30 +95,30 @@ const getLogin = async (req, res) => {
           });
     
         // SMS SENDING TO USER
-        // const api_key = '01772512057.a712f81a-a74e-4f92-be17-3aa3616f8a1b'; // Update with your API key
-        // const senderid = '8809612440728'; // Update with your Sender Id
-        // const type = 'text'; // Update with your preferred type
-        // const url = 'https://smsmassdata.massdata.xyz/api/sms/send';
+        const api_key = '01772512057.a712f81a-a74e-4f92-be17-3aa3616f8a1b'; // Update with your API key
+        const senderid = '8809612440728'; // Update with your Sender Id
+        const type = 'text'; // Update with your preferred type
+        const url = 'https://smsmassdata.massdata.xyz/api/sms/send';
     
-        // const data = {
-        //   apiKey: api_key,
-        //   type,
-        //   contactNumbers: 88+phoneNumber,
-        //   senderId: senderid,
-        //   textBody: `Your OTP from Mission Academy: ${otpCode}`,
-        // };
+        const data = {
+          apiKey: api_key,
+          type,
+          contactNumbers: 88+phoneNumber,
+          senderId: senderid,
+          textBody: `Your OTP from Mission Academy: ${otpCode}`,
+        };
     
-        // axios.post(url, data)
-        //   .then(response => {
-        //     console.log('SMS sent successfully:', response.data);
-        //     req.session.phone = phoneNumber;
-        //     res.redirect('/auth/sendotp?phone=' + phoneNumber);
-        //   })
-        //   .catch(error => {
-        //     console.error('Error sending SMS:', error);
-        //     // Handle SMS sending error here
-        //     return res.status(500).json({ error: "Error sending SMS" });
-        //   });
+        axios.post(url, data)
+          .then(response => {
+            console.log('SMS sent successfully:', response.data);
+            req.session.phone = phoneNumber;
+            res.redirect('/auth/sendotp?phone=' + phoneNumber);
+          })
+          .catch(error => {
+            console.error('Error sending SMS:', error);
+            // Handle SMS sending error here
+            return res.status(500).json({ error: "Error sending SMS" });
+          });
       } catch (error) {
         console.error(error);
         // Handle other errors here
