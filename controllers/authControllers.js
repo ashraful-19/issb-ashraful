@@ -63,7 +63,7 @@ const getLogin = async (req, res) => {
           console.log("Invalid phone number");
           // Handle invalid phone number error here
           req.flash('error', 'Invalid Phone Number');
-          res.redirect('/auth/login');     
+          return res.redirect('/auth/login');     
          }
     
         // // OTP GENERATOR
