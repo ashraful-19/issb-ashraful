@@ -66,59 +66,59 @@ const getLogin = async (req, res) => {
           res.redirect('/auth/login');     
          }
     
-        // OTP GENERATOR
-        const otpCode = Math.floor(Math.random() * 9000) + 1000;
-        console.log(`Your OTP is: ${otpCode}`);
+        // // OTP GENERATOR
+        // const otpCode = Math.floor(Math.random() * 9000) + 1000;
+        // console.log(`Your OTP is: ${otpCode}`);
     
-        // Check if the phone number already exists in the Otp collection
-        const existingOtp = await Otp.findOne({ phone: phoneNumber });
-        if (existingOtp) {
-          console.log("Existing OTP found. Deleting...");
-          await Otp.deleteOne({ phone: phoneNumber });
-        }
+        // // Check if the phone number already exists in the Otp collection
+        // const existingOtp = await Otp.findOne({ phone: phoneNumber });
+        // if (existingOtp) {
+        //   console.log("Existing OTP found. Deleting...");
+        //   await Otp.deleteOne({ phone: phoneNumber });
+        // }
     
-        const userotp = new Otp({
-          phone: phoneNumber,
-          otp: otpCode,
-        });
+        // const userotp = new Otp({
+        //   phone: phoneNumber,
+        //   otp: otpCode,
+        // });
     
-        userotp.save()
-          .then(() => {
-            console.log("OTP saved to database");
-            res.redirect('/auth/sendotp?phone=' + phoneNumber);
+        // userotp.save()
+        //   .then(() => {
+        //     console.log("OTP saved to database");
+        //     res.redirect('/auth/sendotp?phone=' + phoneNumber);
 
-          })
-          .catch(error => {
-            console.error(error);
-            // Handle database save error here
-            res.status(500).json({ error: "Internal server error" });
-          });
+        //   })
+        //   .catch(error => {
+        //     console.error(error);
+        //     // Handle database save error here
+        //     res.status(500).json({ error: "Internal server error" });
+        //   });
     
-        // SMS SENDING TO USER
-        const api_key = '01772512057.a712f81a-a74e-4f92-be17-3aa3616f8a1b'; // Update with your API key
-        const senderid = '8809612440728'; // Update with your Sender Id
-        const type = 'text'; // Update with your preferred type
-        const url = 'https://smsmassdata.massdata.xyz/api/sms/send';
+        // // SMS SENDING TO USER
+        // const api_key = '01772512057.a712f81a-a74e-4f92-be17-3aa3616f8a1b'; // Update with your API key
+        // const senderid = '8809612440728'; // Update with your Sender Id
+        // const type = 'text'; // Update with your preferred type
+        // const url = 'https://smsmassdata.massdata.xyz/api/sms/send';
     
-        const data = {
-          apiKey: api_key,
-          type,
-          contactNumbers: 88+phoneNumber,
-          senderId: senderid,
-          textBody: `Your OTP from Mission Academy: ${otpCode}`,
-        };
+        // const data = {
+        //   apiKey: api_key,
+        //   type,
+        //   contactNumbers: 88+phoneNumber,
+        //   senderId: senderid,
+        //   textBody: `Your OTP from Mission Academy: ${otpCode}`,
+        // };
     
-        axios.post(url, data)
-          .then(response => {
-            console.log('SMS sent successfully:', response.data);
-            req.session.phone = phoneNumber;
-            res.redirect('/auth/sendotp?phone=' + phoneNumber);
-          })
-          .catch(error => {
-            console.error('Error sending SMS:', error);
-            // Handle SMS sending error here
-            res.status(500).json({ error: "Error sending SMS" });
-          });
+        // axios.post(url, data)
+        //   .then(response => {
+        //     console.log('SMS sent successfully:', response.data);
+        //     req.session.phone = phoneNumber;
+        //     res.redirect('/auth/sendotp?phone=' + phoneNumber);
+        //   })
+        //   .catch(error => {
+        //     console.error('Error sending SMS:', error);
+        //     // Handle SMS sending error here
+        //     res.status(500).json({ error: "Error sending SMS" });
+        //   });
       } catch (error) {
         console.error(error);
         // Handle other errors here
