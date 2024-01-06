@@ -27,6 +27,9 @@ const paymentRoute = require('./routes/paymentRoutes');
 const homeListRoute = require('./routes/homeListRoutes');
 const iqRoute = require('./routes/examRoutes');
 
+
+
+
 app.use(
   session({
     secret: "keyboard cat",
@@ -42,27 +45,40 @@ app.use(
 
 
 
+app.use(flash());
+
+
+// Add middleware to expose flash messages to views
+app.use((req, res, next) => {
+  res.locals.success_messages = req.flash('success');
+  res.locals.error_messages = req.flash('error');
+  console.log(res.locals)
+  next();
+});
+
+
+
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use(flash());
 
 app.use((req,res,next) => {
   if (req.isAuthenticated()) {
     // console.log(req.user)
   }
-// console.log(req.session)
+console.log(req.session)
 
 next();
 });
+
 
 app.use(function(req, res, next) {
   res.locals.req = req;
   res.locals.isAuthenticated = req.isAuthenticated();
   res.locals.currentUser = req.user;
-  res.locals.flash = req.flash();
-
   next();
 });
 
