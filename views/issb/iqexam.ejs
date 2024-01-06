@@ -126,7 +126,8 @@
           <div class="explainer">
             <a class="love" href="/issb/verbal/<%= data.exam_code %>?id=<%= question._id %>">
               <p><%= question.doubts_count %></p>
-              <i class="<%= question.doubt == 0 ? 'fa-regular fa-heart' : 'fa-solid fa-heart' %>"></i>
+              <i class="<%= question.doubt === 0 ? 'fa-regular fa-heart' : 'fa-regular fa-heart' %>"></i>
+
             </a>
           </div>
         </div>
@@ -459,4 +460,18 @@ radioBtns.forEach(radioBtn => {
 
 
 
+</script>
+
+
+<script>
+  // Wait for the DOM to be ready
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get all <p> tags with data-f-id="pbf"
+    const elementsToRemove = document.querySelectorAll('p[data-f-id="pbf"]');
+
+    // Iterate through the selected elements and remove them
+    elementsToRemove.forEach(element => {
+      element.remove();
+    });
+  });
 </script>

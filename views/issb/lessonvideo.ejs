@@ -5,11 +5,47 @@
   bottom: -10px;
   height: auto;
   border: none;
- background-color: f4f4f461;
+ 
   
 }
+
+.video-active{
+  background-color: #a6cda95c;
+  color: #0a6505!important;
+}
+.video-active:hover{
+  background-color: #a6cda95c!important;
+  color: #0a6505!important;
+}
+/* div.accordion {
+  width: 100%;
+background: #ffffff!important;
+border: 1px solid #e6e6e6ad;
+outline: none;
+text-align: left;
+padding: 15px 10px;
+font-size: 14px;
+color: #444;
+cursor: pointer;
+box-shadow: rgb(255 255 255) 0px 3px 5px;
+transition: background-color 0.2s linear;
+display: flex;
+justify-content: flex-start;
+flex-direction: row;
+align-items: center;
+border-radius: 10px;
+
+} */
+div.accordion:hover {
+background: #eaffec94!important;
+}
+
+ 
 .accordion-content {
-max-height: 100%;
+
+
+max-height: 0;
+overflow: hidden;
 position:relative;
  top:-5px;
 transition: max-height 0.3s ease-in-out;
@@ -21,320 +57,140 @@ flex-direction: column;
   border-bottom-right-radius: 5px;
 
 
-}
-.accordion-content a{
+} 
+.accordion-content p{
   
+  border: 1px solid #e7e7e7a6;
+  border-radius: 8px;
   width: 100%;
+  padding: 7px 10px;
+  width:95%;
+  margin: 0px auto 5px;
   font-size: 14px;
-  color: #737373;
-  border:none!important;
-  padding: 15px 20px!important;
-  width:98%;
-  margin: 0px auto 0px!important;
+  color: #636363;
+  
 }
-.accordion-content a:hover{
+.accordion-content p:hover{
   background:#ededed;
   cursor: pointer;
 }
 
-.accordion-content a:last-child{
+.accordion-content p:last-child{
 margin-bottom:10px;
 }
-.accordion-content a:first-child{
+.accordion-content p:first-child{
 margin-top:10px;
-}
+} 
+ /* .tabcontent{
+margin: 8px;
 
+} */
 
-.accordion img{
+/* .accordion img{
   width: 22px;
   margin-right: 10px;
-}
-.video-active:hover:focus{
-  background-color: black;
-  color:white;
-}
-</style>
+}  */
 
-  <div class="video-main-box" style="z-index: 12;">
-    <div class="video-container-lesson">
-        <iframe id="video-iframe" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;" allowfullscreen></iframe>
-    </div>
-</div>
+</style>
+<div class="video-main-box" style=" z-index:12;">
+	<div class="video-container-lesson">
+	  <iframe id="video-iframe" width="100%" height="100%"  src="" allowfullscreen></iframe>
+	</div>
+  </div>
+  
 
   <section class="con">
-        <div class="accordion-content" id="content-container">
+    <% if (courseTypes && courseTypes.some(Boolean)) { %>
+      <div id="slide-menu">
+        <% courseTypes.forEach(category => { %>
+          <div class="item-menu" data-category="<%= category %>"><%= category %></div>
+        <% }); %>
+      </div>
+    <% } %>
+    
+    
+
+      <% for (const syllabusItem of course.course_syllabus) { %>
+        <div class="tabcontent hide-show" data-category="<%= syllabusItem.course_content_type %>">
+          <div class="accordion"> 
+            <img src="<%= syllabusItem.course_content_icon_url %>" alt="">
+
+            <span><%= syllabusItem.course_content_title %></span>
+            <i class="fa-solid fa-angle-down angle-right"></i>
+          </div>
+          <div class="accordion-content">
+            <% const detailsArray = syllabusItem.course_content_details ? JSON.parse(syllabusItem.course_content_details) : []; %>
+      
+            <% for (const detail of detailsArray) { %>
+              <% if (detail.type === 'video') { %>
+                <p data-link="<%= detail.link %>" class="video"><i class="fa-solid fa-play"></i>&nbsp;&nbsp;<%= detail.title %></p>
+              <% } else if (detail.type === 'pdf') { %>
+                <a href="<%= detail.link %>"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;<%= detail.title %></a>
+              <% } else { %>
+                <a href="<%= detail.link %>"><i class="fa-regular fa-file-lines"></i>&nbsp;&nbsp;<%= detail.title %></a>
+              <% } %>
+            <% } %>
+          </div>
         </div>
+      <% } %>
+
+
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const slideMenu = document.getElementById('slide-menu');
+          const itemMenus = document.querySelectorAll('.item-menu');
+          const questionContainers = document.querySelectorAll('.tabcontent');
+      
+          // Get the initial active category from server-side data (e.g., <%= type %>)
+          const initialActiveCategory = '<%= type %>';
+      
+          // Find the item-menu with the matching data-category and make it active
+          const initialActiveItem = Array.from(itemMenus).find(item => item.dataset.category === initialActiveCategory);
+          if (initialActiveItem) {
+            initialActiveItem.classList.add('active-doubts');
+            // Move the initially active item to the beginning of the slide-menu
+            slideMenu.insertBefore(initialActiveItem, slideMenu.firstChild);
+          }
+      
+         
+      
+          // Function to hide/show question containers based on the selected category
+          function updateContainers(selectedCategory) {
+            questionContainers.forEach(container => {
+              const containerCategory = container.dataset.category;
+      
+              if (selectedCategory === 'ALL' || selectedCategory === containerCategory) {
+                container.style.display = 'block';
+              } else {
+                container.style.display = 'none';
+              }
+            });
+          }
+      
+          // Initial update based on the dynamically set initial active category
+          updateContainers(initialActiveCategory);
+      
+          itemMenus.forEach(itemMenu => {
+            itemMenu.addEventListener('click', function () {
+              const selectedCategory = this.dataset.category;
+      
+              itemMenus.forEach(item => item.classList.remove('active-doubts'));
+              this.classList.add('active-doubts');
+      
+              // Update question containers based on the selected category
+              updateContainers(selectedCategory);
+            });
+          });
+        });
+      </script>
+      
+      
+
 </section>
 
 
 <br><br><br><br>
-
-
-<script>
-
-
-const contentData = {
-  "IQ": [
-  {
-      "type": "video",
-      "title": "Intro to IQ Video",
-      "link": "https://player.vimeo.com/video/855932385"
-    },
-    {
-      "type": "video",
-      "title": "Advanced IQ Video",
-      "link": "https://www.youtube.com/iq_advanced"
-    },
-    {
-      "type": "pdf",
-      "title": "IQ Guide PDF",
-      "link": "https://www.example.com/iq_guide.pdf"
-    }
-    // Add more items for IQ if needed
-  ],
-  "PPDT": [
-  {
-      "type": "video",
-      "title": "PPDT Basics",
-      "link": "https://www.youtube.com/embed/iXDbt2EHOGw"
-    },
-    {
-      "type": "video",
-      "title": "PPDT Strategies",
-      "link": "https://www.youtube.com/ppdt_strategies"
-    },
-    {
-      "type": "pdf",
-      "title": "PPDT Tips PDF",
-      "link": "https://www.example.com/ppdt_tips.pdf"
-    },    {
-      "type": "video",
-      "title": "PPDT Basics",
-      "link": "https://www.youtube.com/embed/iXDbt2EHOGw"
-    },
-    {
-      "type": "video",
-      "title": "PPDT Strategies",
-      "link": "https://www.youtube.com/ppdt_strategies"
-    },
-    {
-      "type": "pdf",
-      "title": "PPDT Tips PDF",
-      "link": "https://www.example.com/ppdt_tips.pdf"
-    }
-    // Add more items for PPDT if needed
-  ],
-  "Essay Writing": [
-    // Add items for Essay Writing
-  ],
-  "Incomplete Story": [
-    // Add items for Incomplete Story
-  ],
-  "Picture Story": [
-    // Add items for Picture Story
-  ],
-  "Incomplete Sentences": [
-    // Add items for Incomplete Sentences
-  ],
-  "WAT": [
-    // Add items for WAT
-  ],
-  "Memorable Bitter": [
-    // Add items for Memorable Bitter
-  ],
-  "Self Criticism": [
-    // Add items for Self Criticism
-  ],
-  "Self Assessment": [
-    // Add items for Self Assessment
-  ],
-  "Biodata": [
-    // Add items for Biodata
-  ],
-  "Group Discussion": [
-  {
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://player.vimeo.com/video/855932385"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    },
-    {
-      "type": "pdf",
-      "title": "GD Handbook PDF",
-      "link": "https://www.example.com/gd_handbook.pdf"
-    },
-    {
-      "type": "exam",
-      "title": "Sample GD Exam",
-      "link": "https://www.example.com/sample_gd_exam"
-    },{
-      "type": "video",
-      "title": "Group Discussion Tips",
-      "link": "https://www.youtube.com/embed/hp9eUYicGMw"
-    },
-    {
-      "type": "video",
-      "title": "Effective Communication in GD",
-      "link": "https://www.youtube.com/gd_communication"
-    }
-    // Add more items for GD if needed
-  ],
-  "PGT": [
-    // Add items for PGT
-  ],
-  "HGT": [
-    // Add items for HGT
-  ],
-  "Extempore Speech": [
-    // Add items for Extempore Speech
-  ],
-  "PAT": [
-    // Add items for PAT
-  ],
-  "Medical": [
-    // Add items for Medical
-  ],
-  "DP Viva": [
-    // Add items for DP Viva
-  ],
-  "Planning Exercise": [
-    // Add items for Planning Exercise
-  ],
-  "GTO Viva": [
-    // Add items for GTO Viva
-  ],
-  "Psychometrics Test": [
-    // Add items for Psychometrics Test
-  ],
-  "Command Task": [
-    // Add items for CT
-  ],
-  "Mutual Assessment": [
-    // Add items for CT
-  ],
-  "Medical": [
-    // Add items for CT
-  ]
-
-};
-
-
-
-
-
-
-
-
-  // Function to generate HTML based on content type
-  function generateContentHTML(contentList) {
-    return contentList.map(item => {
-      let iconClass = '';
-      let linkClass = '';
-
-      if (item.type === 'video') {
-        iconClass = 'fa-solid fa-play';
-        linkClass = 'video';
-      } else if (item.type === 'pdf') {
-        iconClass = 'fa-regular fa-file-lines';
-        linkClass = 'pdf';
-      } else if (item.type === 'exam') {
-        iconClass = 'fa-solid fa-file-lines';
-        linkClass = 'exam';
-      }
-
-      return `
-        <a href="${item.link}" class="${linkClass}">
-          <i class="${iconClass}"></i>&nbsp;&nbsp;&nbsp;${item.title}
-        </a>
-      `;
-    }).join('');
-  }
-
-  // Function to render content based on type
-  function renderContent(type) {
-    const contentContainer = document.getElementById('content-container');
-    const contentList = contentData[type];
-
-    if (contentList) {
-      const contentHTML = generateContentHTML(contentList);
-      contentContainer.innerHTML = contentHTML;
-    } else {
-      contentContainer.innerHTML = 'No content available for this type.';
-    }
-  }
-
-  // Call renderContent with the desired type (e.g., "IQ")
-  renderContent('<%= content %>');
-
-
-
-
-  function renderFirstVideo(category) {
-  // Check if the category exists in contentData
-  if (contentData.hasOwnProperty(category)) {
-    const videos = contentData[category].filter(item => item.type === "video");
-
-    // Check if there are any videos in the category
-    if (videos.length > 0) {
-      const firstVideoLink = videos[0].link;
-      const videoElement = document.getElementById("video-iframe");
-
-      if (videoElement) {
-        videoElement.src = firstVideoLink+"?autoplay=1";
-
-        // Assuming you have an HTML element with class "video" for the video links
-        const videoLinks = document.querySelectorAll('.video');
-
-        // Remove 'video-active' class from all video links
-        videoLinks.forEach(link => {
-          link.classList.remove('video-active');
-        });
-
-        // Add 'video-active' class to the first video link
-        if (videoLinks.length > 0) {
-          videoLinks[0].classList.add('video-active');
-        }
-      } else {
-        console.error("Element with id 'video-iframe' not found.");
-      }
-    } else {
-      console.error("No videos found in the specified category.");
-    }
-  } else {
-    console.error("Category not found in contentData.");
-  }
-}
-
-// Example usage:
-renderFirstVideo('<%= content %>');
-
-</script>
-
-
-
 
  <!-- bottom nagivatoin section  -->
 
@@ -343,6 +199,43 @@ renderFirstVideo('<%= content %>');
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+  var accordions = document.getElementsByClassName("accordion");
+  var contents = document.getElementsByClassName("accordion-content");
+
+  for (var i = 0; i < accordions.length; i++) {
+    // Set all accordions to be open initially
+    accordions[i].classList.add('is-open');
+    contents[i].style.maxHeight = contents[i].scrollHeight + "px";
+    var lastItem = accordions[i].querySelector('.angle-right');
+    if (lastItem) {
+      lastItem.classList.add('rotate');
+    }
+
+    // Add click event listener to each accordion
+    accordions[i].onclick = function () {
+      // Toggle open class
+      this.classList.toggle('is-open');
+
+      // Get the corresponding accordion content element
+      var content = this.nextElementSibling;
+
+      // Toggle max-height and transition on the clicked accordion content element
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+      content.style.transition = "max-height 0.2s ease-out";
+
+      // Toggle rotate class on the last item of the clicked accordion element
+      var lastItem = this.querySelector('.angle-right');
+      if (lastItem) {
+        lastItem.classList.toggle('rotate');
+      }
+    };
+  }
+
+
 const videoIframe = document.querySelector('#video-iframe');
 const con = document.querySelector('.con');
 
@@ -359,28 +252,39 @@ window.addEventListener('resize', setMarginTop);
 
 
 
-
+<!-- Add this script in your HTML file -->
 <script>
-  const videoLinks = document.querySelectorAll('.video');
-  const videoIframe1 = document.getElementById('video-iframe');
-  let activeVideoLink = null;
+  document.addEventListener('DOMContentLoaded', function() {
+    const videoLinks = document.querySelectorAll('.video');
+    const videoIframe1 = document.getElementById('video-iframe');
+    let activeVideoLink = null;
 
-  videoLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-      event.preventDefault();
+    // Find the first video link and set its data-link to the iframe
+    const firstVideoLink = document.querySelector('.video');
+    if (firstVideoLink) {
+      const firstVideoUrl = firstVideoLink.getAttribute('data-link');
+      videoIframe1.src = firstVideoUrl +'?autoplay=1';
+      firstVideoLink.classList.add('video-active');
+      activeVideoLink = firstVideoLink;
+    }
 
-      // Remove the active class from the previously clicked link
-      if (activeVideoLink) {
-        activeVideoLink.classList.remove('video-active');
-      }
+    videoLinks.forEach(link => {
+      link.addEventListener('click', function(event) {
+        event.preventDefault();
 
-      // Add the active class to the clicked link
-      this.classList.add('video-active');
-      activeVideoLink = this;
+        // Remove the active class from the previously clicked link
+        if (activeVideoLink) {
+          activeVideoLink.classList.remove('video-active');
+        }
 
-      const videoUrl = this.getAttribute('href');
-      // Update the iframe source to the video URL
-      videoIframe1.src = videoUrl+'?autoplay=1';
+        // Add the active class to the clicked link
+        this.classList.add('video-active');
+        activeVideoLink = this;
+
+        const videoUrl = this.getAttribute('data-link');
+        // Update the iframe source to the video URL
+        videoIframe1.src = videoUrl + '?autoplay=1';
+      });
     });
   });
 </script>

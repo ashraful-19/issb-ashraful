@@ -54,7 +54,7 @@
           </div>
           <% } %>
 
-          <a class="love" href="/issb/verbal/<%= data.exam_code %>?id=<%= exam._id %>">
+          <a class="love" href="/issb/verbal/<%= exam.exam_code %>?id=<%= exam._id %>">
             <p><%= exam.doubts_count %></p>
             <i class="<%= exam.doubt == 0 ? 'fa-regular fa-heart' : 'fa-solid fa-heart' %>"></i>
          </a>
@@ -352,3 +352,16 @@ setTimeout(function() {
 </script>
 
 
+
+<script>
+  // Wait for the DOM to be ready
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get all <p> tags with data-f-id="pbf"
+    const elementsToRemove = document.querySelectorAll('p[data-f-id="pbf"]');
+
+    // Iterate through the selected elements and remove them
+    elementsToRemove.forEach(element => {
+      element.remove();
+    });
+  });
+</script>

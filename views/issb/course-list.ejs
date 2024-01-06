@@ -10,45 +10,38 @@
 </section><br><br><br>
 
 <section class="course-list">
-   <% course.forEach(function(course) { %>
-    <a href="/course-details/<%= course.course_id %>" class="">  
-   <div class="box">
-    <img src="<%= course.thumbnail %>" alt="">
-   
-   <div class="course-name"><%= course.course_name %></div>
-   <div class="course-left-right"><div class="left"><span><i class="fa-solid fa-video"></i><%= course.course_class %></span><span><i class="fa-solid fa-file-circle-check"></i><%= course.course_exam %></span></div>
-<div class="right"><span>৳&nbsp;<span class="bangla-fee"><%= course.course_fee %></span></span></div></div>
-</div>
-</a>
-<% }) %>
+  <% course.forEach(function(course) { %>
+    <div class="box">
+      <% if (!course.is_update) { %>
+        <a href="/course-details/<%= course.course_id %>" class="">
+      <% } %>
+
+      <img src="<%= course.thumbnail %>" alt="">
+      <div class="course-name"><%= course.course_name %></div>
+
+     
+      <div class="course-left-right">
+        <% if (course.is_update) { %>
+          <p>The course is in updating!</p>
+        <% } else { %>
+          <div class="left">
+            <span><i class="fa-solid fa-video"></i><%= course.course_class %></span>
+            <span><i class="fa-solid fa-file-circle-check"></i><%= course.course_exam %></span>
+          </div>
+        <% } %>
+
+        <div class="right">
+          <span>৳&nbsp;<span class="bangla-fee"><%= course.course_fee %></span></span>
+        </div>
+      </div>
+
+      <% if (!course.is_update) { %>
+        </a>
+      <% } %>
+    </div>
+  <% }) %>
 </section>
-<section class="course-list">
-    <div class="box">
-     <img src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg" alt="">
-    
-    <div class="course-name">ISSB Master Course</div>
-    <div class="course-left-right"><div class="left"><span>Details</span><span>Join Now</span></div>
- <div class="right"><span>$২৫০০</span></div></div>
- </div>
- </section>
- <section class="course-list">
-    <div class="box">
-     <img src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg" alt="">
-    
-    <div class="course-name">ISSB Master Course</div>
-    <div class="course-left-right"><div class="left"><span>Details</span><span>Join Now</span></div>
- <div class="right"><span>$২৫০০</span></div></div>
- </div>
- </section>
- <section class="course-list">
-    <div class="box">
-     <img src="https://static.youthop.com/uploads/sites/2/2019/11/new-fi-01-19-1038x542-1038x542.jpg" alt="">
-    
-    <div class="course-name">ISSB Master Course</div>
-    <div class="course-left-right"><div class="left"><span>Details</span><span>Join Now</span></div>
- <div class="right"><span>$২৫০০</span></div></div>
- </div>
- </section>
+
 
 
  <%- include('../partials/bottom-nav.ejs') %>

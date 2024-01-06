@@ -29,20 +29,39 @@
 </div>
 <br>
 
-
-<% payment.forEach(function(course) { %>
-  <a href="/course-lecture/<%= course.course.course_id %>">
-<div class="box">
-    <h3>My Courses</h3>
-    <br>
-    <img src="<%= course.course.thumbnail %>" alt="">
-   
-   <div class="course-name"><%= course.course.course_name %></div>
-   <div class="course-left-right"><div class="left"><span>Class</span><span>Exam</span></div>
-  <div class="start-now"><span>Start Now</span></div></div>
-</div>
-</a>
-<% }) %>
+<h2>My Courses</h2>
+  <br>
+  <% payments.forEach(function(course) { %>
+    <div class="box">
+      <% if (!course.is_banned) { %>
+        <a href="/course-lecture/<%= course.course.course_id %>">
+      <% } %>
+  
+      <img src="<%= course.course.thumbnail %>" alt="">
+  
+      <div class="course-name"><%= course.course.course_name %></div>
+  
+      <div class="course-left-right">
+        <% if (course.is_banned) { %>
+          <span>You're banned, Contact admin!</span>
+        <% } else { %>
+          <div class="left">
+            <span>Class</span>
+            <span>Exam</span>
+          </div>
+          <div class="start-now">
+            <span>Start Now</span>
+          </div>
+        <% } %>
+      </div>
+  
+      <% if (!course.is_banned) { %>
+        </a>
+      <% } %>
+    </div>
+  <% }) %>
+  
+  
 
 <br><br><br><br>
 

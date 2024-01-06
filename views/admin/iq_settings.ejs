@@ -259,6 +259,39 @@ button {
   });
 });
 
+
+
+  // Get all anchor tags on the page
+  var anchorTags = document.querySelectorAll('a');
+
+// Loop through each anchor tag
+anchorTags.forEach(function(anchor) {
+    // Check if the anchor's innerHTML contains the specified text
+    if (anchor.innerHTML.includes('Unlicensed copy of the Froala Editor. Use it legally by purchasing a license.')) {
+        // Remove the entire anchor tag
+        anchor.parentNode.removeChild(anchor);
+    }
+});
+
+
+
+// Check if the container exists
+if (container) {
+  // Get all <a> tags within the container
+  const anchorTags = container.querySelectorAll('a');
+
+  // Iterate through the anchor tags
+  anchorTags.forEach((aTag) => {
+    const href = aTag.getAttribute('href');
+
+    // Check if the href attribute matches the specified URL
+    if (href === 'https://www.froala.com/wysiwyg-editor?k=u') {
+      // Remove the matching <a> tag
+      aTag.remove();
+    }
+  });
+}
+
 </script>
 
   

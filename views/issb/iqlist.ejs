@@ -48,7 +48,7 @@
 				
 				<div class="align-list"><span class="list-count"><i class="fa-solid fa-brain"></i></span><span class="name"><%= exam.exam_name %></span>
          <div class="free-exam"> 
-				<span class="startbutton show-modal" data-exam-code="<%= exam.exam_code %>" data-exam-name="<%= exam.exam_name %>" data-instruction="<%= exam.instruction %>" data-time="<%= exam.time %>" data-marks="<%= exam.questions_length %>" >Start</span><pre style="display: none;"><%= exam.instruction %></pre>
+				<span class="startbutton show-modal" data-exam-code="<%= exam.exam_code %>" data-exam-name="<%= exam.exam_name %>"   data-time="<%= exam.time %>" data-marks="<%= exam.questions_length %>" >Start</span><pre style="display: none;"><%= exam.instruction %></pre>
       </div>
       </div>
 			</div>
@@ -64,16 +64,10 @@
 <div class="modal-section">
 	<div class="modal">
 	 <div class="instruction">
-	 <h3 class="exam-name">Verbal IQ Test 01</h3>
+	 <h3 class="exam-name" style="text-align: center;"></h3>
 	 <p class="marks"></p>
 	 <p class="time"></p>
 	</div>
-	<hr><br>
-	<div class="instruction-bangla">
-	 <h4>পরীক্ষার্থীদের জন্য নির্দেশনাবলি</h4>
-	 <pre class="instructions"></pre>
-	
-</div>
 <div class="practice-exam">
 	<a href="" class="practice-link">Practice</a>
 	<a href="" class="exam-link">Exam</a>

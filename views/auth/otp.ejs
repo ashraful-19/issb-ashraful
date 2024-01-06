@@ -50,11 +50,10 @@
         <input type="text" name="phone" hidden value="<%- phoneNumber %>"/>
         <input type="text" class="login-input login-width" name="otp" placeholder="Enter OTP Code" required />
        
-        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
-          <p><%= errors[errors.length - 1] %></p>
-      <% } %>
-        
-
+         <% if (locals.error_messages) { %>
+           <p class="error"><%= locals.error_messages %></p>
+         <% } %>
+         
         <button class="login-btn" type="submit">
           Login
           <i class="fa-solid fa-arrow-right"></i>

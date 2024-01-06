@@ -84,6 +84,9 @@
             <form id="login-form" method="post" action="/auth/sendotp">
             
             <input class="login-input login-width" type="text" name="phone" placeholder="017XXXXXXXX" required />
+             <% if (locals.error_messages) { %>
+           <p class="error"><%= locals.error_messages %></p>
+         <% } %>
             <button type="submit" class="login-btn">
               Login
               <i class="fa-solid fa-arrow-right"></i>
