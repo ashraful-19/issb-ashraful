@@ -1,14 +1,80 @@
 
 
 <%- include('../partials/header.ejs') %>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 <section class="top-nav">
     <div><h4>Doubts</h4></div>
- <img src="https://th.bing.com/th/id/R.23ca2f3fbf7e19a1e85cd9d556d5ffaf?rik=uoFjTlg8g%2bIkqw&pid=ImgRaw&r=0" id="top-nav-icon-issb">
-</section><br><br><br>
+    <div id="top-nav-left">
+      <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+     </div>
+</section>
+<div id="menulist" >
+	<a href="/"><i class="fa-solid fa-house"></i> Home</a>
+	<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+	<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+	<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+	<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+    <% if (req.user) { %>
+        <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+      <% } else { %>
+        <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+      <% } %>
+      
+</div>
+
+
+
+<br><br><br>
 <style>
+    .fr-dii{
+    max-width: 100%;
+  height: auto;
+  }
+  #no-data-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#no-data-found img {
+  width: 200px;
+}
+
+#no-data-found h2 {
+  margin-top: 20px; /* Add some top margin for better spacing */
+}
 
 
+.q-serial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px; /* Allow the width to adjust based on content */
+    height: 20px; /* Adjust height as needed */
+    background-color: black; /* Set background color */
+    color: white; /* Set text color */
+    border-radius: 50%; /* Make it a circle */
+    font-size: 12px; /* Adjust font size */
+    padding: 0 8px; /* Add padding for better visual appearance */
+    margin-bottom: 7px;
+}
+.options {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 10px;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: rgba(239, 239, 239, 0.181);
+    }
+
+    .green {
+    background-color: #c7ffc72b; /* Green background color */
+}
 </style>
 
 
@@ -27,19 +93,20 @@
   <% data.forEach(function(exam) { %>
     <div class="qcontainer" data-category="<%= exam.exam_type %>" id="question<%= counter %>">
          <p>
-            <span><b><%= counter %>)&nbsp;</b></span>
+            <span class="q-serial"><%= counter %></span>
             <b><%- exam.question %></b>
          </p>
+         <br>
          <% let optionCounter = 1; %>
          
          <% exam.option.forEach((option, index) => { %>
-         <div class="options">
+         <div class="options <%= exam.answer == index + 1 ? 'green' : '' %>">
              <input
                  type="radio"
                  id="option<%= optionCounter %><%= counter %>"
                  name="<%= exam._id %>"
                  value="<%= index + 1 %>"
-                 <%= exam.your_answer === String(index + 1) ? 'checked' : 'disabled' %>
+                 <%= exam.answer == index + 1 ? 'checked class="green"' : 'disabled' %>
              />
              <label for="option<%= optionCounter %><%= counter %>"><%- option %></label>
          </div>
@@ -48,11 +115,9 @@
          
       
         <div class="explainer">
-<% if (data.show_explanation) { %>
           <div class="explain">
              <p>Explanation</p>
           </div>
-          <% } %>
 
           <a class="love" href="/issb/verbal/<%= exam.exam_code %>?id=<%= exam._id %>">
             <p><%= exam.doubts_count %></p>
@@ -60,11 +125,9 @@
          </a>
        </div>
 
-       <% if (data.show_explanation) { %>
         <div class="explain-toggle-show">
           <p><%- exam.explanation %></p>
         </div>
-      <% } %>
     </div>
     <% counter++ %>
   <% }) %>
@@ -72,40 +135,68 @@
 </section>
 
 <div id="no-data-found"> 
-  <img width="200px" src="https://static.vecteezy.com/system/resources/previews/016/349/592/original/data-information-word-not-found-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg" alt="">
-  <h2>No Doubts found!</h2>
+  <img width="200px" src="https://streamnow.appswamy.com/assets/img/no-data-found.png" alt="">
+  <br>
+  <h3>কোন ডাউট প্রশ্ন পাওয়া যায়নি!</h3>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const itemMenus = document.querySelectorAll('.item-menu');
-    const questionContainers = document.querySelectorAll('.qcontainer');
-    const noDataFound = document.getElementById('no-data-found');
+document.addEventListener('DOMContentLoaded', function () {
+  const itemMenus = document.querySelectorAll('.item-menu');
+  const questionContainers = document.querySelectorAll('.qcontainer');
+  const noDataFound = document.getElementById('no-data-found');
+  const menuicon = document.getElementById('menuicon');
+  const eyeOpenClose = document.getElementById('eye-open-close');
+  const pagination = document.querySelector('.pagination');
+  
 
-    itemMenus.forEach(itemMenu => {
-      itemMenu.addEventListener('click', function () {
-        const selectedCategory = this.dataset.category;
+  
+  itemMenus.forEach(itemMenu => {
+    itemMenu.addEventListener('click', function () {
+      const selectedCategory = this.dataset.category;
 
-        itemMenus.forEach(item => item.classList.remove('active-doubts'));
-        this.classList.add('active-doubts');
+      itemMenus.forEach(item => item.classList.remove('active-doubts'));
+      this.classList.add('active-doubts');
 
-        let found = false;
+      let found = false;
 
-        questionContainers.forEach(container => {
-          const containerCategory = container.dataset.category;
+      questionContainers.forEach(container => {
+        const containerCategory = container.dataset.category;
 
-          if (selectedCategory === 'ALL' || selectedCategory === containerCategory) {
-            container.style.display = 'block';
-            found = true;
-          } else {
-            container.style.display = 'none';
-          }
-        });
+        if (selectedCategory === 'ALL' || selectedCategory === containerCategory) {
+          container.style.display = 'block';
+          found = true;
+        } else {
+          container.style.display = 'none';
+          pagination.style.display = 'none';
 
-        noDataFound.style.display = found ? 'none' : 'block';
+        }
       });
+      
+      noDataFound.style.display = found ? 'none' : 'flex';
     });
   });
+
+  // Initial check for "ALL" category
+  const initialCategory = 'ALL';
+  let initialFound = false;
+
+  questionContainers.forEach(container => {
+    const containerCategory = container.dataset.category;
+
+    if (initialCategory === 'ALL' || initialCategory === containerCategory) {
+      container.style.display = 'block';
+      initialFound = true;
+    } else {
+      container.style.display = 'none';
+    }
+  });
+  menuicon.style.display = !initialFound ? 'none' : 'flex';
+  eyeOpenClose.style.display = !initialFound ? 'none' : 'flex';
+  pagination.style.display = !initialFound ? 'none' : 'flex';
+  noDataFound.style.display = initialFound ? 'none' : 'flex';
+});
+
 </script>
 
 
@@ -151,8 +242,8 @@
 
 <!-- eye seciton -->
 <div id="eye-open-close">
-    <p>Show Explain </p>
-    <i class="fa-solid fa-eye"></i>
+    <p>Hide Explain</p>&nbsp;
+    <i class="fa-solid fa-eye-slash"></i>
     </div>
 
 
@@ -185,7 +276,6 @@ if (!$(event.target).is("#floatingMenu") && !$(event.target).is("#menuicon") && 
 
 </script>
 
-</html>
 <script>
 
 
@@ -206,12 +296,43 @@ $('html, body').animate({ scrollTop: divPosition - 250
 });
 
 
+
+
 $(document).ready(function() {
-$('.explain').click(function() {
-$(this).closest('.qcontainer').find('.explain-toggle-hide').slideToggle();
+    $('.explain').click(function() {
+  $(this).closest('.qcontainer').find('.explain-toggle-show').slideToggle();
 });
 
 });
+
+
+
+
+$(document).ready(function() {
+  $('#eye-open-close').click(function() {
+    var $explainToggle = $('.explain-toggle-show');
+    var $eyeIcon = $(this).find('i');
+    var $toggleText = $(this).find('p');
+
+    if ($toggleText.text() === 'Show Explain') {
+      // If the text is 'Show Explain', slide open
+      $explainToggle.slideDown();
+    } else {
+      // If the text is 'Hide Explain', slide close
+      $explainToggle.slideUp();
+    }
+
+    // Toggle the eye icon
+    $eyeIcon.toggleClass('fa-eye');
+
+    // Toggle the text
+    $toggleText.text(function(_, text) {
+      return text === 'Show Explain' ? 'Hide Explain' : 'Show Explain';
+    });
+  });
+});
+
+
 
 
 
@@ -239,7 +360,20 @@ if (this.checked) {
 });
 });
 
-
+$(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
+    });
+    
 
 
 </script>
@@ -275,17 +409,6 @@ if (this.checked) {
 });
 
 
-
-
-$(document).ready(function() {
-  $('#eye-open-close').click(function() {
-    $('.explain-toggle-hide').slideToggle();
-    $(this).find('i').toggleClass('fa-eye-slash fa-eye');
-    $(this).find('p').text(function(_, text) {
-      return text === 'Hide Explain' ? 'Show Explain' : 'Hide Explain';
-    });
-  });
-});
 
 
 </script>

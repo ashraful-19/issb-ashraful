@@ -36,7 +36,7 @@
 <style>
 
 .rightside {
-    float: right;
+    margin: 0 auto;
     width: 60%; /* Adjust the width as needed */
     padding: 20px;
     box-sizing: border-box;
@@ -58,7 +58,9 @@ h1 {
 textarea {
     width: 100%;
     margin-bottom: 10px;
-    background-color: rgb(242, 242, 242);
+    background-color: rgb(250, 250, 250);
+    outline: none;
+    border: none;
 }
 
 .setting_inputs div {
@@ -85,31 +87,49 @@ button {
     cursor: pointer;
 }
 
-/* Add more styles as needed */
-
-
+.fr-wrapper{
+    background-color: rgb(250, 250, 250);
+    padding: 5px 10px 5px 10px;
+    font-size: 18px;
+    width: 100%;
+  
+  }
+  input[type="number"] {
+  width: 70px;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none; 
+}
+.negivation{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
 </style>
 <section class="rightside">
-    <h1>Verbal Model Test Dashboard</h1>
+    <h1>Update Settings</h1>
     <br>
-    <div class="clone-exam">
+    <div class="negivation"><a href="/iq/create/verbal/<%= content.exam_code %>/edit"><button>Add Question</button></a><a href="/"><button>View Result</button></a><a href="/"><button>Clear Result</button></a> <div class="clone-exam">
       <form action="/admin/quiz/<%= content.exam_code %>/clone" method="post">
         <button type="submit">Clone Exam</button>
-        <a href="/"><button>Result</button></a>
       </form>
-    </div>
+    </div></div>
+    <br>
+    
 
   <div class="create-show">
     <form action="/iq/create/<%= content.exam_code %>/settings" method="POST" class="setting_inputs" id="setting_form">
-      <label for="exam_name">Exam Name:</label>
+      <label for="exam_name"><h1> Exam Name:</h1></label>
       <input class="setting_input" type="text" name="exam_name"  value="<%= content.exam_name %>">
-      <label for="Instruction">Instruction:</label> 
+      <label for="Instruction"><h1> Instruction:</h1></label> 
       <textarea class="setting_input edit-froala" name="instruction"><%= content.instruction %></textarea>
       <div>
          <div><input type="checkbox" name="randomize"   <% if (content.randomize) { %>checked<% } %>> <span>Randomize the order of the questions during the test</span></div>
          <div><input type="checkbox" name="negative_marking"  <% if (content.negative_marking) { %>checked<% } %>> <span> Penalize incorrect answers (negative marking)</span></div>
-         <div><input type="checkbox" name="custom_message"  <% if (content.custom_message) { %>checked<% } %>> <span>Show a custom message if the student passed or failed</span></div>
-         <div>
+         <div><input type="checkbox" id="customMessageCheckbox" name="custom_message"  <% if (content.custom_message) { %>checked<% } %>> <span>Show a custom message if the student passed or failed</span></div>
+         <div id="custom_message" style="<% if (!content.custom_message) { %>display: none;<% } %>" >
             <h4>What is the passing score 1?</h4>
             <input type="number" min="0" max="100" name="passing_score1" value="<%= content.passing_score1 %>">%
             <h4>Pass Message</h4>
@@ -126,8 +146,7 @@ button {
          <h4>At the end of the test, display the user's:</h4>
          <div><input type="checkbox" name="show_result" <% if (content.show_result) { %>checked<% } %>> <span>Result</span></div>
          <div><input type="checkbox" name="show_merit"  <% if (content.show_merit) { %>checked<% } %>> <span> Merit list</span></div>
-         <div><input type="checkbox" name="practice" <% if (content.
-          practice) { %>checked<% } %>> <span> Practice</span></div>
+         
          <div><input type="checkbox" name="show_explanation"  <% if (content.show_explanation) { %>checked<% } %>> <span> Display the explanation</span></div>
          <h4>How much time do test takers have to complete the test?</h4>
          <div><input type="number" min="0" max="200" name="time" value="0"><span>minutes</span></div>
@@ -144,7 +163,9 @@ button {
       <div>
         <input type="radio" name="active_status" value="open" <%= content.active_status === 'open' ? 'checked' : '' %>>
         <span>Open</span>
-      </div>      
+      </div> 
+      <div><input type="checkbox" name="practice" <% if (content.
+        practice) { %>checked<% } %>> <span> Practice</span></div>     
       <div><input type="checkbox" name="is_anyone" <% if (content.is_anyone) { %>checked<% } %>> <span>Anyone</span></div>
 
       <h1>Selected Course</h1>
@@ -162,7 +183,7 @@ button {
       
 
 
-      <input class="setting_input" type="submit" value="Update">
+      <button style="margin:0px auto; padding: 10px 60px;" type="submit">Update</button>
    </form>
 
 
@@ -259,7 +280,27 @@ button {
   });
 });
 
+$(document).ready(function() {
+  // Check the state of the checkbox on page load
+  toggleCustomMessageVisibility();
 
+  // Attach an event listener to the checkbox with name "custom_message"
+  $('#customMessageCheckbox').change(function() {
+    toggleCustomMessageVisibility();
+  });
+
+  function toggleCustomMessageVisibility() {
+    // Get the checkbox state
+    var isChecked = $('#customMessageCheckbox').prop('checked');
+
+    // Toggle the visibility of the custom message based on the checkbox state with smooth fadeIn/fadeOut animation
+    if (isChecked) {
+      $('#custom_message').fadeIn(500);
+    } else {
+      $('#custom_message').fadeOut(500);
+    }
+  }
+});
 
   // Get all anchor tags on the page
   var anchorTags = document.querySelectorAll('a');

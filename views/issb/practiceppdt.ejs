@@ -1,10 +1,17 @@
 <%- include('../partials/header.ejs') %>
 <style>
 	
-.fr-dib {
+.fr-dii {
   width: 100%!important;
   height: auto;
 }
+.process{
+	text-align: center;
+	color: green;
+	font-size: 15px;
+	margin-top: 10px;
+}
+
 </style>
 	<section class="top-nav">
 		<div><h4><%= title %></h4></div>
@@ -19,44 +26,57 @@
 <section class="ppdt">
 	<% content.forEach(function(data) { %>
 	  <div class="ppdt_items">
-		<div class="ppdt_practice">
-		  <div class="blur" style="padding: 10px; filter: blur(8px); transition: 0.2s; width: 100%"  class="ppdtimg"><%- data.question %></div>
+		<div class="ppdt_practice" >
+		  <div class="blur" style="padding: 10px; filter: blur(8px); transition: 0.2s; width: 100%;font-family: SolaimanLipi"  class="ppdtimg"><%- data.question %></div>
+		  <div class="process"></div>
 		</div>
+
 		<div class="ppdtcontrols">
 		  <div class="start start-timer"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start</div>
 		  <div class="start"><i class="fa-solid fa-stopwatch"></i>&nbsp;&nbsp; <span class="time">30 sec</span></div>
 		  <div class="start ideaIcon"><i class="fa-regular fa-lightbulb"></i>&nbsp;&nbsp;Idea</div>
 		</div>
-		<div class="ppdtIdea">
+		<div class="ppdtIdea" style="font-family: SolaimanLipi">
 			<% data.option.forEach(function(option) { %>
 
 				<%- option %>
 		  <% }) %>
-
+		  <div class="details">Details</div>
+		  <div class="details-story" style="font-family: SolaimanLipi">
+			  <%- data.explanation %>
+		  </div>
 
 		</div>
+	
 	  </div>
 	<% }) %>
   </section>
 
 <br><br><br>
 
-				
-
-
 
 
 
 <div id="floatingMenu">
 	<ul>
-		<li><a href="/issb/practiceppdt?type=<%= type %>&text_type=Bangla"><i class="fa-regular fa-circle-play"></i>Bangla</a></li>
-		<li><a href="/issb/practiceppdt?type=<%= type %>&text_type=English"><i class="fa-regular fa-circle-play"></i>English</a></li>
+	  <li class="<%= text_type === 'Bangla' ? 'active' : '' %>" >
+		<a href="/issb/practiceppdt?type=<%= type %>&text_type=Bangla" >
+		  <i class="fa-regular fa-circle-play"></i>Bangla
+		</a>
+	  </li>
+	  <li class="<%= text_type === 'English' ? 'active' : '' %>">
+		<a href="/issb/practiceppdt?type=<%= type %>&text_type=English" >
+		  <i class="fa-regular fa-circle-play"></i>English
+		</a>
+	  </li>
 	</ul>
-</div>
-
+  </div>
+  
+<% if (title !== 'PPDT') { %>
     <div id="menuicon">
         <i class="fa-solid fa-list-ol"></i>
     </div>
+<% } %>
 
 	
 	<div class="pagination">
@@ -110,43 +130,102 @@
 
   
   
-  <script>$(document).ready(function() {
-	$(".start-timer").on("click", function() {
-	  var parent = $(this).closest(".ppdt_items");
-	  var countdown = parent.find(".time");
-	  var timeLeft = 30;
-	  var blur = parent.find(".blur");
-  
-	  if ($(this).text().includes("Start")) {
-		$(this).html('<i class="fa-regular fa-circle-pause"></i>&nbsp;&nbsp;Stop');
-		blur.css('filter', 'none');
-		var countdownInterval = setInterval(function() {
-		  timeLeft--;
-		  countdown.text(timeLeft + " sec");
-  
-		  if (timeLeft <= 0) {
-			clearInterval(countdownInterval);
-			countdown.text("00 sec");
-			parent.find(".start-timer").html('<i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start');
-			blur.css('filter', 'blur(8px)');
-		  }
-		}, 1000);
-  
-		parent.data("countdownInterval", countdownInterval);
-	  } else {
-		clearInterval(parent.data("countdownInterval"));
-		countdown.text("30 sec");
-		$(this).html('<i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start');
-		blur.css('filter', 'blur(8px)');
-	  }
-	});
+  <script>
+ $(document).ready(function() {
+  $(".start-timer").on("click", function() {
+    var parent = $(this).closest(".ppdt_items");
+    var countdown = parent.find(".time");
+    const blur = parent.find(".blur");
+    var process = parent.find(".process");
+	playBeep()
+
+    // Now 'getInitialValue' contains the initial value, and it's set only on the first click
+
+    if ($(this).text().includes("Start")) {
+
+      startCountdown(parent, countdown, blur, 30, "Stop", "timer1", function() {
+        process.html("Please start writing your story.");
+        blur.css('filter', 'blur(8px)');
+		playBeep()
+
+        startCountdown(parent, countdown, blur, 210, "Stop", "timer2", function() {
+		process.html("Time is Over, Hope you did well!");
+		playBeep()
+        });
+      });
+    } else {
+      resetCountdown(parent, countdown, blur, process);
+    }
   });
-  
-	$(document).ready(function() {
+
   $('.ideaIcon').click(function() {
     $(this).closest('.ppdt_items').find('.ppdtIdea').slideToggle();
   });
 });
+
+function startCountdown(parent, countdown, blur, duration, buttonText, timer, onComplete) {
+  $(parent).data("countdownInterval", setInterval(function() {
+    var minutes = Math.floor(duration / 60);
+    var seconds = duration % 60;
+
+    if (duration >= 60) {
+      countdown.text(minutes + " min " + seconds + " sec");
+    } else {
+      countdown.text(seconds + " sec");
+    }
+
+    duration--;
+
+    if (duration < 0) {
+      clearInterval($(parent).data("countdownInterval"));
+      countdown.text("00 min 00 sec");
+
+      parent.find(".start-timer").html('<i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start');
+      onComplete();
+    }
+  }, 1000));
+
+  parent.find(".start-timer").html('<i class="fa-regular fa-circle-pause"></i>&nbsp;&nbsp;' + buttonText);
+
+  // Check if the timer is 'timer1' and apply the blur effect accordingly
+  if (timer == 'timer1') {
+    blur.css('filter', 'none');
+  }
+}
+
+
+function resetCountdown(parent, countdown, blur, process) {
+
+  clearInterval(parent.data("countdownInterval"));
+  countdown.text("30 sec");
+  parent.find(".start-timer").html('<i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Start');
+  process.html("");
+  blur.css('filter', 'blur(8px)');
+}
+
+// Function to play a beep sound
+function playBeep() {
+  var audio = new Audio('https://www.soundjay.com/buttons/sounds/button-1.mp3');
+  audio.play();
+}
+
+
+  
+
+
+const detailsElements = document.querySelectorAll('.details');
+
+$(document).ready(function() {
+    $('.details').click(function() {
+      const detailsStory = $(this).closest('.ppdtIdea').find('.details-story');
+
+      if (detailsStory.length) {
+        detailsStory.slideToggle();
+      }
+    });
+  });
+
+
   </script>
   
   

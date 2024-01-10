@@ -54,6 +54,7 @@
   }
 </style>
 
+
 <div class="create-course-container">
   <h1>Create Course</h1>
   <form method="POST" action="/admin/course/create_course">
@@ -70,7 +71,7 @@
           <input type="text" id="course_ads" name="course_ads">
       </div>
       <div>
-          <label for="course_class">Course Fee</label>
+          <label for="course_class">Course Class</label>
           <input type="text" id="course_class" name="course_class">
       </div>
       <div>
@@ -83,7 +84,11 @@
     </div>
     <div>
         <label for="course_fee">Course Fee</label>
-        <input type="text" id="course_fee" name="course_fee">
+        <input type="number" id="course_fee" name="course_fee">
+    </div>
+    <div>
+        <label for="course_fb_group">Facebook Group</label>
+        <input type="text" id="course_fb_group" name="course_fb_group">
     </div>
       <div>
           <label for="course_description">Course Description</label>

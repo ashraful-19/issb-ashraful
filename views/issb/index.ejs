@@ -2,6 +2,7 @@
 
 <%- include('../partials/header.ejs') %>
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&display=swap">
 
  <!-- TOP section -->
 
@@ -11,7 +12,7 @@
 	<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
  </div>
 <div>
-	<a id="militarian"	href="/"><img height="55px" style="margin:10px 0px 0px 0px;"  src="https://testmoz.com/ugc/2023-12-17/9ea6383b-44ba-475b-bdc5-0fa2dc94a599-Mission-School-01.png" alt=""></a>
+	<a id="militarian"	href="/"><img height="45px" style="margin:10px 0px 0px 0px;"  src="https://testmoz.com/ugc/2023-04-12/5321b2c1-c99b-453e-8aab-9d2666b5adcc-image.png" alt=""></a>
 </div>
 </section>
 
@@ -19,7 +20,7 @@
 	<a href="/"><i class="fa-solid fa-house"></i> Home</a>
 	<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
 	<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
-	<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+	<a href="/terms&conditions"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
 	<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
     <% if (req.user) { %>
         <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
@@ -34,7 +35,7 @@
  <section class="top-section">
 	<div class="banner">
 			<h3 id="str">SELECTOR OF THE LEADERS</h3>
-			<p class="motivation">স্বপ্নের জয় তোমারই হবে, আজকে থেকে স্বপ্নের পথে নতুন যাত্রা মিশন আইএসএসবি এর সাথে।</p>
+			<p class="motivation" style="font-family: SolaimanLipi;" >স্বপ্নের জয় তোমারই হবে, আজকে থেকে স্বপ্নের পথে নতুন যাত্রা মিশন আইএসএসবি এর সাথে।</p>
 	</div>	
 	<br>    
     <!-- thik immediate div e iframe-container name ekta class hbe -->
@@ -99,8 +100,8 @@
         </div>
         <div class="accordion-content">
            <a href="/issb/lessonvideo?type=IQ"><i class="fa-regular fa-circle-play"></i>&nbsp;&nbsp;Lesson Video</a>
-		   <a href="/issb/iqlist"><i class="fa-solid fa-check"></i>&nbsp;&nbsp;Verbal Test</a>
-           <a href="/issb/iqlist"><i class="fa-solid fa-check"></i>&nbsp;&nbsp;Non Verbal Test</a>
+		   <a href="/issb/iqlist?title=Verbal Test"><i class="fa-solid fa-check"></i>&nbsp;&nbsp;Verbal Test</a>
+           <a href="/issb/iqlist?title=Non-Verbal Test"><i class="fa-solid fa-check"></i>&nbsp;&nbsp;Non Verbal Test</a>
         </div>
     </div>   
     <div class="tabcontent">
@@ -337,67 +338,97 @@
 </section>
 
 <style>
-    .user-review {
-       display: flex;
-       flex-direction: column;
-       align-items: normal;
-       padding: 20px;
-       background: white;
-       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-   
-       border-radius: 10px;
-       margin: 10px;
-   }
-   
-       .user-avatar {
-           display: flex;
-           flex-direction: row;
-           justify-content: space-between;
-           margin-bottom: 20px;
-   
-       }
-   
-       .user-avatar img {
-           width: 80px;
-           height: 80px;
-           border-radius: 50%;
-           margin-right: 10px;
-       }
-   
-       .user-avatar svg {
-           width: 50px;
-           height: 50px;
-           fill: #077430;
-           margin-left: 10px;
-       }
-   
-       .user-details-review {
-           flex-grow: 1;
-       }
-   
-       .user-details-review h3 {
-           font-size: 1.2rem;
-           margin-bottom: 5px;
-       }
-   
-       .user-details-review b {
-           display: block;
-           font-size: 1rem;
-           color: #555;
-           margin-bottom: 10px;
-       }
-   
-       .user-details-review p {
-           font-size: 1rem;
-           color: #333;
-           line-height: 1.5;
-       }
+
+.user-review-container {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    position: relative;
+    width: auto;
+  }
+
+  .user-review {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    padding: 20px;
+    background: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    width: 95%;
+    border-radius: 5px;
+    margin: 10px;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .user-avatar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .user-avatar img {
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .user-avatar svg {
+    width: 50px;
+    height: 50px;
+    fill: #077430;
+    margin-left: 10px;
+  }
+
+  .user-details-review {
+    flex-grow: 1;
+  }
+
+  .user-details-review h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+
+  .user-details-review b {
+    display: block;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+
+  .user-details-review p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  .dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    cursor: pointer;
+  }
+
+  .dot.active {
+    background-color: #077430;
+  }
    </style>
    
-   
+   <div class="user-review-container">
    <div class="user-review">
        <div class="user-avatar">
-           <img src="https://www.technowize.com/wp-content/uploads/2016/06/Google-AI-worries-Elon-Musk-e1464870341953.jpg" alt="User Image">
+        <img src="https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1412446893.1704499200&semt=ais" alt="">  
            <svg height="200px" user review width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#077430;} </style> <g> <path class="st0" d="M119.472,66.59C53.489,66.59,0,120.094,0,186.1c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.135,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.829-6.389 c82.925-90.7,115.385-197.448,115.385-251.8C238.989,120.094,185.501,66.59,119.472,66.59z"></path> <path class="st0" d="M392.482,66.59c-65.983,0-119.472,53.505-119.472,119.51c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.136,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.828-6.389 C479.539,347.2,512,240.452,512,186.1C512,120.094,458.511,66.59,392.482,66.59z"></path> </g> </g></svg>
        </div>
        <div class="user-details-review">
@@ -406,6 +437,55 @@
            <p>I appreciate Mission Academy for supporting me in the journey of Getting greencard, Hope you will find this as a game changer for your ISSB MISSION</p>
        </div>
    </div>
+
+   <div class="user-review">
+    <div class="user-avatar">
+        <img src="https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1412446893.1704499200&semt=ais" alt="">
+
+        <svg height="200px" user review width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#077430;} </style> <g> <path class="st0" d="M119.472,66.59C53.489,66.59,0,120.094,0,186.1c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.135,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.829-6.389 c82.925-90.7,115.385-197.448,115.385-251.8C238.989,120.094,185.501,66.59,119.472,66.59z"></path> <path class="st0" d="M392.482,66.59c-65.983,0-119.472,53.505-119.472,119.51c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.136,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.828-6.389 C479.539,347.2,512,240.452,512,186.1C512,120.094,458.511,66.59,392.482,66.59z"></path> </g> </g></svg>
+    </div>
+    <div class="user-details-review">
+        <h3>Md Khaledur Islam</h3>
+        <b>92 BMA LC</b>
+        <p>I appreciate Mission Academy for supporting me in the journey of Getting greencard, Hope you will find this as a game changer for your ISSB MISSION</p>
+    </div>
+</div>
+
+<div class="user-review">
+    <div class="user-avatar">
+        <img src="https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1412446893.1704499200&semt=ais" alt="">
+
+        <svg height="200px" user review width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#077430;} </style> <g> <path class="st0" d="M119.472,66.59C53.489,66.59,0,120.094,0,186.1c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.135,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.829-6.389 c82.925-90.7,115.385-197.448,115.385-251.8C238.989,120.094,185.501,66.59,119.472,66.59z"></path> <path class="st0" d="M392.482,66.59c-65.983,0-119.472,53.505-119.472,119.51c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.136,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.828-6.389 C479.539,347.2,512,240.452,512,186.1C512,120.094,458.511,66.59,392.482,66.59z"></path> </g> </g></svg>
+    </div>
+    <div class="user-details-review">
+        <h3>Md Khaledur Islam</h3>
+        <b>92 BMA LC</b>
+        <p>I appreciate Mission Academy for supporting me in the journey of Getting greencard, Hope you will find this as a game changer for your ISSB MISSION</p>
+    </div>
+</div>
+
+<div class="user-review">
+    <div class="user-avatar">
+        <img src="https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1412446893.1704499200&semt=ais" alt="">
+
+        <svg height="200px" user review width="200px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:#077430;} </style> <g> <path class="st0" d="M119.472,66.59C53.489,66.59,0,120.094,0,186.1c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.135,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.829-6.389 c82.925-90.7,115.385-197.448,115.385-251.8C238.989,120.094,185.501,66.59,119.472,66.59z"></path> <path class="st0" d="M392.482,66.59c-65.983,0-119.472,53.505-119.472,119.51c0,65.983,53.489,119.487,119.472,119.487 c0,0-0.578,44.392-36.642,108.284c-4.006,12.802,3.136,26.435,15.945,30.418c9.089,2.859,18.653,0.08,24.828-6.389 C479.539,347.2,512,240.452,512,186.1C512,120.094,458.511,66.59,392.482,66.59z"></path> </g> </g></svg>
+    </div>
+    <div class="user-details-review">
+        <h3>Md Khaledur Islam</h3>
+        <b>92 BMA LC</b>
+        <p>I appreciate Mission Academy for supporting me in the journey of Gettireencard, Hope you will find this as a game changer for your ISSB MISSION</p>
+    </div>
+    
+</div>
+<div class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div>
+</div>
+
 <script>
     // Store the scroll position when leaving the page
 window.addEventListener('beforeunload', function() {
@@ -422,6 +502,33 @@ window.addEventListener('load', function() {
     }, 2000);
   }
 });
+
+
+
+    const reviews = document.querySelectorAll('.user-review');
+    const dots = document.querySelectorAll('.dot');
+
+    let currentReviewIndex = 0;
+
+    function showReview(index) {
+        reviews.forEach((review, i) => {
+        review.style.transform = `translateX(-${100 * index}%)`;
+        });
+
+        dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+        });
+    }
+
+    function changeReview() {
+        currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
+        showReview(currentReviewIndex);
+    }
+
+    setInterval(changeReview, 3000);
+
+    // Initial display
+    showReview(currentReviewIndex);
 
 </script>
 <br><br><br><br>

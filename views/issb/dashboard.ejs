@@ -1,17 +1,50 @@
 
 
 <%- include('../partials/header.ejs') %>
-<style>.update-profile-button{
-  color: white!important;
-  background-color: black;
-  margin-top: 10px!important;
-}</style>
+<style>
+
+    .qcontainer {
+      text-align: center;
+      border-radius: 5px;
+    }
+  
+    .course-list-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #440fad; /* Adjust the background color as needed */
+      color: #fff; /* Adjust the text color as needed */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 20px 0px;
+      font-size: 18px;
+    }
+
+</style>
 
 <section class="top-nav">
   <div><h4>Profile</h4></div>
-  <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+  <div id="top-nav-left">
+    <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+   </div>
 </section>
-<br><br><br>
+
+
+<div id="menulist" >
+	<a href="/"><i class="fa-solid fa-house"></i> Home</a>
+	<a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+	<a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+	<a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+	<a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+    <% if (req.user) { %>
+        <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+      <% } else { %>
+        <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+      <% } %>
+      
+</div>
+<br><br><br><br>
 <style>
 
 
@@ -23,14 +56,29 @@
       <p class="profile-name"><%= user.name %></p>
       <p class="profile-phone"><%= user.phone %></p>
       <p class="profile-email"><%= user.email %></p>
+ 
     </div>
+   
+    
   </div>
- <a class="edit-profile-btn" style="color:white;" href="/profile"> Edit Profile</a>
+ <a class="edit-profile-btn" style="color:white;" href="/profile">Profile &nbsp;<i class="fa-solid fa-pen-to-square"></i></a>
+ <% if (locals.success_messages.length > 0) { %>
+  <p class="success"><%= locals.success_messages %></p>
+<% } %>
 </div>
 <br>
 
-<h2>My Courses</h2>
-  <br>
+<h2>&nbsp; My Courses</h2>
+
+  <% if (payments.length === 0) { %>
+    <div class="qcontainer">
+      <p>কোনো কোর্স পাওয়া যায়নি, কোর্স কিনতে চিনে ক্লিক করুন</p>
+      <a href="/course"> <button class="course-list-btn">Our Courses</button></a>
+    </div>
+  <% } %>
+  
+
+
   <% payments.forEach(function(course) { %>
     <div class="box">
       <% if (!course.is_banned) { %>
@@ -66,57 +114,43 @@
 <br><br><br><br>
 
  <%- include('../partials/bottom-nav.ejs') %>
-
- <script src="/js/script.js"></script>
- <!-- Jquery Cnd minified -->
- <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-   <script>
+ <script>
   $(document).ready(function() {
-  // Trigger the file input field on clicking the avatar-preview div
-  $('.avatar-preview').click(function() {
-    $('#imageUpload').click();
-  });
+    // Check if the success message exists
+    var successMessage = $('.success');
 
-  // Show the image preview on selecting a file
-  $('#imageUpload').change(function() {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
-      $('#imagePreview').hide();
-      $('#imagePreview').fadeIn(650);
-      $('#uploadButton').show();
+    if (successMessage.length > 0) {
+      // Show the success message in green with rounded background and border-radius
+      successMessage.css({
+        'color': 'green',
+        'background-color': '#dff0d8', // Background color
+        'border-radius': '5px',       // Border-radius
+        'padding': '10px',
+        'margin': '10px',
+        'width' : '95%'            // Padding for better visibility
+      });
+
+      // Fade out the success message after 3 seconds
+      setTimeout(function() {
+        successMessage.fadeOut(1000);
+      }, 5000);
     }
-    reader.readAsDataURL(this.files[0]);
   });
 
-  // Handle the upload button click
-  $('#uploadButton').click(function(event) {
-    event.preventDefault();
-    $('#uploadButton').addClass('loading').text('Upload My photo');
 
-    const fileInput = $('#imageUpload')[0];
-    const formData = new FormData();
-    formData.append('avatar', fileInput.files[0]);
-
-    $.ajax({
-      url: '/auth/update-profilepic',
-      type: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      success: function(response) {
-        console.log(response);
-        $('#uploadButton').removeClass('loading').text('Upload My photo');
-
-        $('#uploadButton').hide(); // Hide the button after a successful upload
-      },
-      error: function(error) {
-        // Handle error response
-      }
+  $(document).ready(function() {
+      // Toggle menu when top-nav-left is clicked
+      $("#top-nav-left").click(function() {
+        $("#menulist").toggle();
+      });
+    
+      // Hide menu when user clicks anywhere on the body
+      $("body").click(function(event) {
+        if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+          $("#menulist").hide();
+        }
+      });
     });
-  });
-});
+    
 
-  
-  </script>
-     
+</script>

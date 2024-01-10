@@ -2,10 +2,17 @@
 
 <style>
 	
-	.fr-dib {
-	  width: 100%!important;
-	  height: auto;
-	}
+	  
+	.fr-dii {
+	width: 100%!important;
+	height: auto;
+  }
+  .active{
+	background-color: rgb(231, 231, 231);
+	color: black;
+}
+
+
 	</style>
 	
 
@@ -20,10 +27,10 @@
 		
 <div><%- content.question %></div>
 <% content.option.forEach(function(option) { %>				
-	<h1><%- option %></h1>
+	<h3><%- option %></h3>
 <% }) %>
 
-<div>
+<div style="font-family: SolaimanLipi">
 	<%- content.explanation %>
 </div>
 
@@ -36,23 +43,34 @@
 
 
 
-<br><br><br>
+<br><br>
 	
 		
 	
 	
-	<div id="floatingMenu">
-		<ul>
-			<li><a href=""><i class="fa-regular fa-circle-play"></i>First Option jodi</a></li>
-			<li><a href=""><i class="fa-regular fa-circle-play"></i>Second Option</a></li>
-			<li><a href=""><i class="fa-regular fa-circle-play"></i>Third Option</a></li>
-		</ul>
-	</div>
+
+<div id="floatingMenu">
+	<ul>
+	  <li class="<%= text_type === 'Bangla' ? 'active' : '' %>" >
+		<a href="/issb/practiceppdt?type=<%= title %>&text_type=Bangla" >
+		  <i class="fa-regular fa-circle-play"></i>Bangla
+		</a>
+	  </li>
+	  <li class="<%= text_type === 'English' ? 'active' : '' %>">
+		<a href="/issb/practiceppdt?type=<%= title %>&text_type=English" >
+		  <i class="fa-regular fa-circle-play"></i>English
+		</a>
+	  </li>
+	</ul>
+  </div>
+  
 	
-	<div id="menuicon">
-		<i class="fa-solid fa-fire-flame-curved"></i>
-	</div>
-	
+
+	<% if (title !== 'Extempore Speech') { %>
+		<div id="menuicon">
+			<i class="fa-solid fa-fire-flame-curved"></i>
+		</div>
+	<% } %>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
 	<script>

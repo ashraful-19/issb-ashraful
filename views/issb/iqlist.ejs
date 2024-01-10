@@ -42,18 +42,21 @@
 
 	<section class="iqlist-container">
 		
+     
+ 
+
 		<div class="list-items">
-			<% content.forEach(function(exam) { %>
+			<% for (const key in content) { %>
 			<div class="list-item">
 				
-				<div class="align-list"><span class="list-count"><i class="fa-solid fa-brain"></i></span><span class="name"><%= exam.exam_name %></span>
+				<div class="align-list"><span class="list-count"><i class="fa-solid fa-brain"></i></span><span class="name"><%= key %></span>
          <div class="free-exam"> 
-				<span class="startbutton show-modal" data-exam-code="<%= exam.exam_code %>" data-exam-name="<%= exam.exam_name %>"   data-time="<%= exam.time %>" data-marks="<%= exam.questions_length %>" >Start</span><pre style="display: none;"><%= exam.instruction %></pre>
+				<span class="startbutton show-modal" data-exam-code="<%= content[key] %>" data-exam-name="<%= key %>"   data-time="<%= time %>" data-marks="<%= examMarks %>" >Start</span>
       </div>
       </div>
 			</div>
 			
-			<% }) %>
+      <% } %>
 		</div>
 		
 
@@ -141,9 +144,9 @@ $(document).on('click', '.Yes', function() {
   let instruction = $(this).closest('div').find('pre').text();  // Get the value of data-id attribute
   $('.modal .instructions').text(instruction);
   let time = $(this).data('time'); // Get the value of data-id attribute
-  $('.modal .time').text('Duration-'+ time+'min');
+  $('.modal .time').text('Duration- '+ time+' min');
   let marks = $(this).data('marks'); // Get the value of data-id attribute
-  $('.modal .marks').text('Total Questions-'+marks+'|| Marks-' + marks);
+  $('.modal .marks').text('Total Questions- '+marks+' || Marks-' + marks);
 
   $('.modal').fadeToggle(0);
 });

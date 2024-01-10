@@ -4,8 +4,8 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
+      font-family: "Li Ador Noirrit","SolaimanLipi", Arial, sans-serif!important;
+      margin: 0 auto;
       padding: 0;
     }
 
@@ -17,13 +17,14 @@
     }
 
     .logo {
-      max-width: 100px;
+      max-width: 150px;
       margin-bottom: 10px;
     }
 
     .exam-name {
-      font-size: 20px;
+      font-size: 25px;
       margin-bottom: 15px;
+      font-weight: bold;
     }
 
     .exam-instruction {
@@ -32,7 +33,6 @@
       padding: 15px;
       margin-bottom: 20px;
       border-radius: 7px;
-      font-family: kalpurush, sans-serif;
     }
 
     .registration-label {
@@ -53,6 +53,8 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
+      
+
     }
 
     .start-btn {
@@ -63,12 +65,21 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
+      
+    }
+    .start-btn a {
+   color: white;
+   font-family: "Li Ador Noirrit","SolaimanLipi", Arial, sans-serif!important;
     }
 
+    .start-btn{
+      background-color: rgb(7, 167, 7)
+    }
     .start-practice-btn {
-      background-color: #2196F3; /* Blue color */
+      background-color: #7221f3; /* Blue color */
       color: #fff;
     }
+
 
     .closed-section {
       font-size: 18px;
@@ -90,16 +101,39 @@
       color: rgb(73, 182, 255);
     }
     
+.course-name{
+  background-color: aliceblue;
+  color: black;
+  border-radius: 5px;
+  padding: 10px;
+}
+.btn-center{
+  text-align: center;
+  margin: 0px auto;
+  width: 48%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      background-color: rgb(7, 167, 7)
+ ;
 
+}
+.btn-center a{
+  color: white;
+}
 
   </style>
 </head>
 
   <body>
+    <br><br>
     <% if (!examDetails || examDetails.active_status === 'closed') { %>
       <div class="container">
         <img src="https://testmoz.com/ugc/2023-12-17/9ea6383b-44ba-475b-bdc5-0fa2dc94a599-Mission-School-01.png" alt="Logo" class="logo">
-        <div class="exam-name">Mega Final Model Test 01</div>
+        <div class="exam-name"><%= examDetails.exam_name %></div>
         <div class="main-components">
           <div class="closed-section">The exam is closed</div>
         </div>
@@ -107,51 +141,54 @@
     <% } else if (examDetails.is_anyone && examDetails.active_status === 'open') { %>
       <div class="container">
         <img src="https://testmoz.com/ugc/2023-12-17/9ea6383b-44ba-475b-bdc5-0fa2dc94a599-Mission-School-01.png" alt="Logo" class="logo">
-        <div class="exam-name">Mega Final Model Test 01</div>
+        <div class="exam-name"><%= examDetails.exam_name %></div>
         <div class="main-components">
           <div class="exam-instruction">
-            পরীক্ষার্থীদের প্রতি নির্দেশনাবলীঃ
-            পরীক্ষায় মোট প্রশ্ন ১০০টি। প্রতি প্রশ্নের মার্ক্স ১ করে মোট মার্ক্স ১০০।
-            পরীক্ষার জন্য নির্ধারিত মোট সময় ৫০ মিনিট।
+          <%- examDetails.instruction %>
           </div>
-          <%= availableExams %>
           <div class="btn-container">
             <% if (!examDetails || examDetails.practice) { %>
-            <button class="start-btn start-practice-btn" ><a href="/issb/verbal/<%= examDetails.exam_code %>/practice">Start Practice</a></button>
-            <% } %>
+              <button class="start-btn start-practice-btn" ><a href="/issb/verbal/<%= examDetails.exam_code %>/practice">Start Practice</a></button>
             <button class="start-btn"><a href="/issb/verbal/<%= examDetails.exam_code %>/exam">Start Exam</a></button>
+            <% }else{ %>
+              <button class="btn-center"><a href="/issb/verbal/<%= examDetails.exam_code %>/exam">Start Exam</a></button>
+              <% } %>
           </div>
         </div>
       </div>
     <% } else if (isCoursePurchased && examDetails.active_status === 'open') { %>
       <div class="container">
         <img src="https://testmoz.com/ugc/2023-12-17/9ea6383b-44ba-475b-bdc5-0fa2dc94a599-Mission-School-01.png" alt="Logo" class="logo">
-        <div class="exam-name">Mega Final Model Test 01</div>
+        <div class="exam-name"><%= examDetails.exam_name %></div>
         <div class="main-components">
           <div class="exam-instruction">
-            পরীক্ষার্থীদের প্রতি নির্দেশনাবলীঃ
-            পরীক্ষায় মোট প্রশ্ন ১০০টি। প্রতি প্রশ্নের মার্ক্স ১ করে মোট মার্ক্স ১০০।
-            পরীক্ষার জন্য নির্ধারিত মোট সময় ৫০ মিনিট।
+            <%- examDetails.instruction %>
           </div>
           
           <div class="btn-container">
             <% if (!examDetails || examDetails.practice) { %>
               <button class="start-btn start-practice-btn" ><a href="/issb/verbal/<%= examDetails.exam_code %>/practice">Start Practice</a></button>
-              <% } %>
             <button class="start-btn"><a href="/issb/verbal/<%= examDetails.exam_code %>/exam">Start Exam</a></button>
+            <% }else{ %>
+              <button class="btn-center"><a href="/issb/verbal/<%= examDetails.exam_code %>/exam">Start Exam</a></button>
+              <% } %>
           </div>
         </div>
       </div>
     <% } else { %>
       <div class="container">
         <img src="https://testmoz.com/ugc/2023-12-17/9ea6383b-44ba-475b-bdc5-0fa2dc94a599-Mission-School-01.png" alt="Logo" class="logo">
+        <div class="exam-name"><%= examDetails.exam_name %></div>
         <div class="available-courses">
           <h3>This is Paid batch exam</h3>
-            <% availableExams.forEach(function(course) { %>
-      
-            <div class="course-name"><%= course.course_name %></div>
-     
-         <% }) %>
+          <% availableExams.forEach(function(course, index) { %>
+            <div class="course-name">
+                <a href="/course-details/<%= course.course_id %>">
+                    <%= index + 1 %>. <%= course.course_name %>
+                </a>
+            </div>
+        <% }) %>
+        
 
 
 

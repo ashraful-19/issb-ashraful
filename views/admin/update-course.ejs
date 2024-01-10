@@ -23,7 +23,7 @@
             margin-top: 10px;
         }
 
-        input[type="text"],
+        input[type="text"],input[type="number"],
         textarea {
             width: 100%;
             padding: 10px;
@@ -49,14 +49,29 @@
             background-color: #0056b3;
         }
 
-        /* Syllabus Section Styles */
         .syllabus_item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-        }
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start; /* Updated to justify-content */
+  padding: 15px 40px;
+  white-space: nowrap;
+  border: 1px solid #ccc; /* Adding border for better visibility, you can remove this */
+  margin: 10px; /* Adding margin for spacing, you can adjust as needed */
+  border-radius: 8px; /* Adding border-radius for a rounded look, you can adjust as needed */
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+  background-color: white;
+}
+.syllabus_item input {
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px;
+border: none;
+  box-sizing: border-box; 
+  margin-bottom: 5px; 
+  background-color:#e0e0e053;
 
+}
         #add_more {
             cursor: pointer;
             color: #007bff;
@@ -64,17 +79,42 @@
         }
 
         .remove_item a {
-            color: red;
             text-decoration: none;
+            color: rgba(253, 0, 0, 0.681);
+
+
         }
 
         .remove_item a:hover {
             text-decoration: underline;
         }
+    #main-sortable{
+
+    }
+
     
+.sidenav-items{
+ 
+  
+}
+.sidenav-items:hover{
+  background-color: rgb(83, 78, 211);
+}
+.sidenav-items p{
+  margin-left: 10px;
+}
+
+.subitems{
+  padding-left: 18px;
+}
+.sidenav-items > p > a{
+color:white;
+}
+
   </style>
-  <h1>Update Course</h1> <br>
+ 
   <form method="POST" action="/admin/course/create_course?course_id=<%= courseId %>">
+    <h1>Update Course</h1> <br>
     <div>
       <label for="course_name">Course Name</label>
       <input type="text" id="course_name" name="course_name" value="<%= course.course_name %>">
@@ -87,10 +127,7 @@
       <label for="course_ads">Course Promo Video</label>
       <input type="text" id="course_ads" name="course_ads" value="<%= course.course_ads %>">
     </div>
-    <div>
-      <label for="course_fee">Course Fee</label>
-      <input type="text" id="course_fee" name="course_fee" value="<%= course.course_fee %>">
-    </div>
+  
     <div>
       <div>
         <label for="course_class">Course Class</label>
@@ -104,24 +141,35 @@
       <label for="course_note">Course Note</label>
       <input type="text" id="course_note" name="course_note" value="<%= course.course_note %>">
   </div>
-    <div>
-      <label for="course_description">Course Description</label>
-      <textarea id="course_description" name="course_description"><%= course.course_description %></textarea>
-    </div>
-    <div>
-      <label for="is_active">Active:</label>
-      <span>Yes</span>
-      <input type="radio" id="is_active_yes" name="is_active" value="true">
-      <span>No</span>
-      <input type="radio" id="is_active_no" name="is_active" value="false">
-    </div>
-    <div>
-      <label for="is_update">Update:</label>
-      <span>Yes</span>
-      <input type="radio" id="is_update_yes" name="is_update" value="true">
-      <span>No</span>
-      <input type="radio" id="is_update_no" name="is_update" value="false">
-    </div>
+  <div>
+    <label for="course_fee">Course Fee</label>
+    <input type="number" id="course_fee" name="course_fee" value="<%= course.course_fee %>">
+  </div>
+  <div>
+    <label for="course_fb_group">Facebook Group</label>
+    <input type="text" id="course_fb_group" name="course_fb_group" value="<%= course.course_fb_group %>">
+</div>
+<div>
+  <label for="course_description">Course Description</label>
+  <textarea id="course_description" name="course_description"><%= course.course_description %></textarea>
+</div>
+
+<div>
+  <label for="is_active">Active:</label>
+  <span>Yes</span>
+  <input type="radio" id="is_active_yes" name="is_active" value="true" <% if (course.is_active === true) { %>checked<% } %>>
+  <span>No</span>
+  <input type="radio" id="is_active_no" name="is_active" value="false" <% if (course.is_active === false) { %>checked<% } %>>
+</div>
+
+<div>
+  <label for="is_update">Update:</label>
+  <span>Yes</span>
+  <input type="radio" id="is_update_yes" name="is_update" value="true" <% if (course.is_update === true) { %>checked<% } %>>
+  <span>No</span>
+  <input type="radio" id="is_update_no" name="is_update" value="false" <% if (course.is_update === false) { %>checked<% } %>>
+</div>
+
     <div>
       <button type="submit">Update Course</button>
     </div>
@@ -130,7 +178,7 @@
 <br><br><br>
 <h1>Course Syllabus</h1>
 <form action="/admin/course/update/<%= courseId %>" method="post">
-  <div style="background-color: red;" id="main-sortable" data-sortlink="/admin/course/order/<%= courseId %>">
+  <div  id="main-sortable" data-sortlink="/admin/course/order/<%= courseId %>">
     <% 
     // Sort the course syllabus array by the "order" field
     const sortedSyllabus = course.course_syllabus.sort((a, b) => a.order - b.order);
@@ -139,14 +187,14 @@
     sortedSyllabus.forEach(function(syllabus) { 
     %>
  
-    <div class="syllabus_item" style="background-color: blue;" id="id_<%= syllabus._id %>">
+    <div class="syllabus_item" id="id_<%= syllabus._id %>">
       <%= syllabus.order %>
       <input type="text" hidden name="id[]" value="<%= syllabus._id %>">
       <label>Subject Name</label>
       <input name="course_content_type[]" value="<%= syllabus.course_content_type %>">
-      <label>Course Syllabus Icon</label>
+      <label>Icon</label>
       <input name="course_content_icon_url[]" value="<%= syllabus.course_content_icon_url %>">
-      <label>Course Syllabus</label>
+      <label>Course Chapter</label>
       <input name="course_content_title[]" value="<%= syllabus.course_content_title %>">
       <div class="remove_item"><a href="/admin/course/<%= courseId %>/syllabus/<%= syllabus._id %>/">Remove</a></div>
     </div>

@@ -35,49 +35,36 @@
     <!-- TOP section -->
 
     <section class="top-nav">
-      <div onclick="slideToggle()" id="top-nav-left">
-        <svg
-          stroke="currentColor"
-          fill="none"
-          stroke-width="0"
-          viewBox="0 0 24 24"
-          height="30"
-          width="30"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h8m-8 6h16"
-          ></path>
-        </svg>
-      </div>
-      <div>
-        <a id="militarian"	href="/"><img height="50px" src="https://testmoz.com/ugc/2023-04-12/5321b2c1-c99b-453e-8aab-9d2666b5adcc-image.png" alt=""></a>
-      </div>
-    </section>
 
-    <div id="menulist">
-      <a href="index.html">Home</a>
-      <a href="login.html">Login</a>
-      <a href="registration.html">Signup</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="termandcondition.html">Terms & conditions</a>
-      <a href="policy.html">Policy</a>
+      <div id="top-nav-left">
+      <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+     </div>
+    <div>
+      <a id="militarian"	href="/"><img height="45px" style="margin:10px 0px 0px 0px;"  src="https://testmoz.com/ugc/2023-04-12/5321b2c1-c99b-453e-8aab-9d2666b5adcc-image.png" alt=""></a>
     </div>
-
+    </section>
     
+    <div id="menulist" >
+      <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="https://www.facebook.com/mission.academy23"><i class="fa-regular fa-address-card"></i> About</a>
+      <a href="https://www.facebook.com/ashraful.ashik19"><i class="fa-regular fa-address-book"></i>Contact</a>
+      <a href="/termandcondition"><i class="fa-solid fa-fan"></i> Terms & conditions</a>
+      <a href="/privacy&policy"><i class="fa-solid fa-shield-halved"></i> Privacy and policy</a>
+        <% if (req.user) { %>
+            <a href="/auth/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+          <% } else { %>
+            <a href="/auth/login"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
+          <% } %>
+          
+    </div>
 
 
     <br><br>
     <section class="login-container">         
-      <img width="200px" style="margin: 0px auto;" src="https://testmoz.com/ugc/2023-04-12/5321b2c1-c99b-453e-8aab-9d2666b5adcc-image.png" alt="">
       <br><br><br>
           <div class="phone-info">
             <div class="login-center">
-            <h2 style="color:rgb(23, 127, 245)">লগইন করুন</h2>
+            <h2 style="color:rgb(19, 3, 111)">লগইন করুন</h2>
           </div>
           <br>
             <h4 class="login-width">আপনার ফোন নাম্বার দিনঃ</h4>
@@ -88,9 +75,7 @@
            <p class="error"><%= locals.error_messages %></p>
          <% } %>
             <button type="submit" class="login-btn">
-              Login
-              <i class="fa-solid fa-arrow-right"></i>
-          
+              Send OTP          
             </button>
               
           </form>
@@ -163,6 +148,23 @@ $(document).ready(function() {
   $('#login-form').submit(function() {
    $('.loadbackground').fadeIn(); // Apply fade-in animation to element with .loadbackground class
     // Code to submit form data and handle response goes here
+  });
+});
+
+</script>
+
+<script>
+  $(document).ready(function() {
+  // Toggle menu when top-nav-left is clicked
+  $("#top-nav-left").click(function() {
+    $("#menulist").toggle();
+  });
+
+  // Hide menu when user clicks anywhere on the body
+  $("body").click(function(event) {
+    if(!$(event.target).closest("#top-nav-left, #menulist").length) {
+      $("#menulist").hide();
+    }
   });
 });
 

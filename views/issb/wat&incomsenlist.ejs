@@ -1,19 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <h1><%= practice_type %></h1>
-    <h1><%= text_type %></h1>
-    <% Object.keys(data[ text_type ]).forEach(modelTest => { %>
-        <a href="/issb/practice?practice_type=<%= practice_type %>&type=<%= modelTest %>&text_type=<%= text_type %>"><p><%= modelTest %></p></a>  
-    <% }) %>
+<%- include('../partials/header.ejs') %>
+<section class="top-nav">
+    <div><h4><%= practice_type %></h4></div>
+ 
+ <img src="https://www.issb-bd.org/imgs/logonew.png" id="top-nav-icon-issb">
+</section>
+
+<br><br><br>
+
+<style>
+    .list-count{
+  padding: 4px 8px!important;
+    border-radius: 10px;
+    margin-right: 15px;
+    font-size: 15px;
+    background-color: #393737f7;
+    color: #ffffff;
+    font-size: 20px!important;
+
+}
+</style>
+<section class="iqlist-container">
+		
+    <div class="list-items">
+        <% Object.keys(data[ text_type ]).forEach(modelTest => { %>
+        <div class="list-item">
+            
+            <div class="align-list"><span class="list-count"><i class="fa-solid fa-brain"></i></span><span class="name"><%= modelTest %></span>
+     <div class="free-exam"> 
+        <a href="/issb/practice?practice_type=<%= practice_type %>&type=<%= modelTest %>&text_type=<%= text_type %>"><span class="startbutton">Start</span>  </a> 
+  </div>
+  </div>
+        </div>
+        <% }) %>
+    </div>
+
+</section>
 
 
+<div id="floatingMenu">
+	<ul>
+	  <li class="<%= text_type === 'Bangla' ? 'active' : '' %>" >
+		<a href="/issb/practice_list?type=<%= practice_type %>&text_type=Bangla" >
+		  <i class="fa-regular fa-circle-play"></i>Bangla
+		</a>
+	  </li>
+	  <li class="<%= text_type === 'English' ? 'active' : '' %>">
+		<a href="/issb/practice_list?type=<%= practice_type %>&text_type=English" >
+		  <i class="fa-regular fa-circle-play"></i>English
+		</a>
+	  </li>
+	</ul>
+  </div>
 
-</body>
-</html>
+  
+<% if (practice_type !== 'WAT') { %>
+    <div id="menuicon">
+        <i class="fa-solid fa-list-ol"></i>
+    </div>
+<% } %>
+
+  
+
+
+<script>
+	$(document).ready(function () {
+	  // When #menuicon is clicked
+	  $("#menuicon").click(function (e) {
+		e.stopPropagation(); // Prevent the click event from reaching the document
+  
+		// Toggle fadeIn and fadeOut for #floatingMenu
+		$("#floatingMenu").fadeToggle("fast");
+	  });
+  
+	  // Close the #floatingMenu when clicking outside of it
+	  $(document).click(function (e) {
+		if (!$("#floatingMenu").is(e.target) && $("#floatingMenu").has(e.target).length === 0) {
+		  $("#floatingMenu").fadeOut("fast");
+		}
+	  });
+	});
+  </script>
+
+
+    <%- include('../partials/bottom-nav.ejs') %>
