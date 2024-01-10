@@ -9,7 +9,7 @@ body {
   font-family: sans-serif;
   background: #ffffff;
   height: auto;
-  font-family: "SolaimanLipi", Arial, sans-serif !important;
+  font-family: "Li Ador Noirrit","SolaimanLipi", Arial, sans-serif !important;
   color: black;
   caret-color: black;
 }
@@ -35,6 +35,7 @@ a, a:hover, a:active, a:link, a:visited {
   display: flex;
   flex-direction: row;
   align-items: stretch;
+  background-color: white;
 
 }
 
@@ -251,9 +252,8 @@ font-size: 15px;
   .fr-wrapper{
     background-color: rgb(250, 250, 250);
     padding: 5px 10px 5px 10px;
-    width: 700px;
     font-size: 18px;
-  
+    width: 700px;
   
   }
 

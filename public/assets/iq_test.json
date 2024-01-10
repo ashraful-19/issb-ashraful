@@ -1,0 +1,17 @@
+{
+  "Verbal Test": {
+    "Model Test 01": "2",
+    "Model Test 02": "4",
+    "Model Test 03": "https://testmoz.com/343433",
+    "Model Test 04": "https://testmoz.com/343436",
+    "Model Test 05": "https://testmoz.com/343437"
+  },
+
+  "Non-Verbal Test": {
+    "Model Test 01": "https://testmoz.com/343434",
+    "Model Test 02": "https://testmoz.com/343432",
+    "Model Test 03": "https://testmoz.com/343433",
+    "Model Test 04": "https://testmoz.com/343436",
+    "Model Test 05": "https://testmoz.com/343437"
+  }
+}
