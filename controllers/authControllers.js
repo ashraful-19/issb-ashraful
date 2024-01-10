@@ -105,7 +105,7 @@ const getLogin = async (req, res) => {
           type,
           contactNumbers: 88+phoneNumber,
           senderId: senderid,
-          textBody: `Your OTP from Mission Academy: ${otpCode}`,
+          textBody: `Your OTP: ${otpCode} from Mission Academy`,
         };
     
         axios.post(url, data)
