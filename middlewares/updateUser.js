@@ -125,7 +125,7 @@ const updateUser = async (req, res,next) => {
                 const availableExams = await ExamSetting.find({ exam_added: { $in: purchasedCourseIds } });
     
                 console.log('Step 03: No purchased courses match.');
-                return res.redirect('/admin/auth-quiz', { examCode });
+                return res.redirect(`/admin/auth-quiz/${ examCode }`);
             }
     
             const isCoursePurchased = purchasedCourseIds.some(courseId => examDetails.course_added.includes(courseId));
@@ -180,7 +180,7 @@ const updateUser = async (req, res,next) => {
               const availableExams = await ExamSetting.find({ exam_added: { $in: purchasedCourseIds } });
   
               console.log('Step 03: No purchased courses match.');
-              return res.redirect('/admin/auth-quiz', { examCode });
+              return res.redirect(`/admin/auth-quiz/${ examCode }`);
           }
   
           const isCoursePurchased = purchasedCourseIds.some(courseId => examDetails.course_added.includes(courseId));

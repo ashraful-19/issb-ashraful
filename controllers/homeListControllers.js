@@ -57,6 +57,8 @@ const fs = require('fs/promises');  // Use fs.promises for promise-based file op
       try {
 
         const type = req.query.type;
+        
+        const text_type = req.query.text_type;
         const id = req.query.id;
     
     
@@ -65,6 +67,7 @@ const fs = require('fs/promises');  // Use fs.promises for promise-based file op
         res.render('issb/card_content_details', {
           content: data,
           title: type,
+          text_type: text_type,
         });
       } catch (error) {
         console.log(error.message);
@@ -115,6 +118,7 @@ const fs = require('fs/promises');  // Use fs.promises for promise-based file op
       }
     };
     
+    
     const getIncomSenList = async (req, res) => {
       try {
         const type = req.query.type;
@@ -151,20 +155,34 @@ const fs = require('fs/promises');  // Use fs.promises for promise-based file op
     const getIqList = async (req, res) => {
       try {
        
+       const title = req.query.title;
+       let time, examMarks;
+
+if (title === "Verbal Test") {
+    time = 60;
+    examMarks = 100;
+} else if (title === "Non-Verbal Test") {
+    time = 12;
+    examMarks = 38;
+} else {
+    // Handle other cases or provide default values
+    time = 0;
+    examMarks = 0;
+}
        
-        let data = await ExamSetting.find({}, null, { sort: { exam_code: -1 } });
-      
-        data = data.map(({ _id,exam_type,exam_code,time,exam_name,instruction,questions }) => ({
-          _id,
-          exam_type,
-          exam_code,
-          exam_name,
-          time,
-          instruction,
-          questions_length: questions ? questions.length : 0
-        }));
-        console.log(data);
-        res.render('issb/iqlist', { content: data,title: "Verbal Exam" });
+       let jsonFileName = 'iq_test.json'; // Default JSON file name
+    
+   
+       const jsonFilePath = path.join(__dirname, '..', 'public', 'assets', jsonFileName);
+   
+       const jsonData = await fs.readFile(jsonFilePath, 'utf8');
+   
+       // Parse the JSON data
+       const data = JSON.parse(jsonData)[title];
+   
+       console.log(data);
+       
+        res.render('issb/iqlist', { content: data,title,time,examMarks });
     
        } catch (error) {
        console.log(error.message);
@@ -184,16 +202,11 @@ const fs = require('fs/promises');  // Use fs.promises for promise-based file op
           let content = data.questions;
           
           const userDoubts = await Doubt.findOne({ user: userId });
-          if(userDoubts){
-          var newContent = content.map((item) => {
-            const hasDoubt = userDoubts.question_ids.some(
-              (doubt) => doubt.equals(item._id)
-            );
+          const newContent = content.map((item) => {
+            const hasDoubt = userDoubts?.question_ids.some((doubt) => doubt.equals(item._id));
             return { ...item._doc, doubt: hasDoubt ? 1 : 0 };
           });
-        }else{
-            newContent = content;
-        }
+          
           console.log(newContent);
       
           // Render the page inside the aggregate callback
@@ -237,128 +250,103 @@ const fs = require('fs/promises');  // Use fs.promises for promise-based file op
 
       const postVerbalIqExamResult = async (req, res) => {
         try {
-          const examId = req.params.id;
-          const userId = req.user._id;
-          const answers = req.body;
-          const timeTaken = req.body["started-time"]
-          // Fetch exam data with its questions and answers
-          const data = await ExamSetting.findOne({ exam_code: examId }).populate({
-            path: "questions",
-            options: { sort: { order: -1 } },
-          });
-      
-          const content = data.questions;
-      
-          const userDoubts = await Doubt.findOne({ user: userId });
-          const newContent = userDoubts
-            ? content.map((item) => {
-                const hasDoubt = userDoubts.question_ids.some(
-                  (doubt) => doubt.equals(item._id)
-                );
-                return { ...item._doc, doubt: hasDoubt ? 1 : 0 };
-              })
-            : content;
-      
-          const mappedContent = newContent.map((question) => ({
-            _id: question._id,
-            exam_code: question.exam_code,
-            question: question.question,
-            option: question.option,
-            answer: question.answer,
-            explanation: question.explanation,
-            doubts_count: question.doubts_count,
-            createdAt: question.createdAt,
-            your_answer: null,
-            doubt: question.doubt,
-          }));
-      
-          const answerIds = mappedContent.map((q) => q._id);
-          const allAnswers = await Question.find(
-            { _id: { $in: answerIds } },
-            "answer"
-          );
-      
-          const result = {};
-          const userResponses = [];
-      
-          mappedContent.forEach((mappedQuestion) => {
-            const dbAnswer = allAnswers.find(
-              (answer) => answer._id.toString() === mappedQuestion._id.toString()
+            const examId = req.params.id;
+            const userId = req.user._id;
+            const answers = req.body;
+            const timeTaken = req.body["started-time"];
+    
+            // Fetch all questions and answers in one query
+            const content = await ExamSetting.findOne({ exam_code: examId })
+                .populate({
+                    path: "questions",
+                    options: { sort: { order: -1 } },
+                })
+                .select("questions")
+                .lean();
+    
+            const userDoubts = await Doubt.findOne({ user: userId });
+    
+            // Combine question data with doubt information
+            const mappedContent = content.questions.map((item) => {
+                const hasDoubt = userDoubts ? userDoubts.question_ids.some((doubt) => doubt.equals(item._id)) : false;
+                return { ...item, doubt: hasDoubt ? 1 : 0, your_answer: null };
+            });
+    
+            // Fetch all answers in one query
+            const answerIds = mappedContent.map((q) => q._id);
+            const allAnswers = await Question.find({ _id: { $in: answerIds } }, "answer").lean();
+    
+            const result = {};
+            const userResponses = [];
+    
+            // Use Promise.all to parallelize asynchronous operations
+            await Promise.all(mappedContent.map(async (mappedQuestion) => {
+                const dbAnswer = allAnswers.find((answer) => answer._id.toString() === mappedQuestion._id.toString());
+                const userAnswer = answers[mappedQuestion._id];
+                const questionId = mappedQuestion._id;
+    
+                if (userAnswer === "0") {
+                    result[questionId] = "skip";
+                    mappedQuestion.your_answer = "0";
+                    userResponses.push({ questionId, userAnswer: -1 });
+                } else {
+                    if (dbAnswer) {
+                        const isRight = dbAnswer.answer === userAnswer;
+                        result[questionId] = isRight ? "right" : "wrong";
+                        mappedQuestion.your_answer = userAnswer;
+                        userResponses.push({ questionId, userAnswer: isRight ? 1 : 0 });
+                    } else {
+                        result[questionId] = "wrong";
+                    }
+                }
+            }));
+    
+            const { right, wrong, skipped } = Object.values(result).reduce((acc, value) => {
+                acc[value]++;
+                return acc;
+            }, { right: 0, wrong: 0, skipped: 0 });
+    
+            const totalMCQ = right + wrong + skipped;
+    
+            // Calculate negative marking
+            const negativeMarkingPercent = content.negative_marking ? 25 : 0;
+            const negativeMarks = wrong * (negativeMarkingPercent / 100);
+            const totalMarks = right - negativeMarks;
+    
+            const finalResult = {
+                user_id: userId,
+                name: req.user.name,
+                institution: req.user.institution,
+                right,
+                wrong,
+                totalMCQ,
+                skipped,
+                negativeMarks,
+                totalMarks,
+                timeTaken,
+            };
+    
+            // Save the final result only if it doesn't exist for the user
+            let examData = await ExamSetting.findOneAndUpdate(
+                { exam_code: examId, 'user_result.user_id': { $ne: userId } },
+                { $push: { user_result: finalResult } },
+                { new: true }
             );
-      
-            const userAnswer = answers[mappedQuestion._id];
-            const questionId = mappedQuestion._id;
-      
-            if (userAnswer === "0") {
-              result[questionId] = "skip";
-              mappedQuestion.your_answer = "0";
-              userResponses.push({
-                questionId,
-                userAnswer: -1,
-              });
-            } else {
-              if (dbAnswer) {
-                const isRight = dbAnswer.answer === userAnswer;
-                result[questionId] = isRight ? "right" : "wrong";
-                mappedQuestion.your_answer = userAnswer;
-                userResponses.push({
-                  questionId,
-                  userAnswer: isRight ? 1 : 0,
-                });
-              } else {
-                result[questionId] = "wrong";
-              }
+    
+            // If the user_result was not updated (user already exists), retrieve the updated examData
+            if (!examData) {
+                examData = await ExamSetting.findOne({ exam_code: examId }).lean();
+                // Use examData for rendering or further processing
             }
-          });
-      
-          let right = 0;
-          let wrong = 0;
-          let skipped = 0;
-      
-          for (const key in result) {
-            const value = result[key];
-      
-            if (value === 'right') {
-              right++;
-            } else if (value === 'wrong') {
-              wrong++;
-            } else if (value === 'skip') {
-              skipped++;
-            }
-          }
-      
-          const totalMCQ = right + wrong + skipped;
-      
-      
-          // Calculate negative marking
-          const negativeMarkingPercent = data.negative_marking ? 25 : 0;
-
-          const negativeMarks = wrong * (negativeMarkingPercent / 100);
-          const totalMarks = right - negativeMarks;
-          
-      
-          const finalResult = {
-            right,
-            wrong,
-            totalMCQ,
-            skipped,
-            negativeMarks,
-            totalMarks,
-          };
-      console.log(finalResult)
-          const count = Object.values(result).reduce((acc, value) => {
-            acc[value]++;
-            return acc;
-          }, { right: 0, wrong: 0, skip: 0 });
-      
-          res.render("issb/iqresult", { content: mappedContent, count, data, result, timeTaken, finalResult });
+    
+            console.log('examdataaaa', examData);
+            res.render("issb/iqresult", { content: mappedContent, result, timeTaken, finalResult, examData });
         } catch (error) {
-          console.error(error.message);
-          res.status(500).send("Error saving doubt");
+            console.error(error.message);
+            res.status(500).send("Error saving doubt");
         }
-      };
-      
-   
+    };
+    
       
       const postDoubt = async (req, res) => {
   try {
@@ -413,24 +401,7 @@ console.log(questionId)
         
     
   
-  
 
-
-
-        
-        // issb/www.google.com/2058/practice
-
-    //     const examCode = req.params.id;
-    //     console.log(examCode)
-    //     const data = await IqSetting.findOne({ exam_code: examCode })
-    // .populate({ 
-    //   path: 'questions',
-    //   options: { sort: { createdAt: -1 } } // sort by createdAt in descending order
-    // });
-    //     content = data.questions;
-    //     // console.log(data);
-    //     // console.log(content);
-    //     res.render('admin/edit-verbal-question', { content: content,data: data })
 module.exports = {
   getPracticePpdt,
   getCardContentDetails,

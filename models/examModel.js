@@ -92,12 +92,22 @@ const examSettingSchema = new mongoose.Schema({
       ref: 'Question', // Referencing the Question model
     }],
   },
-  user_result: {
-    type: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'UserResult', // Referencing the Question model
-    }],
-  },
+  user_result: [
+    {
+      user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the User model
+      },
+      name: String,
+      institution: String,
+      right: Number,
+      wrong: Number,
+      totalMCQ: Number,
+      skipped: Number,
+      negativeMarks: Number,
+      totalMarks: Number,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -141,6 +151,7 @@ const QuestionSchema = new mongoose.Schema({
   }, 
   answer: {
     type: String,
+    default: 1,
   },
   explanation: {
     type: String,

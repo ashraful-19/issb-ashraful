@@ -18,6 +18,8 @@ const MilitaryCourseSchema = new mongoose.Schema({
     },
     course_fee: {
       type: Number,
+      required: true ,
+      default: 0,
     },
     course_syllabus: [{
               course_content_type: {
@@ -37,22 +39,27 @@ const MilitaryCourseSchema = new mongoose.Schema({
               default: 0,
             }
           }],
-          course_class: {
-            type: String,
-          },
-          course_exam: {
-            type: String,
-          },
-          course_notes: {
-            type: String,
-          },
+    course_class: {
+      type: String,
+    },
+    course_exam: {
+       type: String,
+    },
+    course_note: {
+       type: String,
+    },
+    course_fb_group: {
+      type: String,
+   },       
     is_active: {                // true hole show hobe course page e
       type: Boolean, 
       required: true ,
-      default: false, }
-          ,
+      default: false, 
+    },
     is_update: {                 //user and paid both eki message dekhbe course is being updating. Link pabe na
       type: Boolean,
+      required: true ,
+      default: false,
     },
     createdAt: {
       type: Date,

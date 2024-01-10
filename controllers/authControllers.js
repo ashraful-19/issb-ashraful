@@ -66,35 +66,35 @@ const getLogin = async (req, res) => {
           return res.redirect('/auth/login');     
          }
     
-        // // OTP GENERATOR
-        // const otpCode = Math.floor(Math.random() * 9000) + 1000;
-        // console.log(`Your OTP is: ${otpCode}`);
+        // OTP GENERATOR
+        const otpCode = Math.floor(Math.random() * 9000) + 1000;
+        console.log(`Your OTP is: ${otpCode}`);
     
-        // // Check if the phone number already exists in the Otp collection
-        // const existingOtp = await Otp.findOne({ phone: phoneNumber });
-        // if (existingOtp) {
-        //   console.log("Existing OTP found. Deleting...");
-        //   await Otp.deleteOne({ phone: phoneNumber });
-        // }
+        // Check if the phone number already exists in the Otp collection
+        const existingOtp = await Otp.findOne({ phone: phoneNumber });
+        if (existingOtp) {
+          console.log("Existing OTP found. Deleting...");
+          await Otp.deleteOne({ phone: phoneNumber });
+        }
     
-        // const userotp = new Otp({
-        //   phone: phoneNumber,
-        //   otp: otpCode,
-        // });
+        const userotp = new Otp({
+          phone: phoneNumber,
+          otp: otpCode,
+        });
     
-        // userotp.save()
-        //   .then(() => {
-        //     console.log("OTP saved to database");
-        //     res.redirect('/auth/sendotp?phone=' + phoneNumber);
+        userotp.save()
+          .then(() => {
+            console.log("OTP saved to database");
+            res.redirect('/auth/sendotp?phone=' + phoneNumber);
 
-        //   })
-        //   .catch(error => {
-        //     console.error(error);
-        //     // Handle database save error here
-        //     res.status(500).json({ error: "Internal server error" });
-        //   });
+          })
+          .catch(error => {
+            console.error(error);
+            // Handle database save error here
+            return res.status(500).json({ error: "Internal server error" });
+          });
     
-        // // SMS SENDING TO USER
+        // SMS SENDING TO USER
         // const api_key = '01772512057.a712f81a-a74e-4f92-be17-3aa3616f8a1b'; // Update with your API key
         // const senderid = '8809612440728'; // Update with your Sender Id
         // const type = 'text'; // Update with your preferred type
@@ -117,7 +117,7 @@ const getLogin = async (req, res) => {
         //   .catch(error => {
         //     console.error('Error sending SMS:', error);
         //     // Handle SMS sending error here
-        //     res.status(500).json({ error: "Error sending SMS" });
+        //     return res.status(500).json({ error: "Error sending SMS" });
         //   });
       } catch (error) {
         console.error(error);
@@ -141,6 +141,7 @@ const postRegister = async (req, res) => {
           try {
             const user = await User.findOne({ phone: req.user.phone });
             res.render('auth/update-profile',{user: user});
+      
 
             
             } 
@@ -157,7 +158,6 @@ const postRegister = async (req, res) => {
       { $set: {
           name: req.body.name,
           institution: req.body.institution,
-          course: req.body.course,
           email: req.body.email
         }
       },
@@ -166,7 +166,9 @@ const postRegister = async (req, res) => {
 
     if (result) {
       console.log('data updated successfully');
-      res.redirect('/profile')
+      req.flash('success', 'Profile Updated successfully!');
+
+      res.redirect('/dashboard')
     } else {
       res.status(404).json({ error: 'User not found' });
     }

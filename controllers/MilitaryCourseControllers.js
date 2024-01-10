@@ -37,6 +37,7 @@ const getCourse = async (req, res) => {
               course_exam: req.body.course_exam,
               course_class: req.body.course_class,
               course_note: req.body.course_note,
+              course_fb_group: req.body.course_fb_group,
               is_update: req.body.is_update,
               is_active: req.body.is_active,
             },
@@ -47,7 +48,6 @@ const getCourse = async (req, res) => {
           res.redirect(`/admin/course/update/${courseId}`);
         } else {
           // If course id is not present in the query parameter, create a new course
-          console.log('im here');
           const lastCourse = await MilitaryCourse.findOne().sort({ course_id: -1 }).exec();
     
           let lastCreatedCourse;
@@ -69,6 +69,7 @@ const getCourse = async (req, res) => {
             course_exam: req.body.course_exam,
             course_class: req.body.course_class,
             course_note: req.body.course_note,
+            course_fb_group: req.body.course_fb_group,
             is_update: req.body.is_update,
             is_active: req.body.is_active,
           });
