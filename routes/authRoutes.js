@@ -16,7 +16,7 @@ router.get('/login',checkLoggedIn, authController.getLogin);
 router.post('/login',
   (req, res, next) => {
     passport.authenticate('local', {
-      successRedirect: req.session.returnTo,
+      successRedirect: req.session.returnTo || "/",
       failureRedirect: '/auth/sendotp?phone='+req.session.phone,
       failureFlash: true
     })(req, res, next);
