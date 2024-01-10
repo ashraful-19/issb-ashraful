@@ -314,7 +314,7 @@ $(document).ready(function(){
 </html>
 <script>
 
-let startingTimeInMinutes = 0.1; // Set the exam duration in minutes
+let startingTimeInMinutes = <%= data.time %>; // Set the exam duration in minutes
 let examStartTime = new Date(); // Capture the exam start time
 
 let time = startingTimeInMinutes * 60; // Convert minutes to seconds
