@@ -149,9 +149,9 @@ button {
          
          <div><input type="checkbox" name="show_explanation"  <% if (content.show_explanation) { %>checked<% } %>> <span> Display the explanation</span></div>
          <h4>How much time do test takers have to complete the test?</h4>
-         <div><input type="number" min="0" max="200" name="time" value="0"><span>minutes</span></div>
+         <div><input type="number" min="0" max="200" name="time" value="<%= content.time %>"><span>minutes</span></div>
          <h4>How many times can someone take your test?</h4>
-         <div><input type="number" min="1" max="100" name="attempt" value="1"> <span>times</span></div>
+         <div><input type="number" min="1" max="100" name="attempt" value="<%= content.attempt %>"> <span>times</span></div>
          <h4>Conclution Text</h4>
          <textarea name="conclusion_text"  class="edit-froala"><%= content.conclusion_text %></textarea>
       </div>
